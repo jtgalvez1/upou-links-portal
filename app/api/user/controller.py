@@ -4,9 +4,8 @@ import math
 from app import app
 
 def db_execute(sql):
+  data = []
   try:
-    data = []
-
     with sqlite3.connect(app.config['DB_PATH'] + 'main.db') as conn:
       conn.create_function('LOG', 1, math.log)
       cursor = conn.execute(sql)
@@ -14,13 +13,12 @@ def db_execute(sql):
         data.append(row)
 
     conn.commit()
-    return data
   except sqlite3.Error as e:
     conn.rollback()
     print(e)
-    pass
   finally:
     conn.close()
+  return data
 
 def list_users(column,value):
   sql = "SELECT email, given_name, family_name, b.name as user_type FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)

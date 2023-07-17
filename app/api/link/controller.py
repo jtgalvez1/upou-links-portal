@@ -211,7 +211,7 @@ a.id
   FROM link_has_category d
         """.format(privacy, 'NOT' if category['name'] == 'Others' else '')
   if category['name'] != 'Others':
-    sql = sql + " WHERE d.category_id != '{}'".format(category['id'])
+    sql = sql + " WHERE d.category_id == '{}'".format(category['id'])
   sql = sql + ")"
     
   rows = db_execute(sql)

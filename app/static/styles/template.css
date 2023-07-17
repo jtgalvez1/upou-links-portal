@@ -109,31 +109,10 @@ table.links td.actions {
   gap: .5em;
 }
 
-@media only screen and (min-width: 768px) {
-  main {
-      display: grid;
-      grid-template-areas: "sidebar content";
-  }
-
-  #search-form {
-      margin: 0;
-  }
-
-  .links-container {
-      grid-area: "content";
-  }
-  
-  table.links {
-    display: table;
-    background-color: var(--font-color);
-    color: var(--bg-color);
-  }
-}
-
 
 .card-container {
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 2em;
 }
 
@@ -141,7 +120,7 @@ table.links td.actions {
   background-color: #cdcdcd;
   color: #2c2c2c;
 
-  width: 300px;
+  /* width: 300px; */
   border-radius: .5em;
   border: 1px solid darkgray;
   box-shadow: 0 0 10px black inset;
@@ -149,9 +128,9 @@ table.links td.actions {
   overflow: hidden;
 }
 
-/* .card:hover {
+.card:hover {
   scale: 1.1;
-} */
+}
 
 .card > img {
   width: 100%;
@@ -182,9 +161,9 @@ table.links td.actions {
   padding: .5em 1em;
   border-radius: .25em;
 
-  background-color: red;
+  background-color: rgba(0,128,0,100%);
 
-  color: white;
+  color: #cdcdcd;
   font-weight: bold;
 }
 
@@ -199,11 +178,39 @@ table.links td.actions {
 }
 
 .card .actions > button:hover {
-  background-color: rgba(128,0,0,100%);
+  background-color: rgba(0,56,0,100%);
 }
 
 
 
 .hidden {
   display: none !important;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+  main {
+      display: grid;
+      grid-template-areas: "sidebar content";
+      gap: 3em;
+  }
+
+  #search-form {
+      margin: 0;
+  }
+
+  .links-container {
+      grid-area: "content";
+  }
+
+  .card-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  table.links {
+    display: table;
+    background-color: var(--font-color);
+    color: var(--bg-color);
+  }
 }
