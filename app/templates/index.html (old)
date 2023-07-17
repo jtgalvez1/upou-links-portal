@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="sidebar">
+
+</div>
+<div class="container" id="links">
+  <table class="links">
+    <thead>
+      <th>Title</th>
+      <th>URL</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  let user = null
+  {% if session['user'] %}
+    user = {{ session.get('user') }};
+  {% endif %}
+
+  function getLinks() {
+    url = `/api/v1/link/privacy/${(typeof user === 'undefined' || user === null) ? 'open' : user['user_type']}`
+    fetch(url)
+    .then( res => res.json())
+    .then( data => {
+      console.log( data.message );
+      if (data.links.length > 0 ) {
+        displayLinks(data.links);
+      }
+    })
+    .catch( err => {
+      console.error( err );
+    });
+  }
+
+  function displayLinks(links) {
+      let linksTableBody = document.querySelector('table.links > tbody')
+      let bookmarkedSVG = `<svg fill="hsl(39.4,100%,52.5%)" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15.75 5H8.25C7.55964 5 7 5.58763 7 6.3125V19L12 15.5L17 19V6.3125C17 5.58763 16.4404 5 15.75 5Z" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`
+
+      links.forEach( link => {
+        let newRow = document.createElement('tr')
+        let titleData = document.createElement('td')
+        let titleAnchor = document.createElement('a')
+        titleAnchor.setAttribute('href', `http://${link['url']}`)
+        titleAnchor.setAttribute('target', '_blank')
+        titleAnchor.textContent = link['title']
+        titleAnchor.classList.add('title')
+        titleData.appendChild(titleAnchor)
+        let urlData = document.createElement('td')
+        let urlAnchor = document.createElement('a')
+        urlAnchor.setAttribute('href', `http://${link['url']}`)
+        urlAnchor.setAttribute('target', '_blank')
+        urlAnchor.textContent = link['url']
+        urlData.appendChild(urlAnchor)
+
+        let actionsData = document.createElement('td')
+        actionsData.classList.add('actions')
+        actionsData.innerHTML += bookmarkedSVG
+
+        newRow.appendChild(titleData)
+        newRow.appendChild(urlData)
+        newRow.appendChild(actionsData)
+        linksTableBody.appendChild(newRow)
+      })
+  }
+
+  getLinks()
+</script>
+{% endblock %}

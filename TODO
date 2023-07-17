@@ -1,0 +1,59 @@
+[x] Google OAuth
+[x] Categories
+
+[] Add image
+[] Grid View
+[] Search
+[] Announcements
+[] Contact Us ( email techsupport@upou.edu.ph )
+[] Dark / Light Mode Toggle
+[] Logs
+[] Click History
+[] Trending
+
+
+!!!NOTES:
+
+features: 
+dark mode
+user auth
+search
+bookmarks
+history
+logs ( visits, create, and delete )
+
+user profile
+
+ACCESSIBILITY!!!
+font size
+
+admin features:
+CRUD link
+CRUD category
+User Management
+
+Header
+- Logo
+- dark mode toggle
+
+Sidebar
+- Categories
+- 
+
+Footer
+( see other upou sites for reference )
+
+Mobile App
+
+
+faculty
+admin
+
+
+PRIO: INTERANL EMPLOYEES
+
+announcement page
+
+mobile app
+- responsive
+- android mobile wrapper

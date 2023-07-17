@@ -1,0 +1,7 @@
+app/__pycache__
+__pycache__
+app/sql/main.db
+app/sql/links.csv
+client_secret.json
+flask_session/
+.vscode/

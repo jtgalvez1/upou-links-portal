@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<div class="links-container">
+  <form action="/search" id="search-form">
+    <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11.1455C5.49956 8.21437 7.56975 5.69108 10.4445 5.11883C13.3193 4.54659 16.198 6.08477 17.32 8.79267C18.4421 11.5006 17.495 14.624 15.058 16.2528C12.621 17.8815 9.37287 17.562 7.3 15.4895C6.14763 14.3376 5.50014 12.775 5.5 11.1455Z" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15.989 15.4905L19.5 19.0015" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    <input type="text" id="search-terms" name="q" placeholder="Search"/>
+  </form>
+  {% for category in categories.keys() %}
+  <section id="{{ category }}">
+    <h1>{{ category }}</h1>
+    <table class="links">
+      <thead>
+        <th>Title</th>
+        <th>URL</th>
+        {% if user['user_type'] == 'admin' %}
+        <th>Category</th>
+        <th>Privacy</th>
+        {% endif %}
+        <th>Actions</th>
+      </thead>
+      <tbody>
+        {% for link in categories[category] %}
+        <tr>
+          <td><a href="http://{{ link['url'] }}" target="_blank" class="title">{{ link['title'] }}</a></td>
+          <td><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></td>
+          {% if user['user_type'] == 'admin' %}
+          {# add category #}
+          <td>
+            <ul>
+            {% for link_category in link['category'] %}
+              <li>{{ link_category['name'] }}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul>
+            {% for privacy in link['privacy'] %}
+                <li>{{ privacy['name'] }}</li>
+            {% endfor %}
+            </ul>
+          </td>
+          {% endif %}
+          <td>
+            {# add bookmark link #}
+            {% if user['user_type'] == 'admin' %}
+            <button onclick="editBtnHandler({{ link }})">Edit</button>
+            {# add delete button #}
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endfor %}
+</div>
+{% if user and user['user_type'] == 'admin' %}
+<div class="modal container" id="add">
+  <form action="/api/v1/link" method="POST" class="modal" id="add-link-form">
+    <div class="form-header">
+      <h1>Add Link</h1>
+      <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+    </div>
+
+    <div class="input-field">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" placeholder="Enter title" required>
+    </div>
+
+    <div class="input-field">
+      <label for="url">URL</label>
+      <input type="text" id="url" name="url" placeholder="Enter url" required> 
+    </div>
+
+    <div class="input-field">
+      <label for="categories">Category</label>
+      <div id="categories"></div>
+      <input type="text" id="new-category-input" name="new-category-input" class="hidden" placeholder="Enter new categories (comma separated)"/>
+    </div>
+
+    <div class="input-field" id="privacy">
+      <label for="privacy">Privacy Settings</label>
+    </div>
+
+    <div class="input-field">
+      <input type="submit" value="Submit" >
+    </div>
+  </form>
+</div>
+<button id="open-modal-btn"><svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-362.000000, -1037.000000)" fill="#cdcdcd"> <path d="M390,1049 L382,1049 L382,1041 C382,1038.79 380.209,1037 378,1037 C375.791,1037 374,1038.79 374,1041 L374,1049 L366,1049 C363.791,1049 362,1050.79 362,1053 C362,1055.21 363.791,1057 366,1057 L374,1057 L374,1065 C374,1067.21 375.791,1069 378,1069 C380.209,1069 382,1067.21 382,1065 L382,1057 L390,1057 C392.209,1057 394,1055.21 394,1053 C394,1050.79 392.209,1049 390,1049" id="plus" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+
+<script>
+  {% if user and user['user_type'] == 'admin' %}
+
+  document.querySelector('#open-modal-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    document.querySelector('#add.modal.container').style.display = 'flex';
+    document.querySelector('#add-link-form').reset();
+
+  });
+    
+  document.querySelector('#close-modal-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    document.querySelector('#add.modal.container').style.display = 'none';
+    document.querySelector('#add-link-form').reset();
+  });
+
+  document.querySelector('#add-link-form').addEventListener('submit', ev => {
+    ev.preventDefault();
+
+    let formData = new FormData();
+    formData.append('url', document.querySelector('#url').value)
+    formData.append('title', document.querySelector('#title').value)
+
+    let category_list = []
+    document.getElementsByName('category').forEach( elem => {
+      if (elem.checked) {
+        if (elem.value == 'others') {
+          formData.append('new_category', document.querySelector('#new-category-input').value)
+          return
+        }
+        category_list.push(elem.value)
+      }
+    })
+    formData.append('category', category_list)
+
+    let privacy_list = []
+    document.getElementsByName('privacy').forEach( (elem) => {
+      if (elem['checked']) {
+        privacy_list.push(elem.getAttribute('value'))
+      }
+    })
+    formData.append('privacy', privacy_list)
+
+    fetch('/api/v1/link', {
+      method: 'POST',
+      body: formData
+    })
+    .then( res => res.json())
+    .then( data => window.location.reload())
+    .catch( err => console.error(err))
+  });
+  
+  function initPrivacyCheckboxes() {
+    fetch('/api/v1/user/user_types')
+    .then( res => res.json())
+    .then( data => {
+      let privacyInput = document.querySelector('#privacy')
+      populateCheckboxes(privacyInput, data.user_types, 'privacy')
+    })
+    .catch( err => console.error(err))
+  }
+
+  function initCategoriesCheckboxes() {
+    fetch('/api/v1/link/categories?priv=admin')
+    .then(res => res.json())
+    .then( data => {
+      let categoryInput = document.querySelector('#categories');
+      populateCheckboxes(categoryInput, data.categories, 'category')
+      let newDiv = document.createElement('div')
+      let newCheckBox = document.createElement('input')
+      newCheckBox.setAttribute('type', 'checkbox')
+      newCheckBox.setAttribute('name', 'category')
+      newCheckBox.setAttribute('id', 'new-category-checkbox')
+      newCheckBox.setAttribute('value', 'others')
+      let newLabel = document.createElement('label')
+      newLabel.setAttribute('for', 'new-category-checkbox')
+      newLabel.textContent = 'New Category:'
+      newDiv.appendChild(newCheckBox)
+      newDiv.appendChild(newLabel)
+      categoryInput.appendChild(newDiv)
+
+      document.querySelector('#new-category-checkbox').addEventListener('change', ev => {
+        ev.preventDefault();
+        let newCategoryInput = document.querySelector('#new-category-input')
+        if (ev.currentTarget.checked) {
+          newCategoryInput.classList.remove('hidden');
+          newCategoryInput.required = true;
+        } else {
+          newCategoryInput.classList.add('hidden');
+          newCategoryInput.required = false;
+          newCategoryInput.value = '';
+        }
+      })
+    })
+    .catch( err => console.error(err));
+  }
+
+  function populateCheckboxes(container, elements, inputName) {
+    Array.from(elements).forEach( elem => {
+      if (elem.name == 'Others')
+        return
+      let newDiv = document.createElement('div')
+      let newCheckBox = document.createElement('input')
+      newCheckBox.setAttribute('type', 'checkbox')
+      newCheckBox.setAttribute('name', inputName)
+      newCheckBox.setAttribute('id', elem.name + '-checkbox')
+      newCheckBox.setAttribute('value', elem['id'])
+      let newLabel = document.createElement('label')
+      newLabel.setAttribute('for', elem.name + '-checkbox')
+      newLabel.textContent = elem.name
+      newDiv.appendChild(newCheckBox)
+      newDiv.appendChild(newLabel)
+      container.appendChild(newDiv)
+    })
+  }
+
+
+  function editBtnHandler(link) {
+    document.querySelector('#url').value = link['url'];
+    document.querySelector('#title').value = link['title'];
+
+    document.getElementsByName('privacy').forEach( elem => {
+      if ([...link['privacy']].map( privacy => privacy['id'] ).toString().includes(elem.value))
+        elem.setAttribute('checked', true)
+    })
+    document.querySelector('#add.modal.container').style.display = 'flex';
+  }
+{% endif %}
+
+  function initSidebarCategories() {
+    fetch(`/api/v1/link/categories?priv={{ user['user_type'] }}`)
+      .then( res => res.json())
+      .then( data => {
+        let categoryLinks = document.querySelector('#category-links');
+        Array.from(data.categories).forEach( category => {
+          let categoryAnchor = document.createElement('a');
+          categoryAnchor.setAttribute('href', `#${category.name}`);
+          categoryAnchor.textContent = category.name || 'Others';
+          categoryLinks.appendChild(categoryAnchor);
+        })
+      })
+      .catch( err => console.error(err))
+    }
+
+  function init() {
+    {% if user and user['user_type'] == 'admin' %}
+      initPrivacyCheckboxes();
+      initCategoriesCheckboxes();
+    {% endif %}
+    initSidebarCategories()
+  }
+
+  init()
+</script>
+{% endblock %}

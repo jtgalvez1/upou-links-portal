@@ -1,0 +1,134 @@
+:root {
+  --up-maroon:      hsl(334.7,100%,26.1%);
+  --forest-green:   hsl(133.9,74.5%,21.6%);
+  --yellow-gold:    hsl(39.4,100%,52.5%);
+  --bg-color: #2c2c2c;
+  --font-color: #cdcdcd;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #cdcdcd;
+    --font-color: #333;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+  /* outline: 1px solid red; */
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+
+  background-color: var(--bg-color);
+  
+  color: var(--font-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  font-family: 'Optima';
+}
+
+svg {
+  width: 1.2em;
+  height: 100%;
+  margin: 0 auto;
+}
+
+main {
+  padding: 1em;
+  width: min(1600px, 95%);
+  margin: 0 auto;
+}
+
+main section {
+  scroll-margin-top: 7em;
+}
+
+#search-form {
+  display: grid;
+  grid-template-columns: 3em 1fr;
+
+  /* width: min(800px, 95%); */
+  width: 100%;
+  padding: .5em 0;
+  margin: 0 auto 1em;
+
+  background-color: var(--forest-green);
+
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#search-terms {
+  all: unset;
+  cursor: pointer;
+}
+
+
+table.links {
+  background-color: var(--font-color);
+  color: var(--bg-color);
+
+  border-radius: .5em;
+  border-collapse: collapse;
+
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table.links td,
+table.links th {
+  height: 3em;
+  padding: .5em;
+  border: 1px solid var(--bg-color);
+}
+
+table.links a.title {
+  all: unset;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+table.links td.actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: .5em;
+}
+
+@media only screen and (min-width: 768px) {
+  main {
+      display: grid;
+      grid-template-areas: "sidebar content";
+  }
+
+  #search-form {
+      margin: 0;
+  }
+
+  .links-container {
+      grid-area: "content";
+  }
+  
+  table.links {
+    display: table;
+  }
+}
+
+
+.hidden {
+  display: none !important;
+}

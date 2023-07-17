@@ -1,0 +1,79 @@
+URL,Title,For Admin,For Faculty and Employees,For Students,Open for all,Do Not Add
+canvas.upou.edu.ph,UPOU Canvas LMS,TRUE,TRUE,TRUE,FALSE,FALSE
+asiamoocs.upou.edu.ph,Asian Association of Open Universities,TRUE,FALSE,FALSE,TRUE,FALSE
+asiamoodle.upou.edu.ph,Asian MOOCs Learning Portal,TRUE,FALSE,FALSE,TRUE,FALSE
+asianlearningportal.upou.edu.ph,Asian Learning Portal,TRUE,FALSE,FALSE,TRUE,FALSE
+upb-geportal.upou.edu.ph,UP Baguio College GE Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+upmin-geportal.upou.edu.ph,UP Mindanao College GE Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+upvi-geportal.upou.edu.ph,UP Visayas College GE Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+upvt-geportal.upou.edu.ph,UP Visayas Tacloban College GE Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+aseannale.upou.edu.ph,FMDS Aseannale,TRUE,FALSE,FALSE,TRUE,FALSE
+aaou.upou.edu.ph,AAOU Website,TRUE,FALSE,FALSE,TRUE,FALSE
+ncodel2019.upou.edu.ph,National Conference on Open and Distance Learning (NCODeL),FALSE,FALSE,FALSE,FALSE,TRUE
+dts.upou.edu.ph,UP Document Tracking System ,TRUE,TRUE,FALSE,FALSE,FALSE
+oppis.upou.edu.ph,UPOU Supply and Property Management Office,TRUE,TRUE,FALSE,FALSE,FALSE
+dtrs.upou.edu.ph,Daily Time Record System,TRUE,TRUE,TRUE,FALSE,FALSE
+cashoffice.upou.edu.ph,Online Checks Availability,TRUE,TRUE,FALSE,FALSE,FALSE
+cash.upou.edu.ph,Online Checks Availability,TRUE,TRUE,FALSE,FALSE,FALSE
+osasystem.upou.edu.ph,OSA System,TRUE,FALSE,FALSE,FALSE,FALSE
+payments.upou.edu.ph,Stand-alone Payment Gateway,TRUE,FALSE,FALSE,TRUE,FALSE
+ueis.upou.edu.ph,UPOU Unified Employee Information System,TRUE,FALSE,FALSE,FALSE,FALSE
+admingatesticker.upou.edu.ph,Online GateSticker Application,TRUE,FALSE,FALSE,FALSE,FALSE
+gatesticker.upou.edu.ph,Gate Sticker Application,TRUE,TRUE,FALSE,FALSE,FALSE
+api.repository.upou.edu.ph,FICS Onlne Repository,TRUE,TRUE,TRUE,FALSE,FALSE
+our.upou.edu.ph,UPOU Academic Information Management System,TRUE,FALSE,FALSE,FALSE,FALSE
+ncodel.org,National Conference on Open and Distance Learning (NCODeL) 2022,TRUE,FALSE,FALSE,TRUE,FALSE
+staging.search.upou.edu.ph,AskOU,TRUE,FALSE,FALSE,FALSE,FALSE
+hrdo.upou.edu.ph,UPOU HRDO,TRUE,FALSE,FALSE,TRUE,FALSE
+orientation.upou.edu.ph,UPOU Orientation Portal,TRUE,FALSE,FALSE,FALSE,FALSE
+fed.upou.edu.ph,FEd Microsite,TRUE,FALSE,FALSE,TRUE,FALSE
+fics.upou.edu.ph,FICS Microsite,TRUE,FALSE,FALSE,TRUE,FALSE
+fmds.upou.edu.ph,FMDS Microsite,TRUE,FALSE,FALSE,TRUE,FALSE
+ictdo.upou.edu.ph,ICTDO microsite,TRUE,FALSE,FALSE,TRUE,FALSE
+irec.upou.edu.ph,IREC Microsite,TRUE,FALSE,FALSE,FALSE,FALSE
+jmds.upou.edu.ph,JMDS Microsite,TRUE,FALSE,FALSE,FALSE,FALSE
+library.upou.edu.ph,Library Microsite,TRUE,FALSE,FALSE,FALSE,FALSE
+ogc.upou.edu.ph,OGC Microsite,TRUE,FALSE,FALSE,FALSE,FALSE
+osa.upou.edu.ph,OSA Microsite,TRUE,FALSE,FALSE,FALSE,FALSE
+ovcaa.upou.edu.ph,Office of the Vice Chancellor for Academic Affairs,TRUE,FALSE,FALSE,FALSE,FALSE
+ovcfa-dev.upou.edu.ph,Office of the Vice Chancellor for Finance and Administration,TRUE,FALSE,FALSE,FALSE,FALSE
+pahinungod.upou.edu.ph,The Ugnayan ng Pahinungód,TRUE,FALSE,FALSE,FALSE,FALSE
+registrar.upou.edu.ph,The Office of the University Registrar,TRUE,FALSE,FALSE,FALSE,FALSE
+upou.edu.ph,UPOU Website,TRUE,FALSE,FALSE,TRUE,FALSE
+www.upou.edu.ph,UPOU Website,FALSE,FALSE,FALSE,FALSE,TRUE
+networks.upou.edu.ph,UPOU Netwoks,TRUE,FALSE,FALSE,TRUE,FALSE
+bulletin.upou.edu.ph,UPOU e-Bulletin Board,TRUE,FALSE,FALSE,FALSE,FALSE
+mis.upou.edu.ph,UPOU MIS,TRUE,FALSE,FALSE,FALSE,FALSE
+ovcfa.upou.edu.ph,Office of the Vice Chancellor for Finance and Administration,TRUE,FALSE,FALSE,FALSE,FALSE
+bac.upou.edu.ph,BAC MEETING,TRUE,FALSE,FALSE,FALSE,FALSE
+icdegac-asia.org,ICDEGAC-Asia,TRUE,FALSE,FALSE,FALSE,FALSE
+sdg.upou.edu.ph,Sustainable Development Goals,TRUE,FALSE,FALSE,FALSE,FALSE
+old-il.upou.edu.ph,Old 2021 Independent Learning Portal,TRUE,FALSE,FALSE,FALSE,FALSE
+workspace.upou.edu.ph,UPOU Workspace,TRUE,FALSE,FALSE,FALSE,FALSE
+tagpuan.upou.edu.ph,Tagpuan sa UPOU,TRUE,FALSE,FALSE,FALSE,FALSE
+myportal.upou.edu.ph,UPOU MyPortal,TRUE,TRUE,TRUE,FALSE,FALSE
+model.upou.edu.ph,UPOU Massive Open Distance eLearning,TRUE,FALSE,FALSE,TRUE,FALSE
+il.upou.edu.ph,UPOU Independent Learning,TRUE,FALSE,FALSE,FALSE,FALSE
+readiness.upou.edu.ph,UPOU Distance Education Readiness,TRUE,FALSE,FALSE,TRUE,FALSE
+exams.upou.edu.ph,UPOU Exam Portal,TRUE,TRUE,TRUE,FALSE,FALSE
+fed-communitas.upou.edu.ph,UPOU FEd COMMUNITAS,TRUE,FALSE,FALSE,FALSE,FALSE
+ilib.upou.edu.ph,Integrated Library System,TRUE,FALSE,FALSE,FALSE,FALSE
+askou-sso.upou.edu.ph,AskOU,TRUE,FALSE,FALSE,FALSE,FALSE
+docukit.upou.edu.ph,Library DocuKit System,TRUE,FALSE,FALSE,FALSE,FALSE
+askou-admin.upou.edu.ph,AskOU,TRUE,FALSE,FALSE,FALSE,FALSE
+askou.upou.edu.ph,AskOU,TRUE,FALSE,FALSE,FALSE,FALSE
+repository.upou.edu.ph,FICS Online Repository,TRUE,FALSE,FALSE,FALSE,FALSE
+koha-intra.upou.edu.ph,Koha Open Source Integrated Library System,TRUE,FALSE,FALSE,FALSE,FALSE
+koha.upou.edu.ph,Koha Online Catalog,TRUE,FALSE,FALSE,FALSE,FALSE
+adminbookstore.upou.edu.ph,UPOU Book Store (Administrator),TRUE,FALSE,FALSE,FALSE,FALSE
+bookstore.upou.edu.ph,UPOU Book Store,TRUE,FALSE,FALSE,FALSE,FALSE
+myportal2.upou.edu.ph,MyPortal Archive,FALSE,FALSE,FALSE,FALSE,TRUE
+myportal3.upou.edu.ph,MyPortal Archive,FALSE,FALSE,FALSE,FALSE,TRUE
+facultyportal.upou.edu.ph,Faculty Portal,TRUE,TRUE,FALSE,FALSE,FALSE
+wportal.upou.edu.ph/moodle4x1,UPOU Moodle 4 Experimental 1,TRUE,TRUE,FALSE,FALSE,FALSE
+dcomm.upou.edu.ph,FICS DComm Advising Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+ficsadvising.upou.edu.ph,FICS Advising Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+mdc.upou.edu.ph,FICS MDC Advising Portal,TRUE,FALSE,TRUE,FALSE,FALSE
+iportal.upou.edu.ph,,TRUE,TRUE,FALSE,FALSE,FALSE
+zportal.upou.edu.ph,,TRUE,FALSE,FALSE,FALSE,FALSE
+platform.ncodel.org,,TRUE,FALSE,FALSE,TRUE,FALSE

@@ -1,0 +1,17 @@
+
+
+footer {
+  width: 100vw;
+  padding: 1em;
+  background-color: var(--forest-green);
+  color: var(--font-color);
+
+  position: relative;
+  bottom: 0;
+}
+
+.info > .container > p {
+  display: grid;
+  grid-template-columns: 1em 1fr;
+  gap: 1em;
+}
