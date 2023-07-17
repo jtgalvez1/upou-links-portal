@@ -24,8 +24,8 @@ def check_user():
         return
     print(request.method + ' ' + request.path)
     if session.get('user'):
-        if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'open' })['user_type'] != 'admin':
-            return redirect('/')
+        # if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'open' })['user_type'] != 'admin':
+        #     return redirect('/')
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
             user = users[0]
@@ -54,7 +54,7 @@ def index_page():
 # admin routes
 @app.route('/admin/users', methods=['GET'])
 def user_management_page():
-    return render_template('users.html')
+    return render_template('users.html', categories={})
 
 
 
