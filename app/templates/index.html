@@ -8,6 +8,28 @@
     <input type="text" id="search-terms" name="q" placeholder="Search"/>
   </form>
   {% for category in categories.keys() %}
+    <div>
+      <h1>{{ category }}</h1>
+      <div class="card-container">
+        {% for link in categories[category] %}
+
+          <div class="card">
+            <img src="" alt="">
+            <div class="content">
+              <h3>{{ link['title'] }}</h3>
+              <p>{{ link.get('description', '') }}</p>
+            </div>
+            <div class="actions">
+              <a href="http://{{ link['url'] }}" target="_blank">Open ></a>
+              <button>Edit</button>
+            </div>
+          </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  {% for category in categories.keys() %}
   <section id="{{ category }}">
     <h1>{{ category }}</h1>
     <table class="links">
@@ -26,7 +48,6 @@
           <td><a href="http://{{ link['url'] }}" target="_blank" class="title">{{ link['title'] }}</a></td>
           <td><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></td>
           {% if user['user_type'] == 'admin' %}
-          {# add category #}
           <td>
             <ul>
             {% for link_category in link['category'] %}
@@ -43,10 +64,8 @@
           </td>
           {% endif %}
           <td>
-            {# add bookmark link #}
             {% if user['user_type'] == 'admin' %}
             <button onclick="editBtnHandler({{ link }})">Edit</button>
-            {# add delete button #}
             {% endif %}
           </td>
         </tr>
@@ -75,6 +94,11 @@
     </div>
 
     <div class="input-field">
+      <label for="description">Description</label>
+      <textarea name="description" id="description" rows="10"></textarea>
+    </div>
+
+    <div class="input-field">
       <label for="categories">Category</label>
       <div id="categories"></div>
       <input type="text" id="new-category-input" name="new-category-input" class="hidden" placeholder="Enter new categories (comma separated)"/>
@@ -82,6 +106,11 @@
 
     <div class="input-field" id="privacy">
       <label for="privacy">Privacy Settings</label>
+    </div>
+
+    <div class="input-field">
+      <label for="image">Image:</label>
+      <input type="file" name="image" id="image" accept="image/*">
     </div>
 
     <div class="input-field">
@@ -222,31 +251,13 @@
     })
     document.querySelector('#add.modal.container').style.display = 'flex';
   }
-{% endif %}
-
-  function initSidebarCategories() {
-    fetch(`/api/v1/link/categories?priv={{ user['user_type'] }}`)
-      .then( res => res.json())
-      .then( data => {
-        let categoryLinks = document.querySelector('#category-links');
-        Array.from(data.categories).forEach( category => {
-          let categoryAnchor = document.createElement('a');
-          categoryAnchor.setAttribute('href', `#${category.name}`);
-          categoryAnchor.textContent = category.name || 'Others';
-          categoryLinks.appendChild(categoryAnchor);
-        })
-      })
-      .catch( err => console.error(err))
-    }
 
   function init() {
-    {% if user and user['user_type'] == 'admin' %}
       initPrivacyCheckboxes();
       initCategoriesCheckboxes();
-    {% endif %}
-    initSidebarCategories()
   }
 
   init()
+{% endif %}
 </script>
 {% endblock %}

@@ -28,6 +28,9 @@
     <hr>
     <div class="sidebar" id="category-links">
         <h3>Categories</h3>
+        {% for category in categories.keys() %}
+            <a href="#{{ category }}">{{ category }}</a>
+        {% endfor %}
     </div>
     <hr>
     <div class="settings sidebar">

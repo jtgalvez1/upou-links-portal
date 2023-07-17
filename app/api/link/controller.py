@@ -97,14 +97,6 @@ def list_links(privacy='open',category=None,column=None,value=None):
 
   return links
 
-def list_links_by_category(privacy='open',category=None):
-  sql = """
-          SELECT url, title, description
-          FROM link a
-          JOIN link_has_category b
-          ON a.id = b.link_id
-        """
-
 def upsert_link(link):
   sql = """
           INSERT INTO link (url, title, description)
@@ -169,7 +161,6 @@ def get_category_id(category):
   return None
   
 def upsert_category(category):
-  print(category)
   sql = 'INSERT OR IGNORE INTO category (name) VALUES ("{}")'.format(category)
   db_execute(sql)
   return get_category_id(category)
@@ -198,3 +189,61 @@ def list_categories(privacy='open'):
   })
 
   return categories
+
+
+
+def links_by_category(category,privacy='open'):
+  sql = """
+SELECT url, title, description, a.id
+FROM link a
+JOIN user_type_can_view_link b
+ON a.id = b.link_id
+JOIN user_type c
+ON b.user_type_id = c.id
+WHERE 
+c.name = '{}'
+AND
+a.id
+{} IN (
+  SELECT link_id
+  FROM link_has_category d
+        """.format(privacy, 'NOT' if category['name'] == 'Others' else '')
+  if category['name'] != 'Others':
+    sql = sql + " WHERE d.category_id != '{}'".format(category['id'])
+  sql = sql + ")"
+    
+  rows = db_execute(sql)
+
+  links = []
+  if rows is not None:
+    for row in rows:
+      link = {
+        'url'         : row[0],
+        'title'       : row[1],
+        'description' : row[2] or 'None',
+        'id'          : row[3]
+      }
+      links.append(link)
+
+    for link in links:
+      sql = "SELECT a.id, a.name FROM user_type a JOIN user_type_can_view_link b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      rows = db_execute(sql)
+
+      link['privacy'] = []
+      for row in rows:
+        link['privacy'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_has_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      rows = db_execute(sql)
+
+      link['category'] = []
+      for row in rows:
+        link['category'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+  return links

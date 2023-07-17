@@ -77,8 +77,8 @@ main section {
 
 
 table.links {
-  background-color: var(--font-color);
-  color: var(--bg-color);
+  background-color: #cdcdcd;
+  color: #2c2c2c;
 
   border-radius: .5em;
   border-collapse: collapse;
@@ -125,8 +125,83 @@ table.links td.actions {
   
   table.links {
     display: table;
+    background-color: var(--font-color);
+    color: var(--bg-color);
   }
 }
+
+
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2em;
+}
+
+.card {
+  background-color: #cdcdcd;
+  color: #2c2c2c;
+
+  width: 300px;
+  border-radius: .5em;
+  border: 1px solid darkgray;
+  box-shadow: 0 0 10px black inset;
+
+  overflow: hidden;
+}
+
+/* .card:hover {
+  scale: 1.1;
+} */
+
+.card > img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.card .content {
+  padding: 1em;
+  height: 15em;
+}
+
+.card .content > h3 {
+  font-size: 1.2em;
+}
+
+.card .actions {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 1em;
+  gap: .5em;
+}
+
+.card .actions > * {
+  all: unset;
+  cursor: pointer;
+
+  width: fit-content;
+  padding: .5em 1em;
+  border-radius: .25em;
+
+  background-color: red;
+
+  color: white;
+  font-weight: bold;
+}
+
+.card .actions > a {
+  background-color: hsl(342, 74%, 31%); 
+  width: 100%;
+}
+
+.card .actions > a:hover {
+  background-color: hsl(342, 74%, 15%); 
+  width: 100%;
+}
+
+.card .actions > button:hover {
+  background-color: rgba(128,0,0,100%);
+}
+
 
 
 .hidden {

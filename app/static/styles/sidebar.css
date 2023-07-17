@@ -55,10 +55,15 @@
     z-index: 0;
     background-color: rgba(0,0,0,0%);
     position: sticky;
+    color: var(--font-color);
   }
 
   .sidebar {
     width: 100%;
+  }
+
+  .sidebar a {
+    color: var(--font-color);
   }
 
   #close.sidebar,

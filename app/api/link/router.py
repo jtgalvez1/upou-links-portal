@@ -6,7 +6,8 @@ from .controller import *
 
 @link.route('/', methods=['GET'])
 def get_links():
-  links = list_links()
+  privacy = request.args.get('priv', 'open')
+  links = list_links(privacy)
 
   return jsonify({
     'status'      : 200,

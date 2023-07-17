@@ -24,7 +24,7 @@ def check_user():
         return
     print(request.method + ' ' + request.path)
     if session.get('user'):
-        if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'open'})['user_type'] != 'admin':
+        if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'open' })['user_type'] != 'admin':
             return redirect('/')
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
@@ -40,8 +40,9 @@ def index_page():
     categories = list_categories(session.get('user', {'user_type': 'open'})['user_type'])
     categories_links = {}
     for category in categories:
-        category_links = list_links(session.get('user', {'user_type': 'open'})['user_type'], category)
-        categories_links[category['name']] = category_links
+        category_links = links_by_category(category, session.get('user', { 'user_type' : 'open' })['user_type'])
+        if len(category_links) > 0:
+            categories_links[category['name']] = category_links
 
     res = make_response(render_template('index.html',categories = categories_links,user=session.get('user', None)))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
@@ -66,7 +67,7 @@ def callback():
         if len(list_users('email', user_google_data['email'])) == 1:
             user_google_data = { **user_google_data, 'user_type' : get_user_value(user_google_data['email'], 'user_type')}
         user = upsert_user(user_google_data)
-        session['user'] = { **user, "name" : user.get('given_name') + " " + user.get('family_name') }
+        session['user'] = { **user, "name" : user.get('given_name') + " " + user.get('family_name', '') }
 
     return redirect('/')
 

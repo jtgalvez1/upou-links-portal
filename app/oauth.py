@@ -24,7 +24,7 @@ def verify_token(token):
       'userid': idinfo['sub'],
       'email': idinfo['email'],
       'given_name': idinfo['given_name'],
-      'family_name': idinfo['family_name'],
+      'family_name': idinfo.get('family_name', ''),
       'picture': idinfo['picture']
     }
     return user
