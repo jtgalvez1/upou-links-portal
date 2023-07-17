@@ -9,6 +9,7 @@
   position: fixed;
   top: 0;
   left: -100vw;
+  padding-right: 50vh;
 
   transition: left .5s;
 

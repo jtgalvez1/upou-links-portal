@@ -66,7 +66,7 @@ def callback():
         if len(list_users('email', user_google_data['email'])) == 1:
             user_google_data = { **user_google_data, 'user_type' : get_user_value(user_google_data['email'], 'user_type')}
         user = upsert_user(user_google_data)
-        session['user'] = { **user, "name" : user.get('given_name') + " " + user.get('family_name') }
+        session['user'] = { **user, "name" : user.get('given_name') + " " + user.get('family_name', '') }
 
     return redirect('/')
 
