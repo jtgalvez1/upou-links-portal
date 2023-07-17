@@ -11,11 +11,14 @@ print("Server listening on http://localhost:5000")
 
 from app.api.link.router import link
 from app.api.user.router import user
+from app.api.admin.router import admin
 app.register_blueprint(link, url_prefix="/api/v1/link")
 app.register_blueprint(user, url_prefix="/api/v1/user")
+app.register_blueprint(admin, url_prefix="/api/v1/admin")
 
 from app.api.link.controller import *
 from app.api.user.controller import *
+from app.api.admin.controller import *
 from .oauth import verify_token
 
 @app.before_request
@@ -52,9 +55,13 @@ def index_page():
 
 
 # admin routes
-@app.route('/admin/users', methods=['GET'])
+@app.route('/admin', methods=['GET'])
 def user_management_page():
-    return render_template('users.html', categories={})
+    userlist = list_user_data()
+    res = make_response(render_template('users.html', categories={}, users = userlist))
+    res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
+    res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+    return res
 
 
 

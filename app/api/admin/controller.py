@@ -22,9 +22,10 @@ def db_execute(sql):
   finally:
     conn.close()
 
-def list_users(){
+def list_user_data():
     sql = "SELECT email, given_name, family_name, user_type FROM user"
     rows = db_execute(sql)
+    # print(rows)
 
     users = []
 
@@ -38,8 +39,9 @@ def list_users(){
             }
             users.append(user)
 
+    print(users)
     return users
-}
+
 
 def change_user_type(email, user_type):
     sql = f"UPDATE user set user_type = {user_type} where email = {email}"
