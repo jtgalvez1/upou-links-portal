@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS link (
   FOREIGN KEY (added_by) REFERENCES user(id)
 );
 
-DROP TABLE IF EXISTS privacy_settings;
-CREATE TABLE IF NOT EXISTS privacy_settings (
+DROP TABLE IF EXISTS user_type_can_view_link;
+CREATE TABLE IF NOT EXISTS user_type_can_view_link (
   user_type_id    INTEGER,
   link_id         INTEGER,
   created_at      datetime DEFAULT current_timestamp,
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS privacy_settings (
 );
 
 DROP TABLE IF EXISTS link_has_category;
-DROP TABLE IF EXISTS link_category;
-CREATE TABLE IF NOT EXISTS link_category (
+DROP TABLE IF EXISTS link_has_category;
+CREATE TABLE IF NOT EXISTS link_has_category (
   link_id         INTEGER,
   category_id     INTEGER,
   created_at      datetime DEFAULT current_timestamp,
