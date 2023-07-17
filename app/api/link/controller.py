@@ -179,14 +179,16 @@ def list_categories(privacy='open'):
 
   rows = db_execute(sql)
   categories = []
-  for row in rows:
+
+  if(rows != None):
+    for row in rows:
+      categories.append({
+        'id'      : row[0],
+        'name'    : row[1]
+      })
     categories.append({
-      'id'      : row[0],
-      'name'    : row[1]
+      'name'      : 'Others'
     })
-  categories.append({
-    'name'      : 'Others'
-  })
 
   return categories
 

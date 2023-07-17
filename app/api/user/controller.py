@@ -27,7 +27,7 @@ def list_users(column,value):
   rows = db_execute(sql)
 
   users = []
-  if len(rows) > 0:
+  if rows != None:
     for row in rows:
       user = {
         'email'             : row[0],
