@@ -27,14 +27,15 @@ def list_users(column,value):
   rows = db_execute(sql)
 
   users = []
-  for row in rows:
-    user = {
-      'email'             : row[0],
-      'given_name'        : row[1],
-      'family_name'       : row[2],
-      'user_type'         : row[3]
-    }
-    users.append(user)
+  if len(rows) > 0:
+    for row in rows:
+      user = {
+        'email'             : row[0],
+        'given_name'        : row[1],
+        'family_name'       : row[2],
+        'user_type'         : row[3]
+      }
+      users.append(user)
 
   return users
 
