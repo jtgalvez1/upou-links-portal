@@ -97,19 +97,21 @@ def list_links(privacy='open',category=None,column=None,value=None):
 
   return links
 
+
+
 def upsert_link(link):
-  sql = """
-          INSERT INTO link (url, title, description)
-          VALUES ('{url}','{title}','{description}')
-          ON CONFLICT (url) DO UPDATE SET
-          title = excluded.title,
-          description = excluded.description
-          WHERE url = '{url}'
-        """.format(
-          url = link['url'],
-          title = link['title'],
-          description = link['description'] or 'NULL'
-        )
+  sql = f"""
+REPLACE INTO link (url, title, description, image)
+VALUES 
+('{link['url']}',
+CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
+ELSE (SELECT title FROM link WHERE url = '{link['url']}') END,
+CASE WHEN '{link['description']}' <> '' THEN '{link['description']}' 
+ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
+CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
+ELSE (SELECT image FROM link WHERE url = '{link['url']}') END)
+"""
+  print(sql)
   db_execute(sql)
   update_link_privacy(link['privacy'], link['url'])
   categories = []
@@ -121,6 +123,18 @@ def upsert_link(link):
   update_link_category(categories, link['url'])
 
   return get_link('url',link['url'])
+
+def does_link_exists(url):
+  sql = f'SELECT COUNT(*) FROM link WHERE url = {url}'
+  count = db_execute(sql)[0][0]
+  if count == 1:
+    return True
+  return False
+
+def set_link_value(url,column,value):
+  sql = f"UPDATE link SET {column} = '{value}' WHERE url = '{url}'"
+  db_execute(sql)
+  return
 
 def update_link_privacy(privacy, url):
   sql = 'DELETE FROM user_type_can_view_link WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
@@ -196,7 +210,7 @@ def list_categories(privacy='open'):
 
 def links_by_category(category,privacy='open'):
   sql = """
-SELECT url, title, description, a.id
+SELECT url, title, description, a.id, image
 FROM link a
 JOIN user_type_can_view_link b
 ON a.id = b.link_id
@@ -211,7 +225,7 @@ a.id
   FROM link_has_category d
         """.format(privacy, 'NOT' if category['name'] == 'Others' else '')
   if category['name'] != 'Others':
-    sql = sql + " WHERE d.category_id != '{}'".format(category['id'])
+    sql = sql + " WHERE d.category_id == '{}'".format(category['id'])
   sql = sql + ")"
     
   rows = db_execute(sql)
@@ -223,7 +237,8 @@ a.id
         'url'         : row[0],
         'title'       : row[1],
         'description' : row[2] or 'None',
-        'id'          : row[3]
+        'id'          : row[3],
+        'image'       : row[4] or 'None',
       }
       links.append(link)
 

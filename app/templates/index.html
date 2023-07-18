@@ -7,29 +7,31 @@
     <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11.1455C5.49956 8.21437 7.56975 5.69108 10.4445 5.11883C13.3193 4.54659 16.198 6.08477 17.32 8.79267C18.4421 11.5006 17.495 14.624 15.058 16.2528C12.621 17.8815 9.37287 17.562 7.3 15.4895C6.14763 14.3376 5.50014 12.775 5.5 11.1455Z" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15.989 15.4905L19.5 19.0015" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     <input type="text" id="search-terms" name="q" placeholder="Search"/>
   </form>
-  {% for category in categories.keys() %}
-    <div>
+  {% for category, links in categories_links.items() %}
+    <section id="{{category}}">
       <h1>{{ category }}</h1>
       <div class="card-container">
-        {% for link in categories[category] %}
+        {% for link in links %}
 
           <div class="card">
-            <img src="" alt="">
+            <img src="{{ url_for('static',filename='images/' + link['image'])}}" alt="">
             <div class="content">
               <h3>{{ link['title'] }}</h3>
               <p>{{ link.get('description', '') }}</p>
             </div>
             <div class="actions">
               <a href="http://{{ link['url'] }}" target="_blank">Open ></a>
-              <button>Edit</button>
+              {% if user['user_type'] == 'admin' %}
+                <button onclick="editBtnHandler({{ link }})">Edit</button>
+              {% endif %}
             </div>
           </div>
 
         {% endfor %}
       </div>
-    </div>
+    </section>
   {% endfor %}
-  {% for category in categories.keys() %}
+  {# {% for category in categories.keys() %}
   <section id="{{ category }}">
     <h1>{{ category }}</h1>
     <table class="links">
@@ -73,7 +75,7 @@
       </tbody>
     </table>
   </section>
-  {% endfor %}
+  {% endfor %} #}
 </div>
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
@@ -100,12 +102,31 @@
 
     <div class="input-field">
       <label for="categories">Category</label>
-      <div id="categories"></div>
+      <div id="categories">
+      {% for category in category_list %}
+        {% if category['name'] != 'Others'%}
+          <div>
+            <input type="checkbox" name="category" id="category-{{ category['id'] }}" value="{{ category['id'] }}">
+            <label for="category-{{ category['id'] }}">{{ category['name'] }}</label>
+          </div>
+        {% endif %}
+      {% endfor %}
+        <div>
+          <input type="checkbox" name="category" id="new-category-checkbox" value="new category">
+          <label for="new-category-checkbox">New Category:</label>
+        </div>
+      </div>
       <input type="text" id="new-category-input" name="new-category-input" class="hidden" placeholder="Enter new categories (comma separated)"/>
     </div>
 
     <div class="input-field" id="privacy">
       <label for="privacy">Privacy Settings</label>
+      {% for privacy in privacy_settings %}
+        <div>
+          <input type="checkbox" name="privacy" id="privacy-{{ privacy['id'] }}" value="{{ privacy['id']}}">        
+          <label for="privacy-{{ privacy['id'] }}">{{ privacy['name'] }}</label>
+        </div>
+      {% endfor %}
     </div>
 
     <div class="input-field">
@@ -131,7 +152,6 @@
     ev.preventDefault();
     document.querySelector('#add.modal.container').style.display = 'flex';
     document.querySelector('#add-link-form').reset();
-
   });
     
   document.querySelector('#close-modal-btn').addEventListener('click', ev => {
@@ -140,24 +160,40 @@
     document.querySelector('#add-link-form').reset();
   });
 
+  document.querySelector('#new-category-checkbox').addEventListener('change', ev => {
+    ev.preventDefault();
+    let newCategoryInput = document.querySelector('#new-category-input')
+    if (ev.currentTarget.checked) {
+      newCategoryInput.classList.remove('hidden');
+      newCategoryInput.required = true;
+    } else {
+      newCategoryInput.classList.add('hidden');
+      newCategoryInput.required = false;
+      newCategoryInput.value = '';
+    }
+  })
+
   document.querySelector('#add-link-form').addEventListener('submit', ev => {
     ev.preventDefault();
 
     let formData = new FormData();
     formData.append('url', document.querySelector('#url').value)
     formData.append('title', document.querySelector('#title').value)
+    formData.append('description', document.querySelector('#description').value)
+    formData.append('image', document.querySelector('#image').files[0])
 
     let category_list = []
     document.getElementsByName('category').forEach( elem => {
-      if (elem.checked) {
-        if (elem.value == 'others') {
+      if (elem['checked']) {
+        if (elem.getAttribute('value') == 'new category') {
           formData.append('new_category', document.querySelector('#new-category-input').value)
           return
         }
-        category_list.push(elem.value)
+        category_list.push(elem.getAttribute('value'))
       }
     })
     formData.append('category', category_list)
+
 
     let privacy_list = []
     document.getElementsByName('privacy').forEach( (elem) => {
@@ -175,89 +211,37 @@
     .then( data => window.location.reload())
     .catch( err => console.error(err))
   });
-  
-  function initPrivacyCheckboxes() {
-    fetch('/api/v1/user/user_types')
-    .then( res => res.json())
-    .then( data => {
-      let privacyInput = document.querySelector('#privacy')
-      populateCheckboxes(privacyInput, data.user_types, 'privacy')
-    })
-    .catch( err => console.error(err))
-  }
 
-  function initCategoriesCheckboxes() {
-    fetch('/api/v1/link/categories?priv=admin')
-    .then(res => res.json())
-    .then( data => {
-      let categoryInput = document.querySelector('#categories');
-      populateCheckboxes(categoryInput, data.categories, 'category')
-      let newDiv = document.createElement('div')
-      let newCheckBox = document.createElement('input')
-      newCheckBox.setAttribute('type', 'checkbox')
-      newCheckBox.setAttribute('name', 'category')
-      newCheckBox.setAttribute('id', 'new-category-checkbox')
-      newCheckBox.setAttribute('value', 'others')
-      let newLabel = document.createElement('label')
-      newLabel.setAttribute('for', 'new-category-checkbox')
-      newLabel.textContent = 'New Category:'
-      newDiv.appendChild(newCheckBox)
-      newDiv.appendChild(newLabel)
-      categoryInput.appendChild(newDiv)
-
-      document.querySelector('#new-category-checkbox').addEventListener('change', ev => {
-        ev.preventDefault();
-        let newCategoryInput = document.querySelector('#new-category-input')
-        if (ev.currentTarget.checked) {
-          newCategoryInput.classList.remove('hidden');
-          newCategoryInput.required = true;
-        } else {
-          newCategoryInput.classList.add('hidden');
-          newCategoryInput.required = false;
-          newCategoryInput.value = '';
-        }
-      })
-    })
-    .catch( err => console.error(err));
-  }
-
-  function populateCheckboxes(container, elements, inputName) {
-    Array.from(elements).forEach( elem => {
-      if (elem.name == 'Others')
-        return
-      let newDiv = document.createElement('div')
-      let newCheckBox = document.createElement('input')
-      newCheckBox.setAttribute('type', 'checkbox')
-      newCheckBox.setAttribute('name', inputName)
-      newCheckBox.setAttribute('id', elem.name + '-checkbox')
-      newCheckBox.setAttribute('value', elem['id'])
-      let newLabel = document.createElement('label')
-      newLabel.setAttribute('for', elem.name + '-checkbox')
-      newLabel.textContent = elem.name
-      newDiv.appendChild(newCheckBox)
-      newDiv.appendChild(newLabel)
-      container.appendChild(newDiv)
-    })
-  }
+  {# document.getElementById('add-link-form').addEventListener('reset', ev => {
+    ev.preventDefault();
+    document.querySelector('#add-link-form').reset();
+    document.querySelector('#url').value = null;
+    document.querySelector('#title').value = null;
+    document.querySelector('#description').value = null;
+    document.getElementsByName('category').forEach( elem => {
+      elem.checked = false;
+    });
+    document.getElementsByName('privacy').forEach( elem => {
+      elem.checked = false;
+    });
+  }); #}
 
 
   function editBtnHandler(link) {
+    document.querySelector('#add-link-form').reset();
     document.querySelector('#url').value = link['url'];
     document.querySelector('#title').value = link['title'];
-
+    document.querySelector('#description').value = link['description'];
+    document.getElementsByName('category').forEach( elem => {
+      if([...link['category']].map( category => category['id']).toString().includes(elem.value))
+        elem.checked = true;
+    });
     document.getElementsByName('privacy').forEach( elem => {
       if ([...link['privacy']].map( privacy => privacy['id'] ).toString().includes(elem.value))
-        elem.setAttribute('checked', true)
-    })
+        elem.checked = true;
+    });
     document.querySelector('#add.modal.container').style.display = 'flex';
   }
-
-  function init() {
-      initPrivacyCheckboxes();
-      initCategoriesCheckboxes();
-  }
-
-  init()
 {% endif %}
 </script>
 {% endblock %}
