@@ -54,3 +54,16 @@ def retrieve_user_types():
     sql = "SELECT * from user_types"
     result = db_execute(sql)
     return result
+
+def list_all_categories():
+  sql = "SELECT id, name FROM category"
+  rows = db_execute(sql)
+
+  categories = []
+  for row in rows:
+     categories.append({
+        'id'      : row[0],
+        'name'    : row[1],
+     })
+
+  return categories
