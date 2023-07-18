@@ -152,7 +152,6 @@
     ev.preventDefault();
     document.querySelector('#add.modal.container').style.display = 'flex';
     document.querySelector('#add-link-form').reset();
-
   });
     
   document.querySelector('#close-modal-btn').addEventListener('click', ev => {
@@ -213,18 +212,33 @@
     .catch( err => console.error(err))
   });
 
+  {# document.getElementById('add-link-form').addEventListener('reset', ev => {
+    ev.preventDefault();
+    document.querySelector('#add-link-form').reset();
+    document.querySelector('#url').value = null;
+    document.querySelector('#title').value = null;
+    document.querySelector('#description').value = null;
+    document.getElementsByName('category').forEach( elem => {
+      elem.checked = false;
+    });
+    document.getElementsByName('privacy').forEach( elem => {
+      elem.checked = false;
+    });
+  }); #}
+
 
   function editBtnHandler(link) {
+    document.querySelector('#add-link-form').reset();
     document.querySelector('#url').value = link['url'];
     document.querySelector('#title').value = link['title'];
     document.querySelector('#description').value = link['description'];
     document.getElementsByName('category').forEach( elem => {
       if([...link['category']].map( category => category['id']).toString().includes(elem.value))
-        elem.setAttribute('checked', true)
+        elem.checked = true;
     });
     document.getElementsByName('privacy').forEach( elem => {
       if ([...link['privacy']].map( privacy => privacy['id'] ).toString().includes(elem.value))
-        elem.setAttribute('checked', true)
+        elem.checked = true;
     });
     document.querySelector('#add.modal.container').style.display = 'flex';
   }

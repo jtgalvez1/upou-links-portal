@@ -100,26 +100,18 @@ def list_links(privacy='open',category=None,column=None,value=None):
 
 
 def upsert_link(link):
-
-  # TODO: empty image submit should not clear database
-
-  # for key, value in link.items():
-  #   # change_link_value(key, value)
-
-  sql = """
-          INSERT INTO link (url, title, description, image)
-          VALUES ('{url}','{title}','{description}', '{image}')
-          ON CONFLICT (url) DO UPDATE SET
-          title = excluded.title,
-          description = excluded.description,
-          image = excluded.image
-          WHERE url = '{url}'
-        """.format(
-          url = link['url'],
-          title = link['title'],
-          description = link['description'] or 'NULL',
-          image = link.get('image', 'NULL')
-        )
+  sql = f"""
+REPLACE INTO link (url, title, description, image)
+VALUES 
+('{link['url']}',
+CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
+ELSE (SELECT title FROM link WHERE url = '{link['url']}') END,
+CASE WHEN '{link['description']}' <> '' THEN '{link['description']}' 
+ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
+CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
+ELSE (SELECT image FROM link WHERE url = '{link['url']}') END)
+"""
+  print(sql)
   db_execute(sql)
   update_link_privacy(link['privacy'], link['url'])
   categories = []
@@ -131,6 +123,18 @@ def upsert_link(link):
   update_link_category(categories, link['url'])
 
   return get_link('url',link['url'])
+
+def does_link_exists(url):
+  sql = f'SELECT COUNT(*) FROM link WHERE url = {url}'
+  count = db_execute(sql)[0][0]
+  if count == 1:
+    return True
+  return False
+
+def set_link_value(url,column,value):
+  sql = f"UPDATE link SET {column} = '{value}' WHERE url = '{url}'"
+  db_execute(sql)
+  return
 
 def update_link_privacy(privacy, url):
   sql = 'DELETE FROM user_type_can_view_link WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
