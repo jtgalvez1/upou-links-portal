@@ -128,10 +128,6 @@ table.links td.actions {
   overflow: hidden;
 }
 
-.card:hover {
-  scale: 1.1;
-}
-
 .card > img {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -206,6 +202,11 @@ table.links td.actions {
 
   .card-container {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .card:hover {
+    scale: 1.1;
+    box-shadow: 0 0 100px rgb(192,64,128);
   }
   
   table.links {
