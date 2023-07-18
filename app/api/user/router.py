@@ -48,3 +48,12 @@ def sigin():
        'message'    : 'Succesful Login',
        'user'       : user
     })
+
+@user.route('/<userid>/bookmark/<link_id>', methods=['PUT'])
+def bookmark(userid, link_id):
+   action = bookmark_link(userid, link_id)
+   return jsonify({
+      'status'      : 200,
+      'message'     : 'Successfully updated bookmark',
+      'action'      : action
+   })

@@ -161,6 +161,8 @@ table.links td.actions {
 
   color: #cdcdcd;
   font-weight: bold;
+
+  box-shadow: 3px 3px 3px gray;
 }
 
 .card .actions > a {
@@ -175,6 +177,14 @@ table.links td.actions {
 
 .card .actions > button:hover {
   background-color: rgba(0,56,0,100%);
+}
+
+.card .actions .bookmark {
+  background-color: #aaa;
+}
+
+.card .actions .bookmark:hover {
+  background-color: #777;
 }
 
 
