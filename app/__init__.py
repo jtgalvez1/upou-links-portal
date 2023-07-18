@@ -68,7 +68,7 @@ def index_page():
 # admin routes
 @app.route('/admin', methods=['GET'])
 def user_management_page():
-
+    userlist = list_user_data()
     res = make_response(render_template('users.html', categories_links={}, users = userlist, user=session.get('user', None)))
 
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
