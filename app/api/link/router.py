@@ -27,6 +27,8 @@ def submit_link():
     'description' : form.get('description')
   }
 
+  print(link)
+
   new_link = upsert_link(link)
 
   return jsonify({

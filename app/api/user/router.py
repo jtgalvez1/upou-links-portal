@@ -5,6 +5,15 @@ user = Blueprint(name='user', import_name=__name__)
 from .controller import *
 from app.oauth import verify_token
 
+@user.route('/', methods=['GET'])
+def get_users():
+   users = list_users()
+
+   return jsonify({
+      'status'        : 200,
+      'users'         : users,
+   })
+
 @user.route('/user_types', methods=['GET'])
 def get_user_types():
   user_types = list_user_types()
@@ -14,15 +23,6 @@ def get_user_types():
     'message'     : 'Succesfully retrieved user types.',
     'user_types'  : user_types
   })
-
-@user.route('/', methods=['GET'])
-def get_users():
-   users = list_users()
-
-   return jsonify({
-      'status'        : 200,
-      'users'         : users,
-   })
 
 @user.route('/<email>', methods=['GET'])
 def get_user_by_email(email):

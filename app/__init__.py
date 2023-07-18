@@ -33,6 +33,8 @@ def check_user():
         if len(users) == 1:
             user = users[0]
             session['user'] = { **user, 'name': user.get('given_name') + ' ' + user.get('family_name')}
+        else:
+            session['user'] = { 'user_type' : 'open' }
     return
 
 
@@ -43,11 +45,11 @@ def index_page():
     categories = list_categories(session.get('user', {'user_type': 'open'})['user_type'])
     categories_links = {}
     for category in categories:
-        category_links = links_by_category(category, session.get('user', { 'user_type' : 'open' })['user_type'])
+        category_links = links_by_category(category, session['user']['user_type'])
         if len(category_links) > 0:
             categories_links[category['name']] = category_links
 
-    res = make_response(render_template('index.html',categories = categories_links,user=session.get('user', None)))
+    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = categories, privacy_settings = list_user_types()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
