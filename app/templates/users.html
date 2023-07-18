@@ -2,8 +2,34 @@
 
 {% block main %}
 
-{% endblock %}
+    <h3>Users</h3>
+    <table class="links">
+        <thead>
+            <th>Email</th>
+            <th>Name</th>
+            <th>User Type</th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{user["email"]}}</td>
+                <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
+                {%if user["user_type"]== 1%}
+                    <td>Open</td>
+                {%elif user["user_type"]== 2%}
+                    <td>Student</td>
+                {%elif user["user_type"]== 3%}
+                    <td>Faculty</td>
+                {%elif user["user_type"]== 4%}
+                    <td>Admin</td>
+                {%endif%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
 
+{% endblock %}
+    
 
 
 {% block script %}
