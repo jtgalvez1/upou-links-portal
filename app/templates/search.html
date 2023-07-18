@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+
+<p>HELLO</p>
+
+<div class="card-container">
+    {% for link in links %}
+        <div class="card">
+            {# <img src="{{ url_for('static',filename='images/' + link['image'])}}" alt=""> #}
+            <div class="content">
+                <h3>{{ link['title'] }}</h3>
+                <p>{{ link.get('description', '') }}</p>
+            </div>
+            {# <div class="actions">
+                <a href="http://{{ link['url'] }}" target="_blank">Open ></a>
+                {% if user['user_type'] == 'admin' %}
+                <button onclick="editBtnHandler({{ link }})">Edit</button>
+                {% endif %}
+            </div> #}
+        </div>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}
+    
+{% block script %}
+
+
+{% endblock %}
