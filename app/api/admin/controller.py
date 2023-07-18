@@ -47,3 +47,16 @@ def change_user_type(email, user_type):
     sql = f"UPDATE user set user_type = {user_type} where email = {email}"
     result = db_execute(sql)
     print(result)
+
+def list_all_categories():
+  sql = "SELECT id, name FROM category"
+  rows = db_execute(sql)
+
+  categories = []
+  for row in rows:
+     categories.append({
+        'id'      : row[0],
+        'name'    : row[1],
+     })
+
+  return categories

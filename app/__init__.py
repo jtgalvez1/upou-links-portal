@@ -38,6 +38,10 @@ def check_user():
     return
 
 
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     return render_template('error/404.html', categories_links = {}), 404
+
 
 # pages routes
 @app.route('/', methods=['GET'])
@@ -45,11 +49,11 @@ def index_page():
     categories = list_categories(session.get('user', {'user_type': 'open'})['user_type'])
     categories_links = {}
     for category in categories:
-        category_links = links_by_category(category, session['user']['user_type'])
+        category_links = links_by_category(category, session.get('user',{ 'user_type' : 'open'})['user_type'])
         if len(category_links) > 0:
             categories_links[category['name']] = category_links
 
-    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = categories, privacy_settings = list_user_types()))
+    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = list_all_categories(), privacy_settings = list_user_types()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
@@ -60,7 +64,7 @@ def index_page():
 @app.route('/admin', methods=['GET'])
 def user_management_page():
     userlist = list_user_data()
-    res = make_response(render_template('users.html', categories={}, users = userlist))
+    res = make_response(render_template('users.html', categories_links={}, users = userlist))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
