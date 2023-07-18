@@ -16,6 +16,12 @@ def get_users():
 @admin.route('/changeUserType', methods = ["POST"])
 def change_type():
     data = request.form.to_dict()
+    print(data)
     email = data['email']
     userType = data['userType']
     change_user_type(email, userType)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Succesfully changed usertype',
+    })

@@ -44,9 +44,16 @@ def list_user_data():
 
 
 def change_user_type(email, user_type):
-    sql = f"UPDATE user set user_type = {user_type} where email = {email}"
+    sql = f"UPDATE user set user_type = '{user_type}' where email = '{email}'"
     result = db_execute(sql)
+    print("Result!")
     print(result)
+    return result
+
+def retrieve_user_types():
+    sql = "SELECT * from user_types"
+    result = db_execute(sql)
+    return result
 
 def list_all_categories():
   sql = "SELECT id, name FROM category"
