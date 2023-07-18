@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from time import time
 
 link = Blueprint(name='link', import_name=__name__)
 
@@ -18,13 +19,26 @@ def get_links():
 @link.route('/', methods=['POST'])
 def submit_link():
   form = request.form.to_dict()
+  image = request.files.to_dict().get('image', None)
+
+  print(image)
+
+  # process image file before adding link
+  file_name = None
+  if image is not None:
+    file_name = f"{str(int(time()))}_{image.filename}"
+    print(file_name)
+    image_path = app.config['IMAGES_PATH'] + file_name
+    image.save(image_path)
+
   link = {
     'url'         : form['url'],
     'title'       : form['title'],
     'privacy'     : form['privacy'],
     'category'    : form.get('category'),
     'new_category': form.get('new_category'),
-    'description' : form.get('description')
+    'description' : form.get('description'),
+    'image'       : file_name
   }
 
   print(link)

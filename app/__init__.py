@@ -42,7 +42,7 @@ def index_page():
     categories = list_categories(session.get('user', {'user_type': 'open'})['user_type'])
     categories_links = {}
     for category in categories:
-        category_links = links_by_category(category, session['user']['user_type'])
+        category_links = links_by_category(category, session.get('user',{ 'user_type' : 'open'})['user_type'])
         if len(category_links) > 0:
             categories_links[category['name']] = category_links
 

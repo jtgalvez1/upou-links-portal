@@ -97,18 +97,28 @@ def list_links(privacy='open',category=None,column=None,value=None):
 
   return links
 
+
+
 def upsert_link(link):
+
+  # TODO: empty image submit should not clear database
+
+  # for key, value in link.items():
+  #   # change_link_value(key, value)
+
   sql = """
-          INSERT INTO link (url, title, description)
-          VALUES ('{url}','{title}','{description}')
+          INSERT INTO link (url, title, description, image)
+          VALUES ('{url}','{title}','{description}', '{image}')
           ON CONFLICT (url) DO UPDATE SET
           title = excluded.title,
-          description = excluded.description
+          description = excluded.description,
+          image = excluded.image
           WHERE url = '{url}'
         """.format(
           url = link['url'],
           title = link['title'],
-          description = link['description'] or 'NULL'
+          description = link['description'] or 'NULL',
+          image = link.get('image', 'NULL')
         )
   db_execute(sql)
   update_link_privacy(link['privacy'], link['url'])
@@ -196,7 +206,7 @@ def list_categories(privacy='open'):
 
 def links_by_category(category,privacy='open'):
   sql = """
-SELECT url, title, description, a.id
+SELECT url, title, description, a.id, image
 FROM link a
 JOIN user_type_can_view_link b
 ON a.id = b.link_id
@@ -223,7 +233,8 @@ a.id
         'url'         : row[0],
         'title'       : row[1],
         'description' : row[2] or 'None',
-        'id'          : row[3]
+        'id'          : row[3],
+        'image'       : row[4] or 'None',
       }
       links.append(link)
 
