@@ -134,9 +134,22 @@ def search_page():
 # admin routes
 @app.route('/admin', methods=['GET'])
 def user_management_page():
-    userlist = list_user_data()
-    res = make_response(render_template('users.html', categories_links={}, users = userlist, user=session.get('user', None)))
+    types = retrieve_user_types()
+    # print(types)
 
+    usertypes = {}
+    users = list_user_data()
+
+    for utype in types:
+        usertypes[utype[1]] = []
+        for user in users:
+            if user["user_type"] == utype[0]:
+                usertypes[utype[1]].append(user)
+
+    print(usertypes)
+    # print(users)
+
+    res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes)))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
