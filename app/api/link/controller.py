@@ -102,7 +102,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
 
 def upsert_link(link):
   sql = f"""
-REPLACE INTO link (url, title, description, image)
+INSERT INTO link (url, title, description, image)
 VALUES 
 ('{link['url']}',
 CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
@@ -111,8 +111,15 @@ CASE WHEN '{link['description']}' <> '' THEN '{link['description']}'
 ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
 CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
 ELSE (SELECT image FROM link WHERE url = '{link['url']}') END)
+ON CONFLICT (url) DO UPDATE SET
+title = CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
+ELSE (SELECT title FROM link WHERE url = '{link['url']}') END,
+description = CASE WHEN '{link['description']}' <> '' THEN '{link['description']}' 
+ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
+image = CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
+ELSE (SELECT image FROM link WHERE url = '{link['url']}') END
+WHERE url = '{link['url']}'
 """
-  print(sql)
   db_execute(sql)
   update_link_privacy(link['privacy'], link['url'])
   categories = []

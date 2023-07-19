@@ -121,3 +121,21 @@ def get_user_bookmarks(userid):
     bookmarks.append(row[0])
   
   return bookmarks
+
+def log_activity(userid, action, link_id):
+  ACTIONS = [
+    'ADD',
+    'EDIT',
+    'REMOVE',
+    'VISIT',
+    'BOOKMARK',
+  ]
+
+  if action not in ACTIONS:
+    # raise ValueError('action must be one of the following: "ADD", "EDIT", "REMOVE", "VISIT", "BOOKMARK"')
+    return
+
+  sql = f"INSERT INTO logs (userid, description, link_id) VALUES ('{userid}','{action}','{link_id}')"
+  db_execute(sql)
+
+  return

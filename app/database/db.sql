@@ -49,8 +49,7 @@ CREATE TABLE IF NOT EXISTS privacy_settings (
   UNIQUE (user_type_id, link_id)
 );
 
-DROP TABLE IF EXISTS link_has_cateogry;
-DROP TABLE IF EXISTS link_cateogry;
+-- DROP TABLE IF EXISTS link_cateogry;
 CREATE TABLE IF NOT EXISTS link_cateogry (
   link_id         INTEGER,
   category_id     INTEGER,
