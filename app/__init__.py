@@ -23,22 +23,21 @@ from .oauth import verify_token
 
 @app.before_request
 def check_user():
-    if request.path.startswith('/static') or request.path.startswith('/favicon'):
+    if request.path.startswith('/static') or request.path.startswith('/favicon') or request.path == '/logout':
         return
     print(request.method + ' ' + request.path)
 
-    if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'open' })['user_type'] != 'admin':
-        print("papalayasin")
+    if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
         return redirect('/')
 
-    if session.get('user'):
+    if session and session.get('user'):
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
             user = users[0]
+            user['bookmarks'] = get_user_bookmarks(user['id'])
             session['user'] = { **user, 'name': user.get('given_name') + ' ' + user.get('family_name')}
         else:
-            session['user'] = { 'user_type' : 'open' }
-    
+            session['user'] = { 'user_type' : 'guest', 'email' : 'null' }
     return
 
 
@@ -50,10 +49,10 @@ def check_user():
 # pages routes
 @app.route('/', methods=['GET'])
 def index_page():
-    categories = list_categories(session.get('user', {'user_type': 'open'})['user_type'])
+    categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     categories_links = {}
     for category in categories:
-        category_links = links_by_category(category, session.get('user', {'user_type': 'open'})['user_type'])
+        category_links = links_by_category(category, session.get('user', {'user_type': 'guest'})['user_type'])
 
         if len(category_links) > 0:
             categories_links[category['name']] = category_links

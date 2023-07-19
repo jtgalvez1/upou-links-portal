@@ -41,7 +41,7 @@ with open('./links.csv', 'r') as file:
     #   else:
     #     privacy = 'student'
     # if line.get('Open for all') == 'TRUE':
-    #   privacy = 'open'
+    #   privacy = 'guest'
     privacy = []
     if line['For Admin'] == 'TRUE':
       privacy.append(privacy_list['admin'])
@@ -50,7 +50,7 @@ with open('./links.csv', 'r') as file:
     if line['For Students'] == 'TRUE':
       privacy.append(privacy_list['student'])
     if line['Open for all'] == 'TRUE':
-      privacy.append(privacy_list['open'])
+      privacy.append(privacy_list['guest'])
     link = {
       'url'     : line.get('URL'),
       'title'   : line.get('Title'),
@@ -66,7 +66,7 @@ for link in links:
   conn.close()
   for privacy in link['privacy'].strip('][').split(', '):
     conn = sqlite3.connect('main.db')
-    cursor = conn.execute('INSERT INTO user_type_can_view_link (user_type_id, link_id) VALUES (?,?)', (privacy, link_id))
+    cursor = conn.execute('INSERT INTO privacy_settings (user_type_id, link_id) VALUES (?,?)', (privacy, link_id))
     conn.commit()
     conn.close()
   # sql = 'INSERT INTO link (url, title) VALUES ("{}","{}")'.format(link['url'], link['title'])

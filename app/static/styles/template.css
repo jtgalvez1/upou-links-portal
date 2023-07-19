@@ -113,6 +113,9 @@ table.links td.actions {
 .card-container {
   display: grid;
   grid-template-columns: 1fr;
+  /* display: flex;
+  flex-flow: row wrap;
+  flex-basis: 0 0 300px; */
   gap: 2em;
 }
 
@@ -120,12 +123,14 @@ table.links td.actions {
   background-color: #cdcdcd;
   color: #2c2c2c;
 
-  /* width: 300px; */
+  /* width: 20em; */
   border-radius: .5em;
   border: 1px solid darkgray;
   box-shadow: 0 0 10px black inset;
 
   overflow: hidden;
+
+  position: relative;
 }
 
 .card > img {
@@ -161,6 +166,8 @@ table.links td.actions {
 
   color: #cdcdcd;
   font-weight: bold;
+
+  box-shadow: 3px 3px 3px gray;
 }
 
 .card .actions > a {
@@ -177,6 +184,38 @@ table.links td.actions {
   background-color: rgba(0,56,0,100%);
 }
 
+.card .actions > button.delete {
+  background-color: #ff0000;
+}
+
+/* .card .actions .bookmark {
+  background-color: #aaa;
+}
+
+.card .actions .bookmark:hover {
+  background-color: #777;
+} */
+
+.card button.bookmark {
+  all: unset;
+  cursor: pointer;
+  background-color: rgba(0,0,0,0);
+  /* background-color: #aaa; */
+  padding: .5em 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.card button.bookmark svg {
+  width: 2em;
+  height: 2em;
+}
+
+/* .card button.bookmark:hover {
+  background-color: #777;
+} */
+
 
 
 .hidden {
@@ -188,7 +227,8 @@ table.links td.actions {
 @media only screen and (min-width: 768px) {
   main {
       display: grid;
-      grid-template-areas: "sidebar content";
+      grid-template-columns: 25% 75%;
+      /* grid-template-areas: "sidebar content content"; */
       gap: 3em;
   }
 
@@ -197,11 +237,12 @@ table.links td.actions {
   }
 
   .links-container {
-      grid-area: "content";
+    /* grid-area: "content"; */
+    grid-column: 2;
   }
 
   .card-container {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .card:hover {
