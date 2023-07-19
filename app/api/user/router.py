@@ -57,3 +57,14 @@ def bookmark(userid, link_id):
       'message'     : 'Successfully updated bookmark',
       'action'      : action
    })
+
+@user.route('/addType', methods=["POST"])
+def addType():
+   form = request.form.to_dict()
+   newname = form['usertypename']
+   action = add_user_type(newname)
+   return jsonify({
+      'status'      : 200,
+      'message'     : 'Successfully updated bookmark',
+      'action'      : action
+   })
