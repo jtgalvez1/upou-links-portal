@@ -13,18 +13,30 @@
       <div class="card-container">
         {% for link in links %}
 
-          <div class="card">
+          <div class="card" data-url="{{ link['url'] }}">
             <img src="{{ url_for('static',filename='images/' + link['image'])}}" alt="">
             <div class="content">
               <h3>{{ link['title'] }}</h3>
+              <span>{{ link['url'] }}</span>
               <p>{{ link.get('description', '') }}</p>
             </div>
             <div class="actions">
-              <a href="http://{{ link['url'] }}" target="_blank">Open ></a>
+              <a href="http://{{ link['url'] }}" target="_blank">Open</a>
+              {% if user %}
+              {% endif %}
               {% if user['user_type'] == 'admin' %}
                 <button onclick="editBtnHandler({{ link }})">Edit</button>
+                <button onclick="deleteLinkBtnHandler(ev)" class="delete" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}"><svg fill="#cdcdcd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="delete-alt" class="icon glyph" stroke="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"></path><path d="M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2ZM11,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Z"></path></g></svg></button>
               {% endif %}
             </div>
+            
+            <button class="bookmark" data-link-id="{{ link['id'] }}">
+              {% if link['id'] in user['bookmarks'] %}
+                <svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+              {% else %}
+                <svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#222222"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+              {% endif %}
+            </button>
           </div>
 
         {% endfor %}
@@ -212,20 +224,6 @@
     .catch( err => console.error(err))
   });
 
-  {# document.getElementById('add-link-form').addEventListener('reset', ev => {
-    ev.preventDefault();
-    document.querySelector('#add-link-form').reset();
-    document.querySelector('#url').value = null;
-    document.querySelector('#title').value = null;
-    document.querySelector('#description').value = null;
-    document.getElementsByName('category').forEach( elem => {
-      elem.checked = false;
-    });
-    document.getElementsByName('privacy').forEach( elem => {
-      elem.checked = false;
-    });
-  }); #}
-
 
   function editBtnHandler(link) {
     document.querySelector('#add-link-form').reset();
@@ -250,5 +248,45 @@
     window.location.replace("/search?priv=".concat("{{user['user_type']}}","&term=",document.getElementById("search-terms").value))
   })
 
-  </script>
+
+  document.querySelectorAll('.bookmark').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      ev.preventDefault();
+
+      fetch('/api/v1/user/' + {{ user['id'] }} + '/bookmark/' + ev.currentTarget.getAttribute('data-link-id'),
+      { method: 'PUT' })
+        .then( res => res.json())
+        .then( data => {
+          console.log(data)
+          if (data.action == 'add')
+            elem.innerHTML = '<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>'
+          else if (data.ation = 'remove')
+            elem.innerHTML = '<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>'
+        })
+        .catch( err => console.error(err))
+    })
+  })
+
+  document.querySelectorAll('.delete').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      console.log(ev.currentTarget)
+      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`))
+        fetch('/api/v1/link/' + ev.currentTarget.getAttribute('data-link-id'),
+        { method: 'DELETE' })
+          .then( res => res.json())
+          .then( data => {
+            window.location.reload()
+          })
+          .catch( err => console.error(err))
+    })
+  })
+  // document.querySelectorAll('.card').forEach( elem => {
+  //   elem.style.cursor = 'pointer';
+  //   elem.addEventListener('click', ev => {
+  //     ev.preventDefault();
+
+  //     window.open(ev.currentTarget.getAttribute('data-url'), '_blank');
+  //   })
+  // })
+</script>
 {% endblock %}

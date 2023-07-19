@@ -27,16 +27,16 @@ def get_count(sql):
   count = db_execute(sql)[0][0]
   return count
 
-def list_links(privacy='open',category=None,column=None,value=None):
+def list_links(privacy='guest',category=None,column=None,value=None):
   sql = "SELECT url, title, description, id FROM link a"
   if category is not None and category.get('id') is not None:
     sql = sql + """
-                JOIN link_has_category d
+                JOIN link_cateogry d
                 ON a.id = d.link_id
                 """
   if privacy != 'admin':
     sql = sql + """
-                  JOIN user_type_can_view_link b
+                  JOIN privacy_settings b
                   ON a.id = b.link_id
                   WHERE a.{} LIKE '%{}%'
                   AND b.user_type_id IN (
@@ -59,7 +59,7 @@ def list_links(privacy='open',category=None,column=None,value=None):
                   """.format(category['id'])
     elif category.get('name') == 'Others':
       sql = sql + """
-                  a.id NOT IN (SELECT e.link_id FROM link_has_category e)
+                  a.id NOT IN (SELECT e.link_id FROM link_cateogry e)
                   """
   rows = db_execute(sql)
 
@@ -75,7 +75,7 @@ def list_links(privacy='open',category=None,column=None,value=None):
       links.append(link)
 
     for link in links:
-      sql = "SELECT a.id, a.name FROM user_type a JOIN user_type_can_view_link b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      sql = "SELECT a.id, a.name FROM user_type a JOIN privacy_settings b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
       rows = db_execute(sql)
 
       link['privacy'] = []
@@ -85,7 +85,7 @@ def list_links(privacy='open',category=None,column=None,value=None):
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_has_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -137,19 +137,19 @@ def set_link_value(url,column,value):
   return
 
 def update_link_privacy(privacy, url):
-  sql = 'DELETE FROM user_type_can_view_link WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
+  sql = 'DELETE FROM privacy_settings WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
-  sql = 'INSERT INTO user_type_can_view_link (user_type_id, link_id) VALUES( (4, (SELECT id FROM link WHERE url = "{}")))'.format(url)
+  sql = 'INSERT INTO privacy_settings (user_type_id, link_id) VALUES( (4, (SELECT id FROM link WHERE url = "{}")))'.format(url)
   for user_type in privacy.split(','):
-    sql = "INSERT INTO user_type_can_view_link (user_type_id, link_id) VALUES ('{}', (SELECT id FROM link WHERE url = '{}'))".format(user_type, url)
+    sql = "INSERT INTO privacy_settings (user_type_id, link_id) VALUES ('{}', (SELECT id FROM link WHERE url = '{}'))".format(user_type, url)
     db_execute(sql)
   return
 
 def update_link_category(categories, url):
-  sql = 'DELETE FROM link_has_category WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
+  sql = 'DELETE FROM link_cateogry WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
   for category in categories:
-    sql = 'INSERT INTO link_has_category (link_id, category_id) VALUES((SELECT id FROM link WHERE url = "{}"), "{}")'.format(url, category)
+    sql = 'INSERT INTO link_cateogry (link_id, category_id) VALUES((SELECT id FROM link WHERE url = "{}"), "{}")'.format(url, category)
     db_execute(sql)
   return
 
@@ -179,14 +179,14 @@ def upsert_category(category):
   db_execute(sql)
   return get_category_id(category)
 
-def list_categories(privacy='open'):
+def list_categories(privacy='guest'):
   sql = """
         SELECT DISTINCT category.id, category.name
         FROM category
-        INNER JOIN link_has_category ON category.id = link_has_category.category_id
-        INNER JOIN link ON link_has_category.link_id = link.id
-        INNER JOIN user_type_can_view_link ON link.id = user_type_can_view_link.link_id
-        INNER JOIN user_type ON user_type_can_view_link.user_type_id = user_type.id
+        INNER JOIN link_cateogry ON category.id = link_cateogry.category_id
+        INNER JOIN link ON link_cateogry.link_id = link.id
+        INNER JOIN privacy_settings ON link.id = privacy_settings.link_id
+        INNER JOIN user_type ON privacy_settings.user_type_id = user_type.id
         WHERE user_type.name = '{}'
         ORDER BY category.name;
         """.format(privacy)
@@ -208,11 +208,11 @@ def list_categories(privacy='open'):
 
 
 
-def links_by_category(category,privacy='open'):
+def links_by_category(category,privacy='guest'):
   sql = """
 SELECT url, title, description, a.id, image
 FROM link a
-JOIN user_type_can_view_link b
+JOIN privacy_settings b
 ON a.id = b.link_id
 JOIN user_type c
 ON b.user_type_id = c.id
@@ -222,7 +222,7 @@ AND
 a.id
 {} IN (
   SELECT link_id
-  FROM link_has_category d
+  FROM link_cateogry d
         """.format(privacy, 'NOT' if category['name'] == 'Others' else '')
   if category['name'] != 'Others':
     sql = sql + " WHERE d.category_id == '{}'".format(category['id'])
@@ -243,7 +243,7 @@ a.id
       links.append(link)
 
     for link in links:
-      sql = "SELECT a.id, a.name FROM user_type a JOIN user_type_can_view_link b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      sql = "SELECT a.id, a.name FROM user_type a JOIN privacy_settings b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
       rows = db_execute(sql)
 
       link['privacy'] = []
@@ -253,7 +253,7 @@ a.id
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_has_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -264,3 +264,15 @@ a.id
         })
 
   return links
+
+def remove_link_from_db(link_id):
+  sql = f"DELETE FROM link_cateogry WHERE link_id = '{link_id}'"
+  db_execute(sql)
+
+  sql = f"DELETE FROM privacy_settings WHERE link_id = '{link_id}'"
+  db_execute(sql)
+
+  sql = f"DELETE FROM link WHERE id = '{link_id}'"
+  db_execute(sql)
+
+  return

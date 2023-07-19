@@ -21,7 +21,7 @@ def db_execute(sql):
   return data
 
 def list_users(column,value):
-  sql = "SELECT email, given_name, family_name, b.name as user_type FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)
+  sql = "SELECT email, given_name, family_name, b.name as user_type, a.id as id FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)
   rows = db_execute(sql)
 
   users = []
@@ -31,7 +31,8 @@ def list_users(column,value):
         'email'             : row[0],
         'given_name'        : row[1],
         'family_name'       : row[2],
-        'user_type'         : row[3]
+        'user_type'         : row[3],
+        'id'                : row[4]
       }
       users.append(user)
 
@@ -82,3 +83,41 @@ def upsert_user(user):
         )
   db_execute(sql)
   return list_users('email',user['email'])[0]
+
+def bookmark_link(userid,link_id):
+  sql = f"""
+SELECT COUNT(*) FROM user_bookmarks_link
+WHERE
+userid = '{userid}' AND
+link_id = '{link_id}'
+"""
+  count = db_execute(sql)[0][0]
+
+  action = 'fail'
+  if count == 1:
+    sql = f"""
+DELETE FROM user_bookmarks_link
+WHERE
+userid = '{userid}' AND
+link_id = '{link_id}'
+          """
+    action = 'remove'
+  else:
+    sql = f"""
+INSERT INTO user_bookmarks_link (userid, link_id)
+VALUES ('{userid}', '{link_id}')
+          """
+    action = 'add'
+  db_execute(sql)
+
+  return action
+
+def get_user_bookmarks(userid):
+  sql = f"SELECT link_id FROM user_bookmarks_link WHERE userid = '{userid}'"
+  rows = db_execute(sql)
+
+  bookmarks = []
+  for row in rows:
+    bookmarks.append(row[0])
+  
+  return bookmarks
