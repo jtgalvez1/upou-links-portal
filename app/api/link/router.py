@@ -21,8 +21,6 @@ def submit_link():
   form = request.form.to_dict()
   image = request.files.to_dict().get('image', '')
 
-  print(image)
-
   # process image file before adding link
   file_name = ''
   if image != '':
@@ -41,8 +39,6 @@ def submit_link():
     'description' : form.get('description'),
     'image'       : file_name
   }
-
-  print(link)
 
   new_link = upsert_link(link)
 

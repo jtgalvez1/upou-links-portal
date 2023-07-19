@@ -15,16 +15,18 @@
 
           <div class="card">
             <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
-            <div class="content" data-url="{{ link['url'] }}">
+            <div class="content" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}" {
+              fetch('/')
+            }({{ link['id'] }})">
               <h3>{{ link['title'] }}</h3>
               <span><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></span>
-              <p>{{ link.get('description', '') }}</p>
+              <p>{{ link['description'] if link['description'] != 'None' else '' }}</p>
             </div>
             <div class="actions">
-              <a href="http://{{ link['url'] }}" target="_blank">Open</a>
+              <a href="http://{{ link['url'] }}" target="_blank" onclick="visitLinkHandler(link_id)">Open&rarr;</a>
               {% if user['user_type'] == 'admin' %}
                 <button onclick="editBtnHandler({{ link }})">Edit</button>
-                <button onclick="deleteLinkBtnHandler(ev)" class="delete" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}"><svg fill="#cdcdcd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="delete-alt" class="icon glyph" stroke="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"></path><path d="M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2ZM11,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Z"></path></g></svg></button>
+                <button class="delete" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}"><svg fill="#cdcdcd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="delete-alt" class="icon glyph" stroke="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"></path><path d="M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2ZM11,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Z"></path></g></svg></button>
               {% endif %}
             </div>
             {% if user %}
@@ -91,6 +93,8 @@
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
   <form action="/api/v1/link" method="POST" class="modal" id="add-link-form">
+    <input type="text" id="link_id" hidden>
+
     <div class="form-header">
       <h1>Add Link</h1>
       <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
@@ -213,7 +217,9 @@
       }
     })
     formData.append('privacy', privacy_list)
-
+    
+    fetch('/api/v1/user/' + {{ user['id'] }} + '/edit/link/' + document.querySelector('#link_id').value)
+    
     fetch('/api/v1/link', {
       method: 'POST',
       body: formData
@@ -226,6 +232,7 @@
 
   function editBtnHandler(link) {
     document.querySelector('#add-link-form').reset();
+    document.querySelector('#link_id').value = link['id']
     document.querySelector('#url').value = link['url'];
     document.querySelector('#title').value = link['title'];
     document.querySelector('#description').value = link['description'];
@@ -240,8 +247,34 @@
     document.querySelector('#add.modal.container').style.display = 'flex';
   }
 
+  document.querySelectorAll('.delete').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      console.log(ev.currentTarget)
+      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`))
+        fetch('/api/v1/user/' + {{ user['id'] }} + '/remove/link/' + ev.currentTarget.getAttribute('data-link-id'))
+        fetch('/api/v1/link/' + ev.currentTarget.getAttribute('data-link-id'),
+        { method: 'DELETE' })
+          .then( res => res.json())
+          .then( data => {
+            window.location.reload()
+          })
+          .catch( err => console.error(err))
+    })
+  })
+
   {% endif %}
 
+  {% if user %}
+
+  function visitLinkHandler(link_id) {
+    fetch('/api/v1/user/' + {{ user['id'] }} + '/visit/link/' + link_id)
+      .then( res => res.json())
+      .then( data => {
+        console.log(data)
+      })
+      .catch( err => console.error(err))
+  }
+  
   document.getElementById("search-form").addEventListener("submit", ev=>{
     ev.preventDefault();
     window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
@@ -252,7 +285,7 @@
     elem.addEventListener('click', ev => {
       ev.preventDefault();
 
-      fetch('/api/v1/user/' + {{ user['id'] }} + '/bookmark/' + ev.currentTarget.getAttribute('data-link-id'),
+      fetch('/api/v1/user/' + {{ user['id'] }} + '/bookmark/link/' + ev.currentTarget.getAttribute('data-link-id'),
       { method: 'PUT' })
         .then( res => res.json())
         .then( data => {
@@ -265,19 +298,12 @@
         .catch( err => console.error(err))
     })
   })
+  
+  {% endif %}
 
-  document.querySelectorAll('.delete').forEach( elem => {
-    elem.addEventListener('click', ev => {
-      console.log(ev.currentTarget)
-      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`))
-        fetch('/api/v1/link/' + ev.currentTarget.getAttribute('data-link-id'),
-        { method: 'DELETE' })
-          .then( res => res.json())
-          .then( data => {
-            window.location.reload()
-          })
-          .catch( err => console.error(err))
-    })
+  document.getElementById("search-form").addEventListener("submit", ev=>{
+    ev.preventDefault();
+    window.location.replace("/search?priv=".concat("{{user['user_type']}}","&term=",document.getElementById("search-terms").value))
   })
 
   document.querySelectorAll('.card .content').forEach( elem => {
@@ -285,6 +311,9 @@
     elem.addEventListener('click', ev => {
       ev.preventDefault();
       window.open('http://' + ev.currentTarget.getAttribute('data-url'), '_blank');
+      {% if user %}
+      fetch('/api/v1/user/' + {{ user['id'] }} + '/visit/link/' + ev.currentTarget.getAttribute('data-link-id'))
+      {% endif %}
     })
   })
 </script>

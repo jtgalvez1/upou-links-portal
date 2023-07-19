@@ -51,11 +51,21 @@ def check_user():
 def index_page():
     categories_links = {}
     bookmark_links = []
+    recents_links = []
+    trending_links = list_trending_links(session.get('user', {'user_type':'guest'})['user_type'])
     if session and session.get('user'):
         bookmark_links = list_bookmark_links(session['user']['id'])
+        recents_links = list_recently_visited_links(session['user']['id'])
     
     if len(bookmark_links) > 0:
-        categories_links['Bookmarked'] = bookmark_links
+        categories_links['Bookmarks'] = bookmark_links
+    
+    if len(recents_links) > 0:
+        categories_links['Recently Visited'] = recents_links
+
+    if len(trending_links) > 0:
+        categories_links['Trending'] = trending_links
+
 
     categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     for category in categories:
