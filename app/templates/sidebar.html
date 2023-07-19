@@ -6,7 +6,9 @@
     <div class="sidebar" id="profile">
     {% if user %}
         <h3>Hello, {{ user['name'] }}!</h3>
-        <a href="#Bookmarks">Bookmarks</a>
+        {% if categories_links['Bookmarks'] %}
+            <a href="#Bookmarks">Bookmarks</a>
+        {% endif %}
         {% if categories_links['Recently Visited'] %}
             <a href="#Recently Visited">Recently Visited</a>
         {% endif %}

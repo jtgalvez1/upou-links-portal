@@ -56,7 +56,7 @@
   #sidebar {
     width: 100%;
     height: fit-content;
-    padding-top: 8em;
+    /* padding-top: 8em; */
     /* grid-area: "sidebar"; */
     grid-column: 1;
     left: 0;
