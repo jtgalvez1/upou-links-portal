@@ -6,13 +6,6 @@
   --font-color: #cdcdcd;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg-color: #cdcdcd;
-    --font-color: #333;
-  }
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
@@ -113,9 +106,6 @@ table.links td.actions {
 .card-container {
   display: grid;
   grid-template-columns: 1fr;
-  /* display: flex;
-  flex-flow: row wrap;
-  flex-basis: 0 0 300px; */
   gap: 2em;
 }
 
@@ -135,7 +125,11 @@ table.links td.actions {
 
 .card > img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3 !important;
+}
+
+.card > img[src$='.png'] {
+  padding: 3em;
 }
 
 .card .content {
@@ -185,7 +179,7 @@ table.links td.actions {
 }
 
 .card .actions > button.delete {
-  background-color: #ff0000;
+  background-color: #aa0000;
 }
 
 /* .card .actions .bookmark {
@@ -247,12 +241,34 @@ table.links td.actions {
 
   .card:hover {
     scale: 1.1;
-    box-shadow: 0 0 100px rgb(192,64,128);
+    /* box-shadow: 0 0 100px rgb(192,64,128); */
+    box-shadow: 0 0 100px #777;
   }
   
   table.links {
     display: table;
     background-color: var(--font-color);
     color: var(--bg-color);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #cdcdcd;
+    --font-color: #333;
+  }
+
+  .card {
+    background-color: #2c2c2c;
+    color: #cdcdcd;
+  }
+
+  .card .content a {
+    color: skyblue;
+    text-decoration: none;
+  }
+
+  .card .content a:visited {
+    color: #aa7799;
   }
 }

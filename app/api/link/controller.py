@@ -28,7 +28,7 @@ def get_count(sql):
   return count
 
 def list_links(privacy='guest',category=None,column=None,value=None):
-  sql = "SELECT url, title, description, id FROM link a"
+  sql = "SELECT url, title, description, id, image FROM link a"
   if category is not None and category.get('id') is not None:
     sql = sql + """
                 JOIN link_cateogry d
@@ -70,7 +70,8 @@ def list_links(privacy='guest',category=None,column=None,value=None):
         'url'         : row[0],
         'title'       : row[1],
         'description' : row[2] or 'None',
-        'id'          : row[3]
+        'id'          : row[3],
+        'image'       : row[4] or 'None',
       }
       links.append(link)
 
@@ -276,3 +277,26 @@ def remove_link_from_db(link_id):
   db_execute(sql)
 
   return
+
+def list_bookmark_links(userid):
+  sql = f"""
+SELECT id, url, title, description, image
+FROM link a
+JOIN user_bookmarks_link b
+ON a.id = b.link_id
+WHERE
+b.userid = '{userid}'
+"""
+  rows = db_execute(sql)
+
+  links = []
+  for row in rows:
+    links.append({
+      'id'          : row[0],
+      'url'         : row[1],
+      'title'       : row[2],
+      'description' : row[3] or 'None',
+      'image'       : row[4] or 'None',
+    })
+
+  return links
