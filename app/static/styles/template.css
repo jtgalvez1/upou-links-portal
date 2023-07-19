@@ -93,6 +93,7 @@ table.links th {
   height: 3em;
   padding: .5em;
   border: 1px solid var(--bg-color);
+  width: 33%;
 }
 
 table.links a.title {
@@ -254,5 +255,6 @@ table.links td.actions {
     display: table;
     background-color: var(--font-color);
     color: var(--bg-color);
+    width: 80%;
   }
 }
