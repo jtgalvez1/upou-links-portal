@@ -62,28 +62,50 @@ def index_page():
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
+# @app.route('/search', methods=['GET'])
+# def search_page():
+#     privacy = request.args.get('priv', 'open')
+#     term = request.args.get('term', 'asia')
+#     links = list_links(privacy)
+
+#     print(links)
+
+#     result = []
+
+#     for link in links:
+#         if term in link['url'] or term in link['title'] or term in link['description']:
+#             result.append(link)
+
+#     # print("DITO RESULTS")
+#     # print(result)
+
+#     res = make_response(render_template('search.html', categories_links={},user=session.get('user', None), privacy_settings = list_user_types(), links=result))
+#     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
+#     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+#     return res
+
 @app.route('/search', methods=['GET'])
 def search_page():
-    privacy = request.args.get('priv', 'open')
     term = request.args.get('term', 'asia')
-    links = list_links(privacy)
 
-    print(links)
+    categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
+    categories_links = {}
 
-    result = []
+    for category in categories:
+        result = []
+        category_links = links_by_category(category, session.get('user', {'user_type': 'guest'})['user_type'])
 
-    for link in links:
-        if term in link['url'] or term in link['title'] or term in link['description']:
-            result.append(link)
+        for link in category_links:
+            if term in link['url'] or term in link['title'] or term in link['description']:
+                result.append(link)
 
-    print("DITO RESULTS")
-    print(result)
+        if len(category_links) > 0:
+            categories_links[category['name']] = result
 
-    res = make_response(render_template('search.html', categories_links={},user=session.get('user', None), privacy_settings = list_user_types(), links=result))
+    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = list_all_categories(), privacy_settings = list_user_types()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
-
 
 # admin routes
 @app.route('/admin', methods=['GET'])
