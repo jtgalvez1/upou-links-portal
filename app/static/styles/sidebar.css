@@ -47,10 +47,11 @@
 @media only screen and (min-width: 768px) {
 
   #sidebar {
-    width: 60%;
+    width: 100%;
     height: fit-content;
     padding-top: 8em;
-    grid-area: "sidebar";
+    /* grid-area: "sidebar"; */
+    grid-column: 1;
     left: 0;
     z-index: 0;
     background-color: rgba(0,0,0,0%);

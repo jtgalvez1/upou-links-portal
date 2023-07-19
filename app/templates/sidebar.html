@@ -35,6 +35,9 @@
     <hr>
     <div class="settings sidebar">
     {% if user %}
+        {% if user['user_type'] == 'admin' %}
+            <a href="/admin">Admin Page</a>
+        {% endif %}
         <a href="/logout">Logout</a>
     {% endif %}
     </div>

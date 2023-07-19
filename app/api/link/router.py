@@ -7,7 +7,7 @@ from .controller import *
 
 @link.route('/', methods=['GET'])
 def get_links():
-  privacy = request.args.get('priv', 'open')
+  privacy = request.args.get('priv', 'guest')
   links = list_links(privacy)
 
   return jsonify({
@@ -57,7 +57,7 @@ def get_links_w_filter(column,value):
   try:
     privacy = request.args.get('priv')
   except:
-    privacy = 'open'
+    privacy = 'guest'
   links = list_links(privacy,column,value)
 
   return jsonify({
@@ -71,7 +71,7 @@ def get_categories():
   try:
     privacy = request.args.get('priv')
   except:
-    privacy = 'open'
+    privacy = 'guest'
 
   categories = list_categories(privacy)
 
@@ -79,3 +79,12 @@ def get_categories():
     'status'      : 200,
     'categories'  : categories
   })
+
+@link.route('/<link_id>', methods=['DELETE'])
+def delete_link(link_id):
+    remove_link_from_db(link_id)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Successfully deleted link.'
+    })

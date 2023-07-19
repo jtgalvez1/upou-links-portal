@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS user_type (
   created_at  datetime DEFAULT current_timestamp     
 );
 
-INSERT INTO user_type (name) VALUES ('open'),('student'),('employee'),('admin');
+INSERT INTO user_type (name) VALUES ('guest'),('student'),('employee'),('admin');
 
-DROP TABLE IF EXISTS user;
+-- DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email       TEXT NOT NULL UNIQUE,
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS link (
   FOREIGN KEY (added_by) REFERENCES user(id)
 );
 
-DROP TABLE IF EXISTS user_type_can_view_link;
-CREATE TABLE IF NOT EXISTS user_type_can_view_link (
+DROP TABLE IF EXISTS privacy_settings;
+CREATE TABLE IF NOT EXISTS privacy_settings (
   user_type_id    INTEGER,
   link_id         INTEGER,
   created_at      datetime DEFAULT current_timestamp,
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS user_type_can_view_link (
   UNIQUE (user_type_id, link_id)
 );
 
-DROP TABLE IF EXISTS link_has_category;
-DROP TABLE IF EXISTS link_has_category;
-CREATE TABLE IF NOT EXISTS link_has_category (
+DROP TABLE IF EXISTS link_has_cateogry;
+DROP TABLE IF EXISTS link_cateogry;
+CREATE TABLE IF NOT EXISTS link_cateogry (
   link_id         INTEGER,
   category_id     INTEGER,
   created_at      datetime DEFAULT current_timestamp,
