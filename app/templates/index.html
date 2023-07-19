@@ -274,6 +274,11 @@
       })
       .catch( err => console.error(err))
   }
+  
+  document.getElementById("search-form").addEventListener("submit", ev=>{
+    ev.preventDefault();
+    window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
+  })
 
 
   document.querySelectorAll('.bookmark').forEach( elem => {
