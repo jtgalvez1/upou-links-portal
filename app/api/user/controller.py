@@ -72,9 +72,13 @@ def upsert_user(user):
   if user['email'].endswith('@upou.edu.ph'):
     user_type = 3
   sql = """
-          REPLACE INTO
-          user (email,given_name,family_name,user_type)
-          VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+INSERT INTO user (email,given_name,family_name,user_type)
+VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+ON CONFLICT (email) DO UPDATE SET
+given_name = excluded.given_name,
+family_name = excluded.family_name,
+user_type = excluded.user_type
+WHERE email = '{email}'
         """.format(
           email = user['email'],
           given_name = user['given_name'],
