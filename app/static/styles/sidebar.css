@@ -27,7 +27,8 @@
   overflow-y: scroll;
 }
 
-#category-links.sidebar {
+#category-links.sidebar,
+.settings.sidebar {
   display: grid;
   grid-template-columns: 1fr;
   gap: .2em;
@@ -41,6 +42,10 @@
   all: unset;
   cursor: pointer;
   color: #cdcdcd;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
 }
 
 
