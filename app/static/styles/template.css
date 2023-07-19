@@ -6,13 +6,6 @@
   --font-color: #cdcdcd;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg-color: #cdcdcd;
-    --font-color: #333;
-  }
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
@@ -113,9 +106,6 @@ table.links td.actions {
 .card-container {
   display: grid;
   grid-template-columns: 1fr;
-  /* display: flex;
-  flex-flow: row wrap;
-  flex-basis: 0 0 300px; */
   gap: 2em;
 }
 
@@ -254,5 +244,26 @@ table.links td.actions {
     display: table;
     background-color: var(--font-color);
     color: var(--bg-color);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #cdcdcd;
+    --font-color: #333;
+  }
+
+  .card {
+    background-color: #2c2c2c;
+    color: #cdcdcd;
+  }
+
+  .card .content a {
+    color: skyblue;
+    text-decoration: none;
+  }
+
+  .card .content a:visited {
+    color: #aa7799;
   }
 }

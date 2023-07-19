@@ -17,7 +17,7 @@
             <img src="{{ url_for('static',filename='images/' + link['image'])}}" alt="">
             <div class="content">
               <h3>{{ link['title'] }}</h3>
-              <span>{{ link['url'] }}</span>
+              <span><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></span>
               <p>{{ link.get('description', '') }}</p>
             </div>
             <div class="actions">
