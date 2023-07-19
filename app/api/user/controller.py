@@ -123,8 +123,17 @@ def get_user_bookmarks(userid):
   bookmarks = []
   for row in rows:
     bookmarks.append(row[0])
-  
+
+
   return bookmarks
+
+def add_user_type(usertypename):
+
+  sql = f"INSERT INTO user_type (name) VALUES ('{usertypename}')"
+
+  result = db_execute(sql)
+  print(result)
+  return result
 
 def log_activity(userid, action, link_id):
   ACTIONS = [
