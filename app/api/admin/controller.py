@@ -51,7 +51,7 @@ def change_user_type(email, user_type):
     return result
 
 def retrieve_user_types():
-    sql = "SELECT * from user_types"
+    sql = "SELECT * from user_type"
     result = db_execute(sql)
     return result
 

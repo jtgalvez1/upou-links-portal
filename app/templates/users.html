@@ -7,7 +7,7 @@
     let user
     </script>
     
-    <div class="links-container">
+    {# <div class="links-container">
     <h3>Users</h3>
     <table class="links">
         <thead>
@@ -55,8 +55,23 @@
             {%endfor%}
         </tbody>
     </table>
+    </div> #}
+    <div class="links-container">
+    {% for type in usertypes %}
+    <section>
+        <h1>{{type.title()}}</h1>
+        <table class="links">
+            <thead>
+                <th>Email</th>
+                <th>Name</th>
+                <th>User Type</th>
+            </thead>
+            <tr>
+            </tr>
+        </table>
+    </section>
+    {%endfor%}
     </div>
-
 {% endblock %}
     
 {% block script %}
