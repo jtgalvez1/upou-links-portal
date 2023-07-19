@@ -28,7 +28,7 @@ def get_count(sql):
   return count
 
 def list_links(privacy='guest',category=None,column=None,value=None):
-  sql = "SELECT url, title, description, id FROM link a"
+  sql = "SELECT url, title, description, id, image FROM link a"
   if category is not None and category.get('id') is not None:
     sql = sql + """
                 JOIN link_cateogry d
@@ -70,7 +70,8 @@ def list_links(privacy='guest',category=None,column=None,value=None):
         'url'         : row[0],
         'title'       : row[1],
         'description' : row[2] or 'None',
-        'id'          : row[3]
+        'id'          : row[3],
+        'image'       : row[4] or 'None',
       }
       links.append(link)
 
@@ -101,7 +102,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
 
 def upsert_link(link):
   sql = f"""
-REPLACE INTO link (url, title, description, image)
+INSERT INTO link (url, title, description, image)
 VALUES 
 ('{link['url']}',
 CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
@@ -110,8 +111,15 @@ CASE WHEN '{link['description']}' <> '' THEN '{link['description']}'
 ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
 CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
 ELSE (SELECT image FROM link WHERE url = '{link['url']}') END)
+ON CONFLICT (url) DO UPDATE SET
+title = CASE WHEN '{link['title']}' <> '' THEN '{link['title']}' 
+ELSE (SELECT title FROM link WHERE url = '{link['url']}') END,
+description = CASE WHEN '{link['description']}' <> '' THEN '{link['description']}' 
+ELSE (SELECT description FROM link WHERE url = '{link['url']}') END,
+image = CASE WHEN '{link['image']}' <> '' THEN '{link['image']}' 
+ELSE (SELECT image FROM link WHERE url = '{link['url']}') END
+WHERE url = '{link['url']}'
 """
-  print(sql)
   db_execute(sql)
   update_link_privacy(link['privacy'], link['url'])
   categories = []
@@ -276,3 +284,158 @@ def remove_link_from_db(link_id):
   db_execute(sql)
 
   return
+
+def list_bookmark_links(userid):
+  sql = f"""
+SELECT link.id, link.url, link.title, link.description, link.image
+FROM link
+INNER JOIN user_bookmarks_link ON link.id = user_bookmarks_link.link_id
+INNER JOIN user ON user_bookmarks_link.userid = user.id
+INNER JOIN privacy_settings ON user.user_type = privacy_settings.user_type_id AND link.id = privacy_settings.link_id
+WHERE user.id = '{userid}';
+"""
+  rows = db_execute(sql)
+
+  links = []
+  for row in rows:
+    links.append({
+      'id'          : row[0],
+      'url'         : row[1],
+      'title'       : row[2],
+      'description' : row[3] or 'None',
+      'image'       : row[4] or 'None',
+    })
+
+    for link in links:
+      sql = "SELECT a.id, a.name FROM user_type a JOIN privacy_settings b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      rows = db_execute(sql)
+
+      link['privacy'] = []
+      for row in rows:
+        link['privacy'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      rows = db_execute(sql)
+
+      link['category'] = []
+      for row in rows:
+        link['category'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+  return links
+
+def list_recently_visited_links(userid):
+  sql = f"""
+SELECT id, url, title, description, image
+FROM link a
+WHERE a.id IN (
+  SELECT link_id 
+  FROM logs b
+  WHERE userid = '{userid}'
+  AND description = 'VISIT'
+  ORDER BY b.created_at
+  DESC LIMIT 6
+) AND a.id IN (
+  SELECT c.link_id
+  FROM privacy_settings c
+  JOIN user d
+  ON c.user_type_id = d.user_type
+  WHERE d.id = '{userid}'
+)
+        """
+  rows = db_execute(sql)
+
+  links = []
+  if rows and len(rows) > 0:
+    for row in rows:
+      links.append({
+        'id'          : row[0],
+        'url'         : row[1],
+        'title'       : row[2],
+        'description' : row[3] or 'None',
+        'image'       : row[4] or 'None',
+      })
+
+    for link in links:
+      sql = "SELECT a.id, a.name FROM user_type a JOIN privacy_settings b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      rows = db_execute(sql)
+
+      link['privacy'] = []
+      for row in rows:
+        link['privacy'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      rows = db_execute(sql)
+
+      link['category'] = []
+      for row in rows:
+        link['category'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+  return links
+
+def list_trending_links(privacy):
+  sql = f"""
+SELECT id, url, title, description, image
+FROM link a
+WHERE a.id IN (
+  SELECT link_id 
+  FROM logs b
+  WHERE description = 'VISIT'
+  ORDER BY b.created_at
+  DESC LIMIT 6
+) AND a.id IN (
+  SELECT link_id
+  FROM privacy_settings c
+  JOIN user_type d
+  ON c.user_type_id = d.id
+  WHERE d.name = '{privacy}'
+)
+        """
+  rows = db_execute(sql)
+
+  links = []
+  if rows and len(rows) > 0:
+    for row in rows:
+      links.append({
+        'id'          : row[0],
+        'url'         : row[1],
+        'title'       : row[2],
+        'description' : row[3] or 'None',
+        'image'       : row[4] or 'None',
+      })
+
+    for link in links:
+      sql = "SELECT a.id, a.name FROM user_type a JOIN privacy_settings b ON a.id = b.user_type_id WHERE b.link_id = '{}'".format(link['id'])
+      rows = db_execute(sql)
+
+      link['privacy'] = []
+      for row in rows:
+        link['privacy'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      rows = db_execute(sql)
+
+      link['category'] = []
+      for row in rows:
+        link['category'].append({
+          'id'      : row[0],
+          'name'    : row[1]
+        })
+
+  return links
+
+

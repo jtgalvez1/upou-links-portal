@@ -49,9 +49,13 @@ def sigin():
        'user'       : user
     })
 
-@user.route('/<userid>/bookmark/<link_id>', methods=['PUT'])
+@user.route('/<userid>/bookmark/link/<link_id>', methods=['PUT'])
 def bookmark(userid, link_id):
    action = bookmark_link(userid, link_id)
+   try:
+      log_activity(userid, 'BOOKMARK', link_id)
+   except ValueError as ve:
+      print(ve)
    return jsonify({
       'status'      : 200,
       'message'     : 'Successfully updated bookmark',
@@ -68,3 +72,23 @@ def addType():
       'message'     : 'Successfully updated bookmark',
       'action'      : action
    })
+
+@user.route('/<userid>/visit/link/<link_id>', methods=['GET'])
+def visit(userid, link_id):
+   log_activity(userid, 'VISIT', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/add/link/<link_id>', methods=['GET'])
+def add(userid, link_id):
+   log_activity(userid, 'ADD', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/edit/link/<link_id>', methods=['GET'])
+def edit(userid, link_id):
+   log_activity(userid, 'EDIT', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/remove/link/<link_id>', methods=['GET'])
+def remove(userid, link_id):
+   log_activity(userid, 'REMOVE', link_id)
+   return jsonify({ 'status' : 200 })

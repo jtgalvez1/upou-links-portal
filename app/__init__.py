@@ -49,15 +49,39 @@ def check_user():
 # pages routes
 @app.route('/', methods=['GET'])
 def index_page():
-    categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     categories_links = {}
+    bookmark_links = []
+    recents_links = []
+    trending_links = list_trending_links(session.get('user', {'user_type':'guest'})['user_type'])
+    if session and session.get('user'):
+        bookmark_links = list_bookmark_links(session['user']['id'])
+        recents_links = list_recently_visited_links(session['user']['id'])
+    
+    if len(bookmark_links) > 0:
+        categories_links['Bookmarks'] = bookmark_links
+    
+    if len(recents_links) > 0:
+        categories_links['Recently Visited'] = recents_links
+
+    if len(trending_links) > 0:
+        categories_links['Trending'] = trending_links
+
+
+    categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     for category in categories:
         category_links = links_by_category(category, session.get('user', {'user_type': 'guest'})['user_type'])
 
         if len(category_links) > 0:
             categories_links[category['name']] = category_links
 
-    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = list_all_categories(), privacy_settings = list_user_types()))
+    res = make_response(
+            render_template(
+                'index.html',
+                categories_links = categories_links,
+                user=session.get('user', None), 
+                category_list = list_all_categories(), 
+                privacy_settings = list_user_types()
+        ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res

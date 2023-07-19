@@ -12,12 +12,13 @@
 
   transition: left .5s;
 
-  color: #cdcdcd;
+  color: var(--font-color);
   font-size: 1.2em;
 }
 
 #sidebar hr {
   margin: 0 1em;
+  border-color: var(--font-color);
 }
 
 .sidebar {
@@ -27,6 +28,7 @@
   overflow-y: scroll;
 }
 
+#profile.sidebar,
 #category-links.sidebar,
 .settings.sidebar {
   display: grid;
@@ -41,7 +43,7 @@
 .sidebar a {
   all: unset;
   cursor: pointer;
-  color: #cdcdcd;
+  color: var(--font-color);
 }
 
 .sidebar a:hover {

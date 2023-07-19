@@ -72,9 +72,13 @@ def upsert_user(user):
   if user['email'].endswith('@upou.edu.ph'):
     user_type = 3
   sql = """
-          REPLACE INTO
-          user (email,given_name,family_name,user_type)
-          VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+INSERT INTO user (email,given_name,family_name,user_type)
+VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+ON CONFLICT (email) DO UPDATE SET
+given_name = excluded.given_name,
+family_name = excluded.family_name,
+user_type = excluded.user_type
+WHERE email = '{email}'
         """.format(
           email = user['email'],
           given_name = user['given_name'],
@@ -120,6 +124,7 @@ def get_user_bookmarks(userid):
   for row in rows:
     bookmarks.append(row[0])
 
+
   return bookmarks
 
 def add_user_type(usertypename):
@@ -129,3 +134,21 @@ def add_user_type(usertypename):
   result = db_execute(sql)
   print(result)
   return result
+
+def log_activity(userid, action, link_id):
+  ACTIONS = [
+    'ADD',
+    'EDIT',
+    'REMOVE',
+    'VISIT',
+    'BOOKMARK',
+  ]
+
+  if action not in ACTIONS:
+    # raise ValueError('action must be one of the following: "ADD", "EDIT", "REMOVE", "VISIT", "BOOKMARK"')
+    return
+
+  sql = f"INSERT INTO logs (userid, description, link_id) VALUES ('{userid}','{action}','{link_id}')"
+  db_execute(sql)
+
+  return
