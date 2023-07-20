@@ -14,24 +14,24 @@ def get_users():
       'users'         : users,
    })
 
-@user.route('/user_types', methods=['GET'])
-def get_user_types():
-  user_types = list_user_types()
+# @user.route('/user_types', methods=['GET'])
+# def get_user_types():
+#   user_types = list_user_types()
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved user types.',
-    'user_types'  : user_types
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved user types.',
+#     'user_types'  : user_types
+#   })
 
-@user.route('/<email>', methods=['GET'])
-def get_user_by_email(email):
-  user = list_users('email', email)[0]
+# @user.route('/<email>', methods=['GET'])
+# def get_user_by_email(email):
+#   user = list_users('email', email)[0]
 
-  return jsonify({
-    'status'    : 200,
-    'user'      : user
-  })
+#   return jsonify({
+#     'status'    : 200,
+#     'user'      : user
+#   })
 
 @user.route('/signin', methods=['POST'])
 def sigin():

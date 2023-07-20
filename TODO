@@ -6,12 +6,12 @@
 [x] Delete Link
 [x] Logs
 
-[] Search
+[x] Search
 [] Announcements
 [] Contact Us ( email techsupport@upou.edu.ph )
 [] Dark / Light Mode Toggle
-[] Click History
-[] Trending
+[x] Click History
+[x] Trending
 
 <!-- FIX: Enter doesn't submit form modal -->
 

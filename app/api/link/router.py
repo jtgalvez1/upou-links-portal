@@ -5,16 +5,16 @@ link = Blueprint(name='link', import_name=__name__)
 
 from .controller import *
 
-@link.route('/', methods=['GET'])
-def get_links():
-  privacy = request.args.get('priv', 'guest')
-  links = list_links(privacy)
+# @link.route('/', methods=['GET'])
+# def get_links():
+#   privacy = request.args.get('priv', 'guest')
+#   links = list_links(privacy)
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved links',
-    'links'       : links
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved links',
+#     'links'       : links
+#   })
 
 @link.route('/', methods=['POST'])
 def submit_link():
@@ -48,33 +48,33 @@ def submit_link():
     'link'        : new_link
   })
 
-@link.route('/<column>/<value>', methods=['GET'])
-def get_links_w_filter(column,value):
-  try:
-    privacy = request.args.get('priv')
-  except:
-    privacy = 'guest'
-  links = list_links(privacy,column,value)
+# @link.route('/<column>/<value>', methods=['GET'])
+# def get_links_w_filter(column,value):
+#   try:
+#     privacy = request.args.get('priv')
+#   except:
+#     privacy = 'guest'
+#   links = list_links(privacy,column,value)
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved links',
-    'links'       : links
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved links',
+#     'links'       : links
+#   })
 
-@link.route('/categories', methods=['GET'])
-def get_categories():
-  try:
-    privacy = request.args.get('priv')
-  except:
-    privacy = 'guest'
+# @link.route('/categories', methods=['GET'])
+# def get_categories():
+#   try:
+#     privacy = request.args.get('priv')
+#   except:
+#     privacy = 'guest'
 
-  categories = list_categories(privacy)
+#   categories = list_categories(privacy)
 
-  return jsonify({
-    'status'      : 200,
-    'categories'  : categories
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'categories'  : categories
+#   })
 
 @link.route('/<link_id>', methods=['DELETE'])
 def delete_link(link_id):
