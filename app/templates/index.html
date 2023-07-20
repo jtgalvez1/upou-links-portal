@@ -14,14 +14,17 @@
         {% for link in links %}
 
           <div class="card">
-            <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
-            <div class="content" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}" {
-              fetch('/')
-            }({{ link['id'] }})">
+            {% if category != 'Bookmarks' %}
+              <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+            {% endif %}
+            <div class="content" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}">
               <h3>{{ link['title'] }}</h3>
               <span><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></span>
-              <p>{{ link['description'] if link['description'] != 'None' else '' }}</p>
+              {% if category != 'Bookmarks' %}
+                <p>{{ link['description'] if link['description'] != 'None' else '' }}</p>
+              {% endif %}
             </div>
+            {% if category != 'Bookmarks' %}
             <div class="actions">
               <a href="http://{{ link['url'] }}" target="_blank" onclick="visitLinkHandler(link_id)">Open&rarr;</a>
               {% if user['user_type'] == 'admin' %}
@@ -29,6 +32,7 @@
                 <button class="delete" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}"><svg fill="#cdcdcd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="delete-alt" class="icon glyph" stroke="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"></path><path d="M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2ZM11,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Z"></path></g></svg></button>
               {% endif %}
             </div>
+            {% endif %}
             {% if user %}
               <button class="bookmark" data-link-id="{{ link['id'] }}">
                 {% if link['id'] in user['bookmarks'] %}

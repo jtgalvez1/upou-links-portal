@@ -135,11 +135,12 @@ table.links td.actions {
 
 .card .content {
   padding: 1em;
-  height: 15em;
+  /* height: 15em; */
 }
 
 .card .content > h3 {
   font-size: 1.2em;
+  margin: 0;
 }
 
 .card .actions {
