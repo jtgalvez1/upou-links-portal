@@ -5,12 +5,7 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src": "/static/images/android-launchericon-96-96.png",
-            "type": "image/png",
-            "sizes": "96x96"
-        },
-        {
-            "src": "/static/images/android-launchericon-144-144.png",
+            "src": "/static/images/logo.png",
             "type": "image/png",
             "sizes": "144x144"
         }
