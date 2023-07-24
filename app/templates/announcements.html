@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="modal container" id="add">
+        <form action="/api/v1/user/addType" method="POST" class="modal" id="add-type-form">
+            <div class="form-header">
+            <h1>Add Announcement</h1>
+            <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+            </div>
+
+            <div class="input-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter Name" required>
+            </div>
+
+            <div class="input-field">
+            <label for="desc">Description</label>
+            <input type="textfield" id="desc" name="desc" placeholder="Enter Description" required>
+            </div>
+
+            <div class="input-field">
+            <label for="enddate">Date</label>
+            <input type="datetime-local" id="enddate" name="enddate" required>
+            </div>
+
+            <div class="input-field">
+            <label for="image">Image:</label>
+            <input type="file" name="image" id="image" accept="image/*">
+            </div>
+
+            <div class="input-field">
+            <input type="submit" value="Submit" >
+            </div>
+        </form>
+    </div>
+<button id="open-modal-btn"><svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-362.000000, -1037.000000)" fill="#cdcdcd"> <path d="M390,1049 L382,1049 L382,1041 C382,1038.79 380.209,1037 378,1037 C375.791,1037 374,1038.79 374,1041 L374,1049 L366,1049 C363.791,1049 362,1050.79 362,1053 C362,1055.21 363.791,1057 366,1057 L374,1057 L374,1065 C374,1067.21 375.791,1069 378,1069 C380.209,1069 382,1067.21 382,1065 L382,1057 L390,1057 C392.209,1057 394,1055.21 394,1053 C394,1050.79 392.209,1049 390,1049" id="plus" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+
+{% endblock %}
+    
+{% block script %}
+
+<script>
+        document.querySelector('#open-modal-btn').addEventListener('click', ev => {
+            ev.preventDefault();
+            document.querySelector('#add.modal.container').style.display = 'flex';
+            document.querySelector('#add-type-form').reset();
+        });
+
+        document.querySelector('#close-modal-btn').addEventListener('click', ev => {
+            ev.preventDefault();
+            document.querySelector('#add.modal.container').style.display = 'none';
+            document.querySelector('#add-type-form').reset();
+        });
+
+        document.querySelector('#add-type-form').addEventListener('submit', ev => {
+            ev.preventDefault(); 
+            let data = new FormData();
+            data.append("name", document.getElementById("name").value)
+            data.append("desc", document.getElementById("desc").value)
+            data.append("enddate", document.getElementById("enddate").value)
+            data.append('image', document.querySelector('#image').files[0])
+        
+            fetch('/api/v1/announcements/addAnnouncement', {
+                method: 'POST',
+                body: data
+                })
+            .then( res => res.json())
+            .then( data => window.location.reload())
+            .catch( err => console.error(err))
+        })
+    </script>
+
+{% endblock %}

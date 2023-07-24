@@ -23,7 +23,7 @@ def db_execute(sql):
     conn.close()
 
 def add_announcement(announcement):
-    sql = f"INSERT into announcements (name, description, image) VALUES ({announcement["name"]}, {announcement["description"]}, {announcement["image"]})"
+    sql = f"INSERT into announcements (name, description, image, ends_at) VALUES ('{announcement['name']}', '{announcement['description']}', '{announcement['image']}','{announcement['datetime']}')"
     result = db_execute(sql)
     return result
 
