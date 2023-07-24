@@ -31,18 +31,31 @@ header * {
   transform: translateX(-50%)
 }
 
+#menu-btn,
 .logout-btn {
+  outline: 5px solid orange;
+  all: unset;
+  cursor:pointer;
   position: absolute;
-  z-index: 11;
   top: 0;
-  right: 0;
   height: 5em;
   padding: 1.5em;
 }
 
+#menu-btn {
+  top: -1.5em;
+  left: 0;
+}
+
+.logout-btn {
+  right: 0;
+}
+
+#menu-btn > svg,
 .logout-btn > svg {
   width: 2em;
   height: 2em;
+  margin-bottom: auto;
 }
 
 .logout-btn > span {
@@ -50,6 +63,8 @@ header * {
 }
 
 @media only screen and (min-width: 768px) {
+  #menu-btn { display: none; }
+
   .google-auth-btn {
     left: unset;
     top: 1em;
