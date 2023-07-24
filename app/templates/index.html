@@ -14,7 +14,7 @@
       <div class="card-container">
         {% for link in links %}
 
-          <div class="card">
+          <div class="card {% if category == 'Bookmarks' %}bookmarked{% endif %}">
             {% if category != 'Bookmarks' %}
               <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
             {% endif %}
