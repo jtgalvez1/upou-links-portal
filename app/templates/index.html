@@ -95,6 +95,11 @@
   </section>
   {% endfor %} #}
 </div>
+
+<div class="modal container" id="announcements">
+  <div class="modal">Test</div>
+</div>
+
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
   <form action="/api/v1/link" method="POST" class="modal" id="add-link-form">
@@ -321,6 +326,8 @@
       {% endif %}
     })
   })
+
+  {# document.getElementById("announcements").style.display = "flex" #}
 </script>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>

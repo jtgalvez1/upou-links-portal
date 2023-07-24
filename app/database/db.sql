@@ -79,3 +79,12 @@ CREATE TABLE IF NOT EXISTS logs (
   FOREIGN KEY (userid) REFERENCES user(id),
   FOREIGN KEY (link_id) REFERENCES link(id)
 );
+
+DROP TABLE IF EXISTS announcements;
+CREATE TABLE IF NOT EXISTS announcements (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  annoucement_id  TEXT NOT NULL,
+  description     TEXT,
+  created_at      datetime DEFAULT current_timestamp,
+  image           TEXT
+);
