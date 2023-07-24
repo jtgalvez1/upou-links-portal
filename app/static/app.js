@@ -56,4 +56,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('showPWA', false);
     })
   }
+
+  let root = document.querySelector(':root');
+  let userTheme = localStorage.getItem('userTheme') || null;
+
+  if (userTheme != null) {
+    if (userTheme === 'dark') {
+      root.style.setProperty('--bg-color', '#2c2c2c')
+      root.style.setProperty('--font-color', '#cdcdcd')
+      root.style.setProperty('--card-bg', '#cdcdcd')
+      root.style.setProperty('--link', 'blue')
+      root.style.setProperty('--visited-link', 'purple')
+    } else if (userTheme === 'light') {
+      root.style.setProperty('--bg-color', '#cdcdcd')
+      root.style.setProperty('--font-color', '#333')
+      root.style.setProperty('--card-bg', '#777')
+      root.style.setProperty('--link', 'skyblue')
+      root.style.setProperty('--visited-link', '#aa7799')
+    }
+  }
+
 })

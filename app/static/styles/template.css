@@ -4,6 +4,9 @@
   --yellow-gold:    hsl(39.4,100%,52.5%);
   --bg-color: #2c2c2c;
   --font-color: #cdcdcd;
+  --card-bg: #cdcdcd;
+  --link: blue;
+  --visited-link: purple;
 }
 
 ::-webkit-scrollbar {
@@ -102,8 +105,8 @@ main section {
 
 
 #pwa.modal {
-  background-color: var(--font-color);
-  color: var(--bg-color);
+  background-color: #cdcdcd;
+  color: #2c2c2c;
   font-weight: 900;
 
   z-index: 9;
@@ -237,8 +240,8 @@ table.links td.actions {
 }
 
 .card {
-  background-color: #cdcdcd;
-  color: #2c2c2c;
+  background-color: var(--card-bg);
+  color: var(--bg-color);
 
   border-radius: .5em;
   border: 1px solid darkgray;
@@ -276,6 +279,15 @@ table.links td.actions {
 
 .card .content > h3 {
   margin: 0;
+}
+
+.card .content a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.card .content a:visited {
+  color: var(--visited-link);
 }
 
 .card .actions {
@@ -410,19 +422,8 @@ table.links td.actions {
   :root {
     --bg-color: #cdcdcd;
     --font-color: #333;
-  }
-
-  .card {
-    background-color: #2c2c2c;
-    color: #cdcdcd;
-  }
-
-  .card .content a {
-    color: skyblue;
-    text-decoration: none;
-  }
-
-  .card .content a:visited {
-    color: #aa7799;
+    --card-bg: #2c2c2c;
+    --visited-link: #aa7799;
+    --link: skyblue;
   }
 }
