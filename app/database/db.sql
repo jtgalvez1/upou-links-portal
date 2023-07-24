@@ -83,8 +83,10 @@ CREATE TABLE IF NOT EXISTS logs (
 DROP TABLE IF EXISTS announcements;
 CREATE TABLE IF NOT EXISTS announcements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  annoucement_id  TEXT NOT NULL,
+  name            TEXT,
   description     TEXT,
   created_at      datetime DEFAULT current_timestamp,
-  image           TEXT
+  ends_at         datetime DEFAULT (datetime('now', '+3 days')),
+  image           TEXT,
+  is_visible      BOOLEAN  DEFAULT TRUE
 );
