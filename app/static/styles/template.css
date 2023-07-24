@@ -64,7 +64,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Avenir';
+  font-family: 'Avenir', 'Heveltica', sans-serif;
   /* outline: 1px solid red; */
 }
 
@@ -98,6 +98,49 @@ main {
 
 main section {
   scroll-margin-top: 7em;
+}
+
+
+#pwa.modal {
+  background-color: var(--font-color);
+  color: var(--bg-color);
+
+  position: absolute;
+  top: 6em;
+  left: 50%;
+  --webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+
+  z-index: 100;
+  padding: 2em 1em 3em;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #2c2c2c inset;
+  font-weight: 900;
+  display: none;
+}
+
+#pwa.modal > svg {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  height: fit-content;
+  cursor: pointer;
+}
+
+#pwa.modal img,
+#pwa.modal > h3 {
+  height: 1.5em;
+  display: inline;
+}
+
+#pwa-btn {
+  position: absolute;
+  bottom: .5em;
+  left: 50%;
+  --webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  font-weight: bold;
+  padding: .5em 1em;
 }
 
 #search-form {
