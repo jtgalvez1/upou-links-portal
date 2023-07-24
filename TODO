@@ -8,10 +8,11 @@
 
 [x] Search
 [] Announcements
-[] Contact Us ( email techsupport@upou.edu.ph )
+[x] Contact Us ( email techsupport@upou.edu.ph )
 [] Dark / Light Mode Toggle
 [x] Click History
 [x] Trending
+[] Documentation
 
 <!-- FIX: Enter doesn't submit form modal -->
 
