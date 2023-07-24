@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, make_response, request
+from flask import Flask, render_template, session, redirect, make_response, request, url_for, send_from_directory
 from flask_session import Session
 
 from google.auth.transport.requests import Request
@@ -173,3 +173,17 @@ def callback():
 def logout():
     session.clear()
     return redirect('/')
+
+
+@app.route('/offline.html', methods=['GET'])
+def offline():
+    return app.send_static_file('offline.html')
+
+
+@app.route('/service-worker.js', methods=['GET'])
+def sw():
+    return app.send_static_file('service-worker.js')
+
+# @app.route('/app.js', methods=['GET'])
+# def pwa():
+#     return app.send_static_file('/pwa/app.js')

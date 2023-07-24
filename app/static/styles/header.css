@@ -14,6 +14,61 @@ header {
   z-index: 10;
 }
 
+header * {
+  /* outline: 1px solid red; */
+}
+
 #header-logo {
   height: 100%;
+}
+
+.google-auth-btn {
+  position: absolute;
+  z-index: 11;
+  top: 90vh;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+
+.logout-btn {
+  position: absolute;
+  z-index: 11;
+  top: 0;
+  right: 0;
+  height: 5em;
+  padding: 1.5em;
+}
+
+.logout-btn > svg {
+  width: 2em;
+  height: 2em;
+}
+
+.logout-btn > span {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .google-auth-btn {
+    left: unset;
+    top: 1em;
+    right: 1em;
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%)
+  }
+
+  .logout-btn {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logout-btn > span {
+    margin: .5em 0;
+    display: inline;
+    margin-bottom: auto;
+    font-weight: bold;
+  }
 }
