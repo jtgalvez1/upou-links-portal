@@ -19,7 +19,7 @@
 }
   
 
-  @font-face {
+@font-face {
   font-family: 'Optima Italic';
   font-style: normal;
   font-weight: normal;
@@ -104,19 +104,21 @@ main section {
 #pwa.modal {
   background-color: var(--font-color);
   color: var(--bg-color);
+  font-weight: 900;
+
+  z-index: 9;
+  width: min(350px, 90%);
+  padding: 1em 1em 4em;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #2c2c2c inset;
 
   position: absolute;
-  top: 6em;
+  top: -20em;
   left: 50%;
   --webkit-transform: translateX(-50%);
   transform: translateX(-50%);
 
-  z-index: 100;
-  padding: 2em 1em 3em;
-  border-radius: 5px;
-  box-shadow: 0 0 3px #2c2c2c inset;
-  font-weight: 900;
-  display: none;
+  transition: top 1s;
 }
 
 #pwa.modal > svg {
@@ -127,20 +129,49 @@ main section {
   cursor: pointer;
 }
 
+#pwa.modal .content {
+  width: 100%;
+}
+
 #pwa.modal img,
-#pwa.modal > h3 {
+#pwa.modal h3 {
   height: 1.5em;
   display: inline;
 }
 
-#pwa-btn {
+#pwa.modal .actions {
   position: absolute;
-  bottom: .5em;
-  left: 50%;
-  --webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
   font-weight: bold;
   padding: .5em 1em;
+
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1em;
+}
+
+#pwa.modal .actions * {
+  padding: .5em 1em;
+}
+
+#pwa.modal .actions button {
+  border-radius: 5px;
+  background-color: var(--forest-green);
+  font-weight: bold;
+  color: #cdcdcd;
+}
+
+#never-again {
+  all: unset;
+  font-weight: 300;
+  font-size: 1em;
+  color: #222;
+  cursor: pointer;
+  margin: auto 0;
+}
+
+#never-again:hover {
+  text-decoration: underline;
 }
 
 #search-form {
