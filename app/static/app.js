@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (userTheme === 'light') {
       root.style.setProperty('--bg-color', '#cdcdcd')
       root.style.setProperty('--font-color', '#333')
-      root.style.setProperty('--card-bg', '#777')
+      root.style.setProperty('--card-bg', '#2c2c2c')
       root.style.setProperty('--link', 'skyblue')
       root.style.setProperty('--visited-link', '#aa7799')
     }
