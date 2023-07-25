@@ -31,9 +31,11 @@ def get_announcements():
     sql = "SELECT name, description, created_at, ends_at, image, is_visible from announcements"
     rows = db_execute(sql)
 
+    announcement_list = []
+
     if rows != None:
         for row in rows:
-            user = {
+            ann = {
                 'name'          : row[0],
                 'description'   : row[1],
                 'create_date'   : row[2],
@@ -41,6 +43,22 @@ def get_announcements():
                 'image'         : row[4],
                 'visibility'    : row[5]
             }
-            users.append(user)
+            announcement_list.append(ann)
 
-    return users
+    return announcement_list
+
+
+def change_visibility(name, visibility):
+    sql = f"UPDATE announcements set is_visible = {visibility} where name = '{name}'"
+    result = db_execute(sql)
+    print("Result!")
+    print(result)
+    return result
+
+def change_enddate(name, date):
+  print(date)
+  sql = f"UPDATE announcements set ends_at = '{date}' where name = '{name}'"
+  result = db_execute(sql)
+  print("Result!")
+  print(result)
+  return result

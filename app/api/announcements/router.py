@@ -10,7 +10,6 @@ def add_announce():
     data = request.form.to_dict()
     image = request.files.to_dict().get('image', '')
 
-
     file_name = ''
     if image != '':
         file_name = (f"{str(int(time()))}_{image.filename}")
@@ -29,4 +28,31 @@ def add_announce():
     return jsonify({
     'status'      : 200,
     'message'     : "Succesfully added announcement!",
+    })
+
+@announcements.route('/changeVisibility', methods = ["POST"])
+def change_vis():
+    data = request.form.to_dict()
+    print(data)
+    name = data['name']
+    visibility = 1 if data['visibility']=="true" else 0
+    print(visibility)
+    change_visibility(name, visibility)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Succesfully changed visibililty',
+    })
+
+@announcements.route('/changeEndDate', methods = ["POST"])
+def change_end():
+    data = request.form.to_dict()
+    print(data)
+    name = data['name']
+    enddate = data['date']
+    change_enddate(name, enddate)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Succesfully changed enddate',
     })

@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS announcements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name            TEXT,
   description     TEXT,
-  created_at      datetime DEFAULT current_timestamp,
-  ends_at         datetime DEFAULT (datetime('now', '+3 days')),
+  created_at      date DEFAULT (datetime('now')),
+  ends_at         date DEFAULT (datetime('now', '+3 days')),
   image           TEXT,
   is_visible      BOOLEAN  DEFAULT TRUE
 );

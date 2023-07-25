@@ -33,6 +33,9 @@ def check_user():
     if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
         return redirect('/')
 
+    if request.path.startswith('/announcements') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
+        return redirect('/')
+
     if session and session.get('user'):
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
@@ -195,9 +198,7 @@ def sw():
 @app.route('/announcements', methods=['GET'])
 def ap():
 
-
-
-    res = make_response(render_template('announcements.html', categories_links={}, user=session.get('user', None)))
+    res = make_response(render_template('announcements.html', categories_links={}, user=session.get('user', None), announcements=get_announcements()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
