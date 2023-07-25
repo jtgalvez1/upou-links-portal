@@ -4,7 +4,7 @@ footer {
   width: 100vw;
   padding: 1em;
   background-color: var(--forest-green);
-  color: var(--font-color);
+  color: #cdcdcd;
 
   position: relative;
   bottom: 0;
@@ -13,7 +13,7 @@ footer {
   grid-template-columns: 1fr;
 }
 
-.info > .container > p {
+footer .container > p {
   display: grid;
   grid-template-columns: 1em 1fr;
   gap: 1em;

@@ -29,7 +29,6 @@
   padding: 1em;
   margin: 0;
   width: 100vw;
-  overflow-y: scroll;
 
   display: grid;
   grid-template-columns: 1fr;
