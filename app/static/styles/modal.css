@@ -13,6 +13,8 @@
   align-items: center;
   justify-content: center;
   display: none;
+  /* border-color: red;
+  border-width: 1px; */
 }
 
 form.modal {
