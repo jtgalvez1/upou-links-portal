@@ -211,6 +211,7 @@ main section {
 table.links {
   background-color: #cdcdcd;
   color: #2c2c2c;
+  table-layout: auto !important;
 
   border-radius: .5em;
   border-collapse: collapse;
@@ -225,7 +226,15 @@ table.links th {
   height: 3em;
   padding: .5em;
   border: 1px solid var(--bg-color);
-  width: 33%;
+  width: auto !important;
+}
+
+table.links td,
+table.links th {
+  height: 3em;
+  padding: .5em;
+  border: 1px solid var(--bg-color);
+  width: auto !important;
 }
 
 table.links a.title {

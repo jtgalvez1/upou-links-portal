@@ -12,13 +12,16 @@ print("Server listening on http://localhost:5000")
 from app.api.link.router import link
 from app.api.user.router import user
 from app.api.admin.router import admin
+from app.api.announcements.router import announcements
 app.register_blueprint(link, url_prefix="/api/v1/link")
 app.register_blueprint(user, url_prefix="/api/v1/user")
 app.register_blueprint(admin, url_prefix="/api/v1/admin")
+app.register_blueprint(announcements, url_prefix="/api/v1/announcements")
 
 from app.api.link.controller import *
 from app.api.user.controller import *
 from app.api.admin.controller import *
+from app.api.announcements.controller import *
 from .oauth import verify_token
 
 @app.before_request
@@ -28,6 +31,9 @@ def check_user():
     print(request.method + ' ' + request.path)
 
     if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
+        return redirect('/')
+
+    if request.path.startswith('/announcements') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
         return redirect('/')
 
     if session and session.get('user'):
@@ -80,7 +86,8 @@ def index_page():
                 categories_links = categories_links,
                 user=session.get('user', None), 
                 category_list = list_all_categories(), 
-                privacy_settings = list_user_types()
+                privacy_settings = list_user_types(),
+                announcements = get_valid_announcements()
         ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
@@ -154,8 +161,6 @@ def user_management_page():
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
-
-
 # auth routes
 @app.route('/callback', methods=['POST', 'GET'])
 def callback():
@@ -174,6 +179,7 @@ def logout():
     session.clear()
     return redirect('/')
 
+# pwa routes
 
 @app.route('/offline.html', methods=['GET'])
 def offline():
@@ -187,3 +193,13 @@ def sw():
 # @app.route('/app.js', methods=['GET'])
 # def pwa():
 #     return app.send_static_file('/pwa/app.js')
+
+# announcement routes
+
+@app.route('/announcements', methods=['GET'])
+def ap():
+
+    res = make_response(render_template('announcements.html', categories_links={}, user=session.get('user', None), announcements=get_announcements()))
+    res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
+    res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+    return res
