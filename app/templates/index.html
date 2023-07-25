@@ -51,6 +51,7 @@
   {% endfor %}
 </div>
 
+{% if announcements|length > 0 %}
 <div class="modal container announce" id="announcements">
   <div class="modal" id="announcement-box">
     <div class="form-header">
@@ -73,6 +74,7 @@
 
   </div>
 </div>
+{% endif %}
 
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
