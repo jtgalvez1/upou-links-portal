@@ -16,6 +16,10 @@
   font-size: 1.2em;
 }
 
+#close.sidebar {
+  padding: 1.5em;
+}
+
 #sidebar hr {
   margin: 0 1em;
   border-color: var(--font-color);

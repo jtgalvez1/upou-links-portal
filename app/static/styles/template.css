@@ -4,6 +4,19 @@
   --yellow-gold:    hsl(39.4,100%,52.5%);
   --bg-color: #2c2c2c;
   --font-color: #cdcdcd;
+  --card-bg: #cdcdcd;
+  --link: blue;
+  --visited-link: purple;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #cdcdcd;
+    --font-color: #333;
+    --card-bg: #2c2c2c;
+    --visited-link: #aa7799;
+    --link: skyblue;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -19,7 +32,7 @@
 }
   
 
-  @font-face {
+@font-face {
   font-family: 'Optima Italic';
   font-style: normal;
   font-weight: normal;
@@ -64,7 +77,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Avenir';
+  font-family: 'Avenir', 'Heveltica', sans-serif;
   /* outline: 1px solid red; */
 }
 
@@ -98,6 +111,80 @@ main {
 
 main section {
   scroll-margin-top: 7em;
+}
+
+
+#pwa.modal {
+  background-color: #cdcdcd;
+  color: #2c2c2c;
+  font-weight: 900;
+
+  z-index: 9;
+  width: min(350px, 90%);
+  padding: 1em 1em 4em;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #2c2c2c inset;
+
+  position: absolute;
+  top: -20em;
+  left: 50%;
+  --webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+
+  transition: top 1s;
+}
+
+#pwa.modal > svg {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  height: fit-content;
+  cursor: pointer;
+}
+
+#pwa.modal .content {
+  width: 100%;
+}
+
+#pwa.modal img,
+#pwa.modal h3 {
+  height: 1.5em;
+  display: inline;
+}
+
+#pwa.modal .actions {
+  position: absolute;
+  font-weight: bold;
+  padding: .5em 1em;
+
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1em;
+}
+
+#pwa.modal .actions * {
+  padding: .5em 1em;
+}
+
+#pwa.modal .actions button {
+  border-radius: 5px;
+  background-color: var(--forest-green);
+  font-weight: bold;
+  color: #cdcdcd;
+}
+
+#never-again {
+  all: unset;
+  font-weight: 300;
+  font-size: 1em;
+  color: #222;
+  cursor: pointer;
+  margin: auto 0;
+}
+
+#never-again:hover {
+  text-decoration: underline;
 }
 
 #search-form {
@@ -172,8 +259,8 @@ table.links td.actions {
 }
 
 .card {
-  background-color: #cdcdcd;
-  color: #2c2c2c;
+  background-color: var(--card-bg);
+  color: var(--bg-color);
 
   border-radius: .5em;
   border: 1px solid darkgray;
@@ -211,6 +298,15 @@ table.links td.actions {
 
 .card .content > h3 {
   margin: 0;
+}
+
+.card .content a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.card .content a:visited {
+  color: var(--visited-link);
 }
 
 .card .actions {
@@ -338,26 +434,5 @@ table.links td.actions {
     background-color: var(--font-color);
     color: var(--bg-color);
     width: 80%;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg-color: #cdcdcd;
-    --font-color: #333;
-  }
-
-  .card {
-    background-color: #2c2c2c;
-    color: #cdcdcd;
-  }
-
-  .card .content a {
-    color: skyblue;
-    text-decoration: none;
-  }
-
-  .card .content a:visited {
-    color: #aa7799;
   }
 }

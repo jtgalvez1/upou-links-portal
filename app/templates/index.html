@@ -49,51 +49,6 @@
       </div>
     </section>
   {% endfor %}
-  {# {% for category in categories.keys() %}
-  <section id="{{ category }}">
-    <h1>{{ category }}</h1>
-    <table class="links">
-      <thead>
-        <th>Title</th>
-        <th>URL</th>
-        {% if user['user_type'] == 'admin' %}
-        <th>Category</th>
-        <th>Privacy</th>
-        {% endif %}
-        <th>Actions</th>
-      </thead>
-      <tbody>
-        {% for link in categories[category] %}
-        <tr>
-          <td><a href="http://{{ link['url'] }}" target="_blank" class="title">{{ link['title'] }}</a></td>
-          <td><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></td>
-          {% if user['user_type'] == 'admin' %}
-          <td>
-            <ul>
-            {% for link_category in link['category'] %}
-              <li>{{ link_category['name'] }}</li>
-            {% endfor %}
-            </ul>
-          </td>
-          <td>
-            <ul>
-            {% for privacy in link['privacy'] %}
-                <li>{{ privacy['name'] }}</li>
-            {% endfor %}
-            </ul>
-          </td>
-          {% endif %}
-          <td>
-            {% if user['user_type'] == 'admin' %}
-            <button onclick="editBtnHandler({{ link }})">Edit</button>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-  {% endfor %} #}
 </div>
 
 <div class="modal container announce" id="announcements">
@@ -372,4 +327,5 @@ function showSlides() {
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 </script>
+
 {% endblock %}
