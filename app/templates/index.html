@@ -51,7 +51,7 @@
   {% endfor %}
 </div>
 
-{% if announcements|length > 0 %}
+{# {% if announcements|length > 0 %} #}
 <div class="modal container announce" id="announcements">
   <div class="modal" id="announcement-box">
     <div class="form-header">
@@ -74,7 +74,7 @@
 
   </div>
 </div>
-{% endif %}
+{# {% endif %} #}
 
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
@@ -206,8 +206,8 @@
     })
     formData.append('privacy', privacy_list)
     
-    fetch('/api/v1/user/' + {{ user['id'] }} + '/edit/link/' + document.querySelector('#link_id').value)
-    
+    fetch('/api/v1/user/' + {{ user['id'] }} + '/edit/link/' + document.querySelector('#link_id').value);
+
     fetch('/api/v1/link', {
       method: 'POST',
       body: formData
@@ -263,10 +263,10 @@
       .catch( err => console.error(err))
   }
   
-  document.getElementById("search-form").addEventListener("submit", ev=>{
+  {# document.getElementById("search-form").addEventListener("submit", ev=>{
     ev.preventDefault();
     window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
-  })
+  }) #}
 
 
   document.querySelectorAll('.bookmark').forEach( elem => {
@@ -291,7 +291,7 @@
 
   document.getElementById("search-form").addEventListener("submit", ev=>{
     ev.preventDefault();
-    window.location.replace("/search?term="document.getElementById("search-terms").value)
+    window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
   })
 
   document.querySelectorAll('.card .content').forEach( elem => {
