@@ -5,14 +5,13 @@
 [x] Grid View
 [x] Delete Link
 [x] Logs
-
 [x] Search
+[x] Dark / Light Mode Toggle
+[x] Trending 
+
 [] Announcements
-[x] Contact Us ( email techsupport@upou.edu.ph )
-[] Dark / Light Mode Toggle
-[x] Click History
-[x] Trending
-[] Documentation
+[] Contact Us ( email techsupport@upou.edu.ph )
+[] Click History
 
 <!-- FIX: Enter doesn't submit form modal -->
 

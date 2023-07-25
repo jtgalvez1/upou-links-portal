@@ -30,11 +30,7 @@
   margin: 0;
   width: 100vw;
   overflow-y: scroll;
-}
 
-#profile.sidebar,
-#category-links.sidebar,
-.settings.sidebar {
   display: grid;
   grid-template-columns: 1fr;
   gap: .2em;
@@ -62,18 +58,31 @@
 }
 
 
+.font-sizes {
+  margin: .5em 0;
+}
+
+.font-sizes h3 {
+  margin: 0;
+}
+
+.font-size {
+  all: unset;
+  cursor: pointer;
+}
+
+
 @media only screen and (min-width: 768px) {
 
   #sidebar {
     width: 100%;
     height: fit-content;
-    /* padding-top: 8em; */
-    /* grid-area: "sidebar"; */
     grid-column: 1;
     left: 0;
     z-index: 0;
     background-color: rgba(0,0,0,0%);
-    position: sticky;
+    position: static;
+    top: 6em;
   }
 
   .sidebar {
