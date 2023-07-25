@@ -159,10 +159,7 @@
     document.querySelector('#add-link-form').reset();
   });
 
-  document.getElementById('close-annon-btn').addEventListener('click', ev => {
-    ev.preventDefault();
-    document.getElementById("announcements").style.display = 'none';
-  });
+  
 
   document.querySelector('#new-category-checkbox').addEventListener('change', ev => {
     ev.preventDefault();
@@ -312,6 +309,10 @@
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 
 <script>
+document.getElementById('close-annon-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    document.getElementById("announcements").style.display = 'none';
+  });
 let slideIndex = 0;
 showSlides();
 
