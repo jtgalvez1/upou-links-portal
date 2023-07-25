@@ -12,10 +12,10 @@
 
   transition: left .5s;
 
-  color: var(--font-color);
+  color: #cdcdcd;
   font-size: 1.2em;
 
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 #sidebar::-webkit-scrollbar {
@@ -53,8 +53,9 @@
 
 .sidebar a {
   all: unset;
+  display: flex;
   cursor: pointer;
-  color: var(--font-color);
+  color: #cdcdcd;
   font-size: 1.2em;
 }
 
@@ -86,12 +87,18 @@
     left: 0;
     z-index: 0;
     background-color: rgba(0,0,0,0%);
+    color: var(--font-color);
     position: static;
     top: 6em;
   }
 
   .sidebar {
-    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar a {
+    max-width: 100%;
+    color: var(--font-color);
   }
 
   #close.sidebar,

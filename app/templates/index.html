@@ -51,7 +51,6 @@
   {% endfor %}
 </div>
 
-{# {% if announcements|length > 0 %} #}
 <div class="modal container announce" id="announcements">
   <div class="modal" id="announcement-box">
     <div class="form-header">
@@ -74,7 +73,6 @@
 
   </div>
 </div>
-{# {% endif %} #}
 
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
@@ -148,6 +146,9 @@
 
 <script>
   {% if user and user['user_type'] == 'admin' %}
+
+  const isBookmarkedSVG = `<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>`
+  const isNotBookmarkedSVG = `<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>`
 
   document.querySelector('#open-modal-btn').addEventListener('click', ev => {
     ev.preventDefault();
@@ -273,17 +274,23 @@
     elem.addEventListener('click', ev => {
       ev.preventDefault();
 
+      defaultSVG = elem.innerHTML
+
+      if (elem.innerHTML == isBookmarkedSVG)
+        elem.innerHTML = isNotBookmarkedSVG
+      else
+        elem.innerHTML = isBookmarkedSVG
+
       fetch('/api/v1/user/' + {{ user['id'] }} + '/bookmark/link/' + ev.currentTarget.getAttribute('data-link-id'),
       { method: 'PUT' })
         .then( res => res.json())
         .then( data => {
           console.log(data)
-          if (data.action == 'add')
-            elem.innerHTML = '<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>'
-          else if (data.ation = 'remove')
-            elem.innerHTML = '<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>'
         })
-        .catch( err => console.error(err))
+        .catch( err => {
+          console.error(err)
+          elem.innerHTML = defaultSVG
+        })
     })
   })
   
@@ -304,8 +311,9 @@
       {% endif %}
     })
   })
-
+{% if announcements|length > 0 %}
   document.getElementById("announcements").style.display = "flex"
+{% endif %}
 </script>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
@@ -316,7 +324,9 @@ document.getElementById('close-annon-btn').addEventListener('click', ev => {
     document.getElementById("announcements").style.display = 'none';
   });
 let slideIndex = 0;
-showSlides();
+{% if announcements|length > 0 %}
+  showSlides();
+{% endif %}
 
 function showSlides() {
   let i;
