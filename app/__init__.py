@@ -87,7 +87,7 @@ def index_page():
                 user=session.get('user', None), 
                 category_list = list_all_categories(), 
                 privacy_settings = list_user_types(),
-                announcements = get_announcements()
+                announcements = get_valid_announcements()
         ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')

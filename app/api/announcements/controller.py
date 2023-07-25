@@ -1,5 +1,6 @@
 import sqlite3
 import math
+import datetime
 
 from app import app
 
@@ -47,6 +48,22 @@ def get_announcements():
 
     return announcement_list
 
+def get_valid_announcements():
+    announcements = get_announcements()
+    
+    result = []
+    for annon in announcements:
+      if(annon["visibility"]==1 and comparedate(annon["end_date"])):
+        result.append(annon)
+    return result
+
+def comparedate(db):
+    now = datetime.date.today()
+    enddate = db.split("-")
+    print(db)
+    end = datetime.date(int(enddate[0]),int(enddate[1]),int(enddate[2]))
+    result = end>now
+    return result
 
 def change_visibility(name, visibility):
     sql = f"UPDATE announcements set is_visible = {visibility} where name = '{name}'"
