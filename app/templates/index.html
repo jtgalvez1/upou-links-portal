@@ -291,7 +291,7 @@
 
   document.getElementById("search-form").addEventListener("submit", ev=>{
     ev.preventDefault();
-    window.location.replace("/search?priv=".concat("{{user['user_type']}}","&term=",document.getElementById("search-terms").value))
+    window.location.replace("/search?term="document.getElementById("search-terms").value)
   })
 
   document.querySelectorAll('.card .content').forEach( elem => {
