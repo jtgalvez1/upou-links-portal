@@ -68,7 +68,7 @@ header * {
   .google-auth-btn {
     left: unset;
     top: 1em;
-    right: 1em;
+    right: 2em;
     -webkit-transform: translateX(0%);
     transform: translateX(0%)
   }
