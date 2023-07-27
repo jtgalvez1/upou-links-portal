@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   let fontSize = localStorage.getItem('fontSize') || 'medium';
   document.querySelector(':root').style.fontSize = fontSize;
 
+
+  
   let root = document.querySelector(':root');
   let userTheme = localStorage.getItem('userTheme') 
                 ? localStorage.getItem('userTheme') 
@@ -42,6 +44,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+
+
   let showPWA = await localStorage.getItem('showPWA') || true;
 
   if (showPWA === true) {
@@ -57,33 +61,28 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    let deferredPrompt;
-    const addBtn = document.querySelector('.add-button');
-    const pwaModal = document.querySelector('#pwa.modal')
-    pwaModal.style.top = '6em';
-    setTimeout( () => pwaModal.style.top = '-20em', 5000) 
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      deferredPrompt = e;
+      let deferredPrompt = e;
+      const addBtn = document.querySelector('#pwa-btn');
+      const pwaModal = document.querySelector('#pwa.modal')
+
+      pwaModal.style.top = '6em';
+      setTimeout( () => pwaModal.style.top = '-20em', 5000) 
+
       addBtn.addEventListener('click', (e) => {
-      pwaModal.style.top = '-20em';
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-
-
-            console.log('User accepted the A2HS prompt');
-
-
-          } else {
-
-            console.log('User dismissed the A2HS prompt');
-
-          }
-          deferredPrompt = null;
-        });
-    });
+        console.log(e.currentTarget);
+        pwaModal.style.top = '-20em';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+          });
+      });
     });
 
     window.addEventListener('online', function(e) {
