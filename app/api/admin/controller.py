@@ -25,7 +25,6 @@ def db_execute(sql):
 def list_user_data():
     sql = "SELECT email, given_name, family_name, user_type FROM user"
     rows = db_execute(sql)
-    # print(rows)
 
     users = []
 
@@ -39,15 +38,12 @@ def list_user_data():
             }
             users.append(user)
 
-    print(users)
     return users
 
 
 def change_user_type(email, user_type):
     sql = f"UPDATE user set user_type = '{user_type}' where email = '{email}'"
     result = db_execute(sql)
-    print("Result!")
-    print(result)
     return result
 
 def retrieve_user_types():

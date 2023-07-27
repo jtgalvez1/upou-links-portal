@@ -93,28 +93,6 @@ def index_page():
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
-# @app.route('/search', methods=['GET'])
-# def search_page():
-#     privacy = request.args.get('priv', 'open')
-#     term = request.args.get('term', 'asia')
-#     links = list_links(privacy)
-
-#     print(links)
-
-#     result = []
-
-#     for link in links:
-#         if term in link['url'] or term in link['title'] or term in link['description']:
-#             result.append(link)
-
-#     # print("DITO RESULTS")
-#     # print(result)
-
-#     res = make_response(render_template('search.html', categories_links={},user=session.get('user', None), privacy_settings = list_user_types(), links=result))
-#     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
-#     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
-#     return res
-
 @app.route('/search', methods=['GET'])
 def search_page():
     term = request.args.get('term', 'asia')
@@ -142,7 +120,6 @@ def search_page():
 @app.route('/admin', methods=['GET'])
 def user_management_page():
     types = retrieve_user_types()
-    # print(types)
 
     usertypes = {}
     users = list_user_data()
@@ -152,9 +129,6 @@ def user_management_page():
         for user in users:
             if user["user_type"] == utype[0]:
                 usertypes[utype[1]].append(user)
-
-    print(usertypes)
-    # print(users)
 
     res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes)))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')

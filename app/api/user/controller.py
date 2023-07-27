@@ -132,7 +132,6 @@ def add_user_type(usertypename):
   sql = f"INSERT INTO user_type (name) VALUES ('{usertypename}')"
 
   result = db_execute(sql)
-  print(result)
   return result
 
 def log_activity(userid, action, link_id):
