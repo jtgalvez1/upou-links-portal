@@ -26,7 +26,6 @@ def submit_link():
   if image != '':
     # file_name = (f"{str(int(time()))}_{image.filename}").replace(' ','_').replace('-','_')
     file_name = (f"{str(int(time()))}_{image.filename}")
-    print(file_name)
     image_path = app.config['IMAGES_PATH'] + file_name
     image.save(image_path)
 

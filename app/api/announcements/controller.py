@@ -60,7 +60,6 @@ def get_valid_announcements():
 def comparedate(db):
     now = datetime.date.today()
     enddate = db.split("-")
-    print(db)
     end = datetime.date(int(enddate[0]),int(enddate[1]),int(enddate[2]))
     result = end>now
     return result
@@ -68,14 +67,9 @@ def comparedate(db):
 def change_visibility(name, visibility):
     sql = f"UPDATE announcements set is_visible = {visibility} where name = '{name}'"
     result = db_execute(sql)
-    print("Result!")
-    print(result)
     return result
 
 def change_enddate(name, date):
-  print(date)
   sql = f"UPDATE announcements set ends_at = '{date}' where name = '{name}'"
   result = db_execute(sql)
-  print("Result!")
-  print(result)
   return result
