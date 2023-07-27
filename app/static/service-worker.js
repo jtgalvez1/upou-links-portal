@@ -1,4 +1,4 @@
-const cacheName = 'flask-PWA-v3';
+const cacheName = '1upou-pwa';
 const filesToCache = [
     '/',
     '/static/app.js',
@@ -7,7 +7,16 @@ const filesToCache = [
     '/static/styles/modal.css',
     '/static/styles/sidebar.css',
     '/static/styles/template.css',
-    '/static/images/UPOU-Website-Header.png'
+    '/static/styles/announcement.css',
+    '/static/styles/toggle.css',
+    '/static/images/UPOU-Website-Header.png',
+    '/static/offline.html',
+    '/static/manifest.json',
+    '/static/images/logo.png',
+    '/static/styles/optima/OPTIMA_B.woff',
+    '/static/styles/avenir/avenirltstd-book-webfont.woff',
+    '/static/images/University-of-the-Future-Official-Logo.png'
+
 ];
 
 self.addEventListener('install', function(e) {
@@ -35,33 +44,22 @@ self.addEventListener('activate', function(e) {
   return self.clients.claim();
 });
 
-// self.addEventListener('fetch', function(e) {
-//   console.log('[ServiceWorker] Fetch', e.request.url);
+// self.addEventListener('fetch', (e)=>{
 //   e.respondWith(
-//     caches.match(e.request).then(function(response) {
-//       return response || fetch(e.request).catch(error => {
-//           console.log('Fetch failed; returning offline page instead.', error);
-//           let url = e.request.url;
-//           let extension = url.split('.').pop();
-
-//           if (extension === 'jpg' || extension === 'png') {
-
-//               const FALLBACK_IMAGE = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="180" stroke-linejoin="round">
-//                 <path stroke="#DDD" stroke-width="25" d="M99,18 15,162H183z"/>
-//                 <path stroke-width="17" fill="#FFF" d="M99,18 15,162H183z" stroke="#eee"/>
-//                 <path d="M91,70a9,9 0 0,1 18,0l-5,50a4,4 0 0,1-8,0z" fill="#aaa"/>
-//                 <circle cy="138" r="9" cx="100" fill="#aaa"/>
-//                 </svg>`;
-
-//               return Promise.resolve(new Response(FALLBACK_IMAGE, {
-//                   headers: {
-//                       'Content-Type': 'image/svg+xml'
-//                   }
-//               }));
-//           }
-
-//           return caches.match('offline.html');
-//       });
+//     fetch(e.request).catch(error =>{
+      
 //     })
-//   );
-// });
+//   )
+// })
+
+self.addEventListener('fetch', function(e) {
+  console.log('[ServiceWorker] Fetch', e.request.url);
+  e.respondWith(
+    caches.match(e.request).then(function(response) {
+      return fetch(e.request).catch(error => {
+        if(response !== 'undefined' && response !== null) {return response}
+
+      });
+    })
+  )
+});
