@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* display: none; */
+    display: none;
     /* outline: 1px solid red; */
   }
 /* 
@@ -22,6 +22,7 @@
 
 #announcement-box.modal {
     width: min(900px, 95%);
+    min-height: 50vh;
     max-height: 90vh;
     overflow-y: scroll;
     padding: 1em;
@@ -31,39 +32,44 @@
   
     display: flex;
     flex-direction: column;
-  }
-  #announcements.modal h1 {
-    margin: 0;
-    float: left;
-  }
+}
+
+#announcements.modal h1 {
+  margin: 0;
+  float: left;
+}
   
-  #announcements.modal button {
-    all: unset;
-    cursor: pointer;
-    float: right;
-    font-size: 1.5em;
-  }
+#announcements.modal button {
+  all: unset;
+  cursor: pointer;
+  float: right;
+  font-size: 1.5em;
+}
 
-  .slideimg {
-    width: 100%;
-  }
+.slideimg {
+  width: 100%;
+}
   
-  /* #announcements.modal .input-field {
-    padding: 0.25em;
-    display: flex;
-    flex-flow: column nowrap;
-    gap: .3em;
-  } */
+/* #announcements.modal .input-field {
+  padding: 0.25em;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: .3em;
+} */
 
-  .slideshow {
-    max-width: 100%;
-    position: relative;
-    margin: auto
-  }
+.slideshow {
+  max-width: 100%;
+  position: relative;
+  margin: auto
+}
 
-  .slides {
-    display: none;
-  }
+.slides {
+  display: none;
+}
+
+.slides img {
+  height: 300px;
+}
 
 .prev, .next{
     cursor: pointer;
@@ -86,3 +92,4 @@
     from {opacity: .4}
     to {opacity: 1}
 }
+

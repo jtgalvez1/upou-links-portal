@@ -13,7 +13,7 @@
   :root {
     --bg-color: #cdcdcd;
     --font-color: #333;
-    --card-bg: #2c2c2c;
+    --card-bg: #fff;
     --visited-link: #aa7799;
     --link: skyblue;
   }
@@ -209,8 +209,8 @@ main section {
 
 
 table.links {
-  background-color: #cdcdcd;
-  color: #2c2c2c;
+  background-color: var(--font-color);
+  color: var(--bg-color);
   table-layout: auto !important;
 
   border-radius: .5em;
@@ -226,15 +226,7 @@ table.links th {
   height: 3em;
   padding: .5em;
   border: 1px solid var(--bg-color);
-  width: auto !important;
-}
-
-table.links td,
-table.links th {
-  height: 3em;
-  padding: .5em;
-  border: 1px solid var(--bg-color);
-  width: auto !important;
+  /* width: auto !important; */
 }
 
 table.links a.title {
@@ -260,7 +252,7 @@ table.links td.actions {
 
 .card {
   background-color: var(--card-bg);
-  color: var(--bg-color);
+  color: #2c2c2c;
 
   border-radius: .5em;
   border: 1px solid darkgray;
@@ -286,6 +278,7 @@ table.links td.actions {
 .card > img {
   margin: auto;
   width: 100%;
+  padding: 10px;
 }
 
 .card > img[src$='.png'] {
@@ -354,6 +347,24 @@ table.links td.actions {
 .card button.bookmark svg {
   width: 2em;
   height: 2em;
+}
+
+.users-tbl td {
+  padding: .5em 1em;
+  width: 33%;
+}
+
+.users-tbl td select {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background-color: rgba(0,0,0,0%);
+  color: var(--bg-color);
+  font-size: 1em;
+}
+
+.users-tbl td select option {
+  color: #000;
 }
 
 

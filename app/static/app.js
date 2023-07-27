@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (theme === 'light') {
       root.style.setProperty('--bg-color', '#cdcdcd')
       root.style.setProperty('--font-color', '#333')
-      root.style.setProperty('--card-bg', '#2c2c2c')
+      root.style.setProperty('--card-bg', '#fff')
       root.style.setProperty('--link', 'skyblue')
       root.style.setProperty('--visited-link', '#aa7799')
       darkModeToggle.checked = false;
@@ -60,12 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           console.error('Unable to register service worker.', err);
       });
     }
+    let deferredPrompt;
+    const addBtn = document.querySelector('#pwa-btn');
+    const pwaModal = document.querySelector('#pwa.modal')
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      let deferredPrompt = e;
-      const addBtn = document.querySelector('#pwa-btn');
-      const pwaModal = document.querySelector('#pwa.modal')
+      deferredPrompt = e;
 
       pwaModal.style.top = '6em';
       setTimeout( () => pwaModal.style.top = '-20em', 5000) 

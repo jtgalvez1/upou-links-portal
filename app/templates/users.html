@@ -7,60 +7,11 @@
     let user
     </script>
     
-    {# <div class="links-container">
-    <h3>Users</h3>
-    <table class="links">
-        <thead>
-            <th>Email</th>
-            <th>Name</th>
-            <th>User Type</th>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{user["email"]}}</td>
-                <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
-                <td><select name="{{user["email"]}}" id="{{user["email"]}}">
-                    <option value="1" id="{{user["email"] + "1"}}">Open</option>
-                    <option value="2" id="{{user["email"] + "2"}}">Student</option>
-                    <option value="3" id="{{user["email"] + "3"}}">Faculty</option>
-                    <option value="4" id="{{user["email"] + "4"}}">Admin</option>
-                </select></td>
-                {%if user["user_type"]== 1%}
-                    <script>document.getElementById("{{user["email"] + "1"}}").setAttributeNode(document.createAttribute("selected")); 
-                    console.log("DITO!");</script>
-                {%elif user["user_type"]== 2%}
-                    <script>document.getElementById("{{user["email"] + "2"}}").setAttributeNode(document.createAttribute("selected"));
-                    console.log("DITO!");</script>
-                {%elif user["user_type"]== 3%}
-                    <script>document.getElementById("{{user["email"] + "3"}}").setAttributeNode(document.createAttribute("selected"));
-                    console.log("DITO!");</script>
-                {%elif user["user_type"]== 4%}
-                    <script>document.getElementById("{{user["email"] + "4"}}").setAttributeNode(document.createAttribute("selected"));
-                    console.log("DITO!");</script>
-                {%endif%}
-
-                <script>
-                    user = document.getElementById("{{user["email"]}}")
-                    user.addEventListener("change", ()=>{
-                        formdata.set("email", "{{user["email"]}}")
-                        formdata.set("userType", parseInt(user.value))
-                        fetch("/api/v1/admin/changeUserType", {
-                            method: "POST",
-                            body: formdata,
-                        });
-                    })
-                </script>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
-    </div> #}
     <div class="links-container">
     {% for type in usertypes %}
     <section id="{{type.title()}}">
         <h1>{{type.title()}}</h1>
-        <table class="links">
+        <table class="links users-tbl">
             <thead>
                 <th>Email</th>
                 <th>Name</th>
@@ -72,9 +23,9 @@
                 <td>{{user["email"]}}</td>
                 <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
                 <td>
-                    <select name="{{user["email"]}}" id="{{user["email"]}}">
+                    <select name="{{user['email']}}" id="{{user['email']}}">
                         {% for type in usertypes %}
-                            <option value="{{loop.index}}" id="{{user["email"]~loop.index}}">{{type}}</option>
+                            <option value="{{loop.index}}" id="{{user['email']~loop.index}}">{{type}}</option>
                         {%endfor%}
                     </select>
                 </td>

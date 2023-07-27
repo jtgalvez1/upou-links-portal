@@ -67,8 +67,8 @@
         </div>
       {% endfor %}
 
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      {# <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a> #}
     </div>
 
   </div>
@@ -311,9 +311,11 @@
       {% endif %}
     })
   })
+
 {% if announcements|length > 0 %}
   document.getElementById("announcements").style.display = "flex"
 {% endif %}
+
 </script>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
@@ -324,6 +326,7 @@ document.getElementById('close-annon-btn').addEventListener('click', ev => {
     document.getElementById("announcements").style.display = 'none';
   });
 let slideIndex = 0;
+
 {% if announcements|length > 0 %}
   showSlides();
 {% endif %}

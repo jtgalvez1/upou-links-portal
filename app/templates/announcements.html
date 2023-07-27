@@ -13,12 +13,12 @@
         <tr>
             <td>{{a["create_date"]}}</td>
             <td>
-            <input type="date" id="{{a["name"]~"end"}}" value="{{a["end_date"]}}">
+            <input type="date" id="{{a['name']~'end'}}" value="{{a['end_date']}}">
             </td>
             <td>
-                <select id="{{a["name"]}}">
-                    <option value="true" id="{{a["name"]~"1"}}">True</option>
-                    <option value="false" id="{{a["name"]~"0"}}">False</option>
+                <select id="{{a['name']}}">
+                    <option value="true" id="{{a['name']~'1'}}">True</option>
+                    <option value="false" id="{{a['name']~'0'}}">False</option>
                 </select>
             </td>
         </tr>
@@ -26,9 +26,8 @@
             <td colspan="3">{{a["description"]}}</td>
         </tr>
             <td colspan="3">
-                <img src="{{ url_for('static', filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="width:100%">
+                <img src="{{ url_for('static', filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="height:300px">
             </td>
-        
         </table>
         <script>
             document.getElementById("{{a["name"]~a["visibility"]}}").setAttributeNode(document.createAttribute("selected"));
@@ -57,6 +56,7 @@
         <br>
         {% endfor %}
     </div>
+
     <div class="modal container" id="add">
             <form action="/api/v1/user/addType" method="POST" class="modal" id="add-type-form">
                 <div class="form-header">
@@ -75,13 +75,13 @@
                 </div>
 
                 <div class="input-field">
-                <label for="enddate">Date</label>
-                <input type="date" id="enddate" name="enddate" required>
+                    <label for="enddate">Date</label>
+                    <input type="date" id="enddate" name="enddate" required>
                 </div>
 
                 <div class="input-field">
-                <label for="image">Image:</label>
-                <input type="file" name="image" id="image" accept="image/*">
+                    <label for="image">Image:</label>
+                    <input type="file" name="image" id="image" accept="image/*">
                 </div>
 
                 <div class="input-field">
@@ -96,34 +96,40 @@
 {% block script %}
 
 <script>
-        document.querySelector('#open-modal-btn').addEventListener('click', ev => {
-            ev.preventDefault();
-            document.querySelector('#add.modal.container').style.display = 'flex';
-            document.querySelector('#add-type-form').reset();
-        });
+    let dateInput = document.querySelector('#enddate')
+    console.log(dateInput)
+    dateInput.setAttribute('min', (new Date()).toJSON().slice(0,10));
+    dateInput.setAttribute('value', (new Date()).toJSON().slice(0,10));
+    console.log(Date.now());
 
-        document.querySelector('#close-modal-btn').addEventListener('click', ev => {
-            ev.preventDefault();
-            document.querySelector('#add.modal.container').style.display = 'none';
-            document.querySelector('#add-type-form').reset();
-        });
+    document.querySelector('#open-modal-btn').addEventListener('click', ev => {
+        ev.preventDefault();
+        document.querySelector('#add.modal.container').style.display = 'flex';
+        document.querySelector('#add-type-form').reset();
+    });
 
-        document.querySelector('#add-type-form').addEventListener('submit', ev => {
-            ev.preventDefault(); 
-            let data = new FormData();
-            data.append("name", document.getElementById("name").value)
-            data.append("desc", document.getElementById("desc").value)
-            data.append("enddate", document.getElementById("enddate").value)
-            data.append('image', document.querySelector('#image').files[0])
-        
-            fetch('/api/v1/announcements/addAnnouncement', {
-                method: 'POST',
-                body: data
-                })
-            .then( res => res.json())
-            .then( data => window.location.reload())
-            .catch( err => console.error(err))
-        })
-    </script>
+    document.querySelector('#close-modal-btn').addEventListener('click', ev => {
+        ev.preventDefault();
+        document.querySelector('#add.modal.container').style.display = 'none';
+        document.querySelector('#add-type-form').reset();
+    });
+
+    document.querySelector('#add-type-form').addEventListener('submit', ev => {
+        ev.preventDefault(); 
+        let data = new FormData();
+        data.append("name", document.getElementById("name").value)
+        data.append("desc", document.getElementById("desc").value)
+        data.append("enddate", document.getElementById("enddate").value)
+        data.append('image', document.querySelector('#image').files[0])
+    
+        fetch('/api/v1/announcements/addAnnouncement', {
+            method: 'POST',
+            body: data
+            })
+        .then( res => res.json())
+        .then( data => window.location.reload())
+        .catch( err => console.error(err))
+    })
+</script>
 
 {% endblock %}
