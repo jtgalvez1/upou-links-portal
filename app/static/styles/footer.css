@@ -8,7 +8,10 @@ footer {
 
   position: relative;
   bottom: 0;
+}
 
+footer .grid-container {
+  width: fit-content;
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -17,10 +20,13 @@ footer .container > p {
   display: grid;
   grid-template-columns: 1em 1fr;
   gap: 1em;
+  margin: 0 auto;
 }
 
 @media only screen and (min-width: 768px) {
-  footer {
+  footer .grid-container{
+    margin: 0 auto;
     grid-template-columns: repeat(3, 1fr);
+    gap: 3em;
   }
 }
