@@ -88,7 +88,7 @@
     z-index: 0;
     background-color: rgba(0,0,0,0%);
     color: var(--font-color);
-    position: static;
+    position: sticky;
     top: 6em;
   }
 

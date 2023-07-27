@@ -5,8 +5,6 @@
   --bg-color: #2c2c2c;
   --font-color: #cdcdcd;
   --card-bg: #cdcdcd;
-  --link: blue;
-  --visited-link: purple;
 }
 
 @media (prefers-color-scheme: light) {
@@ -14,8 +12,6 @@
     --bg-color: #cdcdcd;
     --font-color: #333;
     --card-bg: #fff;
-    --visited-link: #aa7799;
-    --link: skyblue;
   }
 }
 
@@ -294,12 +290,7 @@ table.links td.actions {
 }
 
 .card .content a {
-  color: var(--link);
   text-decoration: none;
-}
-
-.card .content a:visited {
-  color: var(--visited-link);
 }
 
 .card .actions {
