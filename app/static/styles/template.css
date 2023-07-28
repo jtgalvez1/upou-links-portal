@@ -292,6 +292,7 @@ table.links td.actions {
 
 .card .content a {
   text-decoration: none;
+  word-break: break-all;
 }
 
 .card .actions {

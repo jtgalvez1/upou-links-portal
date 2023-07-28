@@ -13,11 +13,12 @@
 [x] Click History
 [x] announcement border
 [x] dark mode toggle (left size header web)
+[x] announcement edit
+[x] announcement delete
 
-[] announcement edit
-[] announcement delete
 [] scaling link image
 [] session storage
+[] move announcement ( web: below categories sidebar; mobile: above search bar)
 
 font sizing (too big / categories sidebar)
 admin removal (ictdo director)
