@@ -101,6 +101,7 @@ svg {
 
 main {
   padding: 1em;
+  padding-top: 6em;
   width: min(1600px, 95%);
   margin: 0 auto;
 }

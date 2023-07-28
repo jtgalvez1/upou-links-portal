@@ -29,7 +29,7 @@ def add_announcement(announcement):
     return result
 
 def get_announcements():
-    sql = "SELECT name, description, created_at, ends_at, image, is_visible from announcements"
+    sql = "SELECT name, description, created_at, ends_at, image, is_visible, id from announcements"
     rows = db_execute(sql)
 
     announcement_list = []
@@ -42,7 +42,8 @@ def get_announcements():
                 'create_date'   : row[2],
                 'end_date'      : row[3],
                 'image'         : row[4],
-                'visibility'    : row[5]
+                'visibility'    : row[5],
+                'id'            : row[6]
             }
             announcement_list.append(ann)
 
@@ -73,3 +74,14 @@ def change_enddate(name, date):
   sql = f"UPDATE announcements set ends_at = '{date}' where name = '{name}'"
   result = db_execute(sql)
   return result
+
+def change_announcement_column_value(id,column,value):
+  sql = f"UPDATE announcements SET {column} = '{value}' WHERE id = '{id}'"
+  db_execute(sql)
+
+  return
+
+def delete_announcement(id):
+  sql = f"DELETE FROM announcements WHERE id = '{id}'"
+  db_execute(sql)
+  return

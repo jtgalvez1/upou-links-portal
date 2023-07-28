@@ -11,7 +11,16 @@
 [x] Announcements
 [x] Contact Us ( email techsupport@upou.edu.ph )
 [x] Click History
+[x] announcement border
+[x] dark mode toggle (left size header web)
 
+[] announcement edit
+[] announcement delete
+[] scaling link image
+[] session storage
+
+font sizing (too big / categories sidebar)
+admin removal (ictdo director)
 
 <!-- !!! FIX: Enter doesn't submit form modal -->
 

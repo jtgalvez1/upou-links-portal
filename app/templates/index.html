@@ -61,8 +61,10 @@
     <div class="slideshow">
       {% for annon in announcements%}
         <div class="slides fade">
-          <h1>{{annon["name"]}}</h1><br><br>
-          <img class= "slideimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+          <h2>{{annon["name"]}}</h2>
+          <div class="slideimg">
+            <img src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="margin: 0 auto">
+          </div>
           <p>{{annon["description"]}}</p>
         </div>
       {% endfor %}
@@ -359,7 +361,7 @@ function showSlides() {
   slideIndex++;
   if (slideIndex > slideslist.length) {slideIndex = 1}
   slideslist[slideIndex-1].style.display = "block";
-  setTimeout(showSlides, 2000); // Change image every 2 seconds
+  setTimeout(showSlides, 5000); // Change image every 2 seconds
 }
 </script>
 

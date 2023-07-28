@@ -89,7 +89,7 @@
     background-color: rgba(0,0,0,0%);
     color: var(--font-color);
     position: sticky;
-    top: 6em;
+    top: 3em;
   }
 
   .sidebar {
@@ -99,6 +99,12 @@
   .sidebar a {
     max-width: 100%;
     color: var(--font-color);
+  }
+  
+  .settings.sidebar,
+  #dark-mode-container-sidebar,
+  .settings.sidebar + hr {
+    display: none;
   }
 
   #close.sidebar,

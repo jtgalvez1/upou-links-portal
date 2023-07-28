@@ -16,11 +16,15 @@
   /* outline: 1px solid red; */
 }
 
+/* #announcements * {
+  outline: 1px solid red;
+} */
+
 #announcement-box.modal {
   width: min(900px, 95%);
   min-height: 50vh;
   max-height: 90vh;
-  padding: 1em;
+  padding: 2em;
   border-radius: .5em;
   background-color: #cdcdcd;
   color: #2c2c2c;
@@ -41,14 +45,16 @@
   font-size: 1.5em;
 }
 
-.slideimg {
-  width: 100%;
-}
-
 .slideshow {
-  max-width: 100%;
+  width: 100%;
   position: relative;
   margin: auto
+}
+
+.slideimg {
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 .slides {
@@ -56,7 +62,12 @@
 }
 
 .slides img {
-  height: 300px;
+  max-width: 100%;
+  min-height: 300px;
+}
+
+.slides p {
+  min-height: 5em;
 }
 
 .prev, .next{
@@ -81,3 +92,42 @@
     to {opacity: 1}
 }
 
+/* .announcement-card * {
+  outline: 1px solid red;
+} */
+
+.announcement-card {
+  /* outline: 1px solid red; */
+  background-color: var(--card-bg);
+  color: #2c2c2c;
+
+  padding: 1em;
+
+  position: relative;
+}
+
+.announcement-card > * {
+  display: block;
+  width: 100%;
+  margin: .5em;
+}
+
+.announcement-image {
+  max-width: 50%;
+}
+
+.announcement-actions {
+  height: 3em;
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.announcement-actions svg {
+  height: 2em;
+  width: 2em;
+  margin: .5em;
+
+  cursor: pointer;
+}

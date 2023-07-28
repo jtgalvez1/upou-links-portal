@@ -5,7 +5,7 @@ announcements = Blueprint(name='announcements', import_name=__name__)
 
 from .controller import *
 
-@announcements.route('/addAnnouncement', methods=["POST"])
+@announcements.route('/', methods=["POST"])
 def add_announce():
     data = request.form.to_dict()
     image = request.files.to_dict().get('image', '')
@@ -51,4 +51,43 @@ def change_end():
     return jsonify({
         'status'      : 200,
         'message'     : 'Succesfully changed enddate',
+    })
+
+@announcements.route('/<announcement_id>/<column>/<value>', methods = ['PUT'])
+def change_announcement_column(announcement_id, column, value):
+    print(announcement_id)
+    print(column)
+    print(value)
+
+    columns = {
+        'id'        : "id",
+        'name'      : "name",
+        'desc'      : "description",
+        'enddate'   : "ends_at",
+        'image'     : "image",
+        'visibility': "is_visible"
+    }
+
+    file_name = ''
+    if column == 'image':
+        file_name = (f"{str(int(time()))}_{value.filename}")
+        image_path = app.config['IMAGES_PATH'] + file_name
+        value.save(image_path)
+        value = file_name
+
+    change_announcement_column_value(announcement_id,columns[column],value)
+
+    return jsonify({
+        'status'       : 200,
+        'message'      : 'Successfully changed ' + columns[column]
+    })
+
+@announcements.route('/<announcement_id>', methods=['DELETE'])
+def delete_announcement_endpoint(announcement_id):
+    print(announcement_id)
+    delete_announcement(announcement_id)
+
+    return jsonify({
+        'status'        : 200,
+        'message'       : 'Succesfully deleted announcement.'
     })
