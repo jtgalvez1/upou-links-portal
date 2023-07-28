@@ -102,6 +102,7 @@
   color: #2c2c2c;
 
   padding: 1em;
+  padding-top: 3em;
 
   position: relative;
 }
@@ -130,4 +131,11 @@
   margin: .5em;
 
   cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+  .announcement-card {
+    padding-top: 1em;
+  }
+
 }

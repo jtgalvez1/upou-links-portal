@@ -15,13 +15,13 @@
 [x] dark mode toggle (left size header web)
 [x] announcement edit
 [x] announcement delete
+[x] font sizing (too big / categories sidebar)
 
 [] scaling link image
 [] session storage
 [] move announcement ( web: below categories sidebar; mobile: above search bar)
+[] admin removal (ictdo director)
 
-font sizing (too big / categories sidebar)
-admin removal (ictdo director)
 
 <!-- !!! FIX: Enter doesn't submit form modal -->
 
