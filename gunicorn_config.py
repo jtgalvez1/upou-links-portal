@@ -1,6 +1,6 @@
 bind = '0.0.0.0:5000'
 timeout = 30
-workers = 3
+workers = 1
 threads = 2
 keepalive = 2
 

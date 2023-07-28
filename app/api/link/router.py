@@ -5,30 +5,27 @@ link = Blueprint(name='link', import_name=__name__)
 
 from .controller import *
 
-@link.route('/', methods=['GET'])
-def get_links():
-  privacy = request.args.get('priv', 'open')
-  links = list_links(privacy)
+# @link.route('/', methods=['GET'])
+# def get_links():
+#   privacy = request.args.get('priv', 'guest')
+#   links = list_links(privacy)
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved links',
-    'links'       : links
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved links',
+#     'links'       : links
+#   })
 
 @link.route('/', methods=['POST'])
 def submit_link():
   form = request.form.to_dict()
   image = request.files.to_dict().get('image', '')
 
-  print(image)
-
   # process image file before adding link
   file_name = ''
   if image != '':
     # file_name = (f"{str(int(time()))}_{image.filename}").replace(' ','_').replace('-','_')
     file_name = (f"{str(int(time()))}_{image.filename}")
-    print(file_name)
     image_path = app.config['IMAGES_PATH'] + file_name
     image.save(image_path)
 
@@ -42,8 +39,6 @@ def submit_link():
     'image'       : file_name
   }
 
-  print(link)
-
   new_link = upsert_link(link)
 
   return jsonify({
@@ -52,30 +47,39 @@ def submit_link():
     'link'        : new_link
   })
 
-@link.route('/<column>/<value>', methods=['GET'])
-def get_links_w_filter(column,value):
-  try:
-    privacy = request.args.get('priv')
-  except:
-    privacy = 'open'
-  links = list_links(privacy,column,value)
+# @link.route('/<column>/<value>', methods=['GET'])
+# def get_links_w_filter(column,value):
+#   try:
+#     privacy = request.args.get('priv')
+#   except:
+#     privacy = 'guest'
+#   links = list_links(privacy,column,value)
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved links',
-    'links'       : links
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved links',
+#     'links'       : links
+#   })
 
-@link.route('/categories', methods=['GET'])
-def get_categories():
-  try:
-    privacy = request.args.get('priv')
-  except:
-    privacy = 'open'
+# @link.route('/categories', methods=['GET'])
+# def get_categories():
+#   try:
+#     privacy = request.args.get('priv')
+#   except:
+#     privacy = 'guest'
 
-  categories = list_categories(privacy)
+#   categories = list_categories(privacy)
 
-  return jsonify({
-    'status'      : 200,
-    'categories'  : categories
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'categories'  : categories
+#   })
+
+@link.route('/<link_id>', methods=['DELETE'])
+def delete_link(link_id):
+    remove_link_from_db(link_id)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Successfully deleted link.'
+    })

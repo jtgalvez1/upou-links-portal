@@ -1,16 +1,19 @@
 [x] Google OAuth
 [x] Categories
+[x] Lagyan ng description yung modal
+[x] Add image
+[x] Grid View
+[x] Delete Link
+[x] Logs
+[x] Search
+[x] Dark / Light Mode Toggle
+[x] Trending 
+[x] Announcements
+[x] Contact Us ( email techsupport@upou.edu.ph )
+[x] Click History
 
-[] Lagyan ng description yung modal
-[] Add image
-[] Grid View
-[] Search
-[] Announcements
-[] Contact Us ( email techsupport@upou.edu.ph )
-[] Dark / Light Mode Toggle
-[] Logs
-[] Click History
-[] Trending
+
+<!-- !!! FIX: Enter doesn't submit form modal -->
 
 
 !!!NOTES:

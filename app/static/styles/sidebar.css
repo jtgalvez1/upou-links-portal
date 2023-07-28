@@ -1,7 +1,7 @@
 
 #sidebar {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   z-index: 10;
   background-color: rgba(0,0,0, 80%);
@@ -14,51 +14,91 @@
 
   color: #cdcdcd;
   font-size: 1.2em;
+
+  overflow-y: scroll;
+}
+
+#sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+#close.sidebar {
+  padding: 1.5em;
 }
 
 #sidebar hr {
   margin: 0 1em;
+  border-color: var(--font-color);
 }
 
-.sidebar {
+.sidebar:not(#close) {
   padding: 1em;
   margin: 0;
   width: 100vw;
-  overflow-y: scroll;
-}
 
-#category-links.sidebar {
   display: grid;
   grid-template-columns: 1fr;
   gap: .2em;
 }
 
+#profile.sidebar h3 {
+  font-size: 1.8em;
+  margin-top: 0;
+}
+
 #category-links.sidebar h3 {
+  font-size: 1.5em;
   margin: .5em 0;
 }
 
 .sidebar a {
   all: unset;
+  display: flex;
   cursor: pointer;
   color: #cdcdcd;
+  font-size: 1.2em;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+
+.font-sizes {
+  margin: .5em 0;
+}
+
+.font-sizes h3 {
+  margin: 0;
+}
+
+.font-size {
+  all: unset;
+  cursor: pointer;
 }
 
 
 @media only screen and (min-width: 768px) {
 
   #sidebar {
-    width: 60%;
+    width: 100%;
     height: fit-content;
-    padding-top: 8em;
-    grid-area: "sidebar";
+    grid-column: 1;
     left: 0;
     z-index: 0;
     background-color: rgba(0,0,0,0%);
-    position: sticky;
+    color: var(--font-color);
+    position: static;
+    top: 6em;
   }
 
   .sidebar {
-    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar a {
+    max-width: 100%;
+    color: var(--font-color);
   }
 
   #close.sidebar,

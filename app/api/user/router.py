@@ -14,24 +14,24 @@ def get_users():
       'users'         : users,
    })
 
-@user.route('/user_types', methods=['GET'])
-def get_user_types():
-  user_types = list_user_types()
+# @user.route('/user_types', methods=['GET'])
+# def get_user_types():
+#   user_types = list_user_types()
 
-  return jsonify({
-    'status'      : 200,
-    'message'     : 'Succesfully retrieved user types.',
-    'user_types'  : user_types
-  })
+#   return jsonify({
+#     'status'      : 200,
+#     'message'     : 'Succesfully retrieved user types.',
+#     'user_types'  : user_types
+#   })
 
-@user.route('/<email>', methods=['GET'])
-def get_user_by_email(email):
-  user = list_users('email', email)[0]
+# @user.route('/<email>', methods=['GET'])
+# def get_user_by_email(email):
+#   user = list_users('email', email)[0]
 
-  return jsonify({
-    'status'    : 200,
-    'user'      : user
-  })
+#   return jsonify({
+#     'status'    : 200,
+#     'user'      : user
+#   })
 
 @user.route('/signin', methods=['POST'])
 def sigin():
@@ -48,3 +48,47 @@ def sigin():
        'message'    : 'Succesful Login',
        'user'       : user
     })
+
+@user.route('/<userid>/bookmark/link/<link_id>', methods=['PUT'])
+def bookmark(userid, link_id):
+   action = bookmark_link(userid, link_id)
+   try:
+      log_activity(userid, 'BOOKMARK', link_id)
+   except ValueError as ve:
+      print(ve)
+   return jsonify({
+      'status'      : 200,
+      'message'     : 'Successfully updated bookmark',
+      'action'      : action
+   })
+
+@user.route('/addType', methods=["POST"])
+def addType():
+   form = request.form.to_dict()
+   newname = form['usertypename']
+   action = add_user_type(newname)
+   return jsonify({
+      'status'      : 200,
+      'message'     : 'Successfully updated bookmark',
+      'action'      : action
+   })
+
+@user.route('/<userid>/visit/link/<link_id>', methods=['GET'])
+def visit(userid, link_id):
+   log_activity(userid, 'VISIT', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/add/link/<link_id>', methods=['GET'])
+def add(userid, link_id):
+   log_activity(userid, 'ADD', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/edit/link/<link_id>', methods=['GET'])
+def edit(userid, link_id):
+   log_activity(userid, 'EDIT', link_id)
+   return jsonify({ 'status' : 200 })
+
+@user.route('/<userid>/remove/link/<link_id>', methods=['GET'])
+def remove(userid, link_id):
+   log_activity(userid, 'REMOVE', link_id)
+   return jsonify({ 'status' : 200 })

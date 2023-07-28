@@ -3,7 +3,8 @@
 
 {% block main %}
 <div class="links-container">
-  <form action="/search" id="search-form">
+
+  <form action="search" id="search-form">
     <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11.1455C5.49956 8.21437 7.56975 5.69108 10.4445 5.11883C13.3193 4.54659 16.198 6.08477 17.32 8.79267C18.4421 11.5006 17.495 14.624 15.058 16.2528C12.621 17.8815 9.37287 17.562 7.3 15.4895C6.14763 14.3376 5.50014 12.775 5.5 11.1455Z" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15.989 15.4905L19.5 19.0015" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     <input type="text" id="search-terms" name="q" placeholder="Search"/>
   </form>
@@ -13,73 +14,71 @@
       <div class="card-container">
         {% for link in links %}
 
-          <div class="card">
-            <img src="{{ url_for('static',filename='images/' + link['image'])}}" alt="">
-            <div class="content">
+          <div class="card {% if category == 'Bookmarks' %}bookmarked{% endif %}">
+            {% if category != 'Bookmarks' %}
+              <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+            {% endif %}
+            <div class="content" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}">
               <h3>{{ link['title'] }}</h3>
-              <p>{{ link.get('description', '') }}</p>
-            </div>
-            <div class="actions">
-              <a href="http://{{ link['url'] }}" target="_blank">Open ></a>
-              {% if user['user_type'] == 'admin' %}
-                <button onclick="editBtnHandler({{ link }})">Edit</button>
+              <span><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></span>
+              {% if category != 'Bookmarks' %}
+                <p>{{ link['description'] if link['description'] != 'None' else '' }}</p>
               {% endif %}
             </div>
+            {% if category != 'Bookmarks' %}
+            <div class="actions">
+              <a href="http://{{ link['url'] }}" target="_blank" onclick="visitLinkHandler(link_id)">Open&rarr;</a>
+              {% if user['user_type'] == 'admin' %}
+                <button onclick="editBtnHandler({{ link }})">Edit</button>
+                <button class="delete" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}"><svg fill="#cdcdcd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="delete-alt" class="icon glyph" stroke="#cdcdcd"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"></path><path d="M20,6H4A1,1,0,0,0,4,8H5V20a2,2,0,0,0,2,2H17a2,2,0,0,0,2-2V8h1a1,1,0,0,0,0-2ZM11,17a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Z"></path></g></svg></button>
+              {% endif %}
+            </div>
+            {% endif %}
+            {% if user %}
+              <button class="bookmark" data-link-id="{{ link['id'] }}">
+                {% if link['id'] in user['bookmarks'] %}
+                  <svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                {% else %}
+                  <svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#222222"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                {% endif %}
+              </button>
+            {% endif %}
           </div>
 
         {% endfor %}
       </div>
     </section>
   {% endfor %}
-  {# {% for category in categories.keys() %}
-  <section id="{{ category }}">
-    <h1>{{ category }}</h1>
-    <table class="links">
-      <thead>
-        <th>Title</th>
-        <th>URL</th>
-        {% if user['user_type'] == 'admin' %}
-        <th>Category</th>
-        <th>Privacy</th>
-        {% endif %}
-        <th>Actions</th>
-      </thead>
-      <tbody>
-        {% for link in categories[category] %}
-        <tr>
-          <td><a href="http://{{ link['url'] }}" target="_blank" class="title">{{ link['title'] }}</a></td>
-          <td><a href="http://{{ link['url'] }}" target="_blank">{{ link['url'] }}</a></td>
-          {% if user['user_type'] == 'admin' %}
-          <td>
-            <ul>
-            {% for link_category in link['category'] %}
-              <li>{{ link_category['name'] }}</li>
-            {% endfor %}
-            </ul>
-          </td>
-          <td>
-            <ul>
-            {% for privacy in link['privacy'] %}
-                <li>{{ privacy['name'] }}</li>
-            {% endfor %}
-            </ul>
-          </td>
-          {% endif %}
-          <td>
-            {% if user['user_type'] == 'admin' %}
-            <button onclick="editBtnHandler({{ link }})">Edit</button>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-  {% endfor %} #}
 </div>
+
+<div class="modal container announce" id="announcements">
+  <div class="modal" id="announcement-box">
+    <div class="form-header">
+      <h1>Announcements</h1>
+      <button id="close-annon-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+    </div>
+
+    <div class="slideshow">
+      {% for annon in announcements%}
+        <div class="slides fade">
+          <h1>{{annon["name"]}}</h1><br><br>
+          <img class= "slideimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+          <p>{{annon["description"]}}</p>
+        </div>
+      {% endfor %}
+
+      {# <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a> #}
+    </div>
+
+  </div>
+</div>
+
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
   <form action="/api/v1/link" method="POST" class="modal" id="add-link-form">
+    <input type="text" id="link_id" hidden>
+
     <div class="form-header">
       <h1>Add Link</h1>
       <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
@@ -148,6 +147,9 @@
 <script>
   {% if user and user['user_type'] == 'admin' %}
 
+  const isBookmarkedSVG = `<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#FFAC0D"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>`
+  const isNotBookmarkedSVG = `<svg viewBox="-4 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>bookmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -153.000000)" fill="#777"> <path d="M437,153 L423,153 C420.791,153 419,154.791 419,157 L419,179 C419,181.209 420.791,183 423,183 L430,176 L437,183 C439.209,183 441,181.209 441,179 L441,157 C441,154.791 439.209,153 437,153" id="bookmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>`
+
   document.querySelector('#open-modal-btn').addEventListener('click', ev => {
     ev.preventDefault();
     document.querySelector('#add.modal.container').style.display = 'flex';
@@ -159,6 +161,8 @@
     document.querySelector('#add.modal.container').style.display = 'none';
     document.querySelector('#add-link-form').reset();
   });
+
+  
 
   document.querySelector('#new-category-checkbox').addEventListener('change', ev => {
     ev.preventDefault();
@@ -202,6 +206,8 @@
       }
     })
     formData.append('privacy', privacy_list)
+    
+    fetch('/api/v1/user/' + {{ user['id'] }} + '/edit/link/' + document.querySelector('#link_id').value);
 
     fetch('/api/v1/link', {
       method: 'POST',
@@ -212,23 +218,10 @@
     .catch( err => console.error(err))
   });
 
-  {# document.getElementById('add-link-form').addEventListener('reset', ev => {
-    ev.preventDefault();
-    document.querySelector('#add-link-form').reset();
-    document.querySelector('#url').value = null;
-    document.querySelector('#title').value = null;
-    document.querySelector('#description').value = null;
-    document.getElementsByName('category').forEach( elem => {
-      elem.checked = false;
-    });
-    document.getElementsByName('privacy').forEach( elem => {
-      elem.checked = false;
-    });
-  }); #}
-
 
   function editBtnHandler(link) {
     document.querySelector('#add-link-form').reset();
+    document.querySelector('#link_id').value = link['id']
     document.querySelector('#url').value = link['url'];
     document.querySelector('#title').value = link['title'];
     document.querySelector('#description').value = link['description'];
@@ -242,6 +235,113 @@
     });
     document.querySelector('#add.modal.container').style.display = 'flex';
   }
+
+  document.querySelectorAll('.delete').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      console.log(ev.currentTarget)
+      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`))
+        fetch('/api/v1/user/' + {{ user['id'] }} + '/remove/link/' + ev.currentTarget.getAttribute('data-link-id'))
+        fetch('/api/v1/link/' + ev.currentTarget.getAttribute('data-link-id'),
+        { method: 'DELETE' })
+          .then( res => res.json())
+          .then( data => {
+            window.location.reload()
+          })
+          .catch( err => console.error(err))
+    })
+  })
+
+  {% endif %}
+
+  {% if user %}
+
+  function visitLinkHandler(link_id) {
+    fetch('/api/v1/user/' + {{ user['id'] }} + '/visit/link/' + link_id)
+      .then( res => res.json())
+      .then( data => {
+        console.log(data)
+      })
+      .catch( err => console.error(err))
+  }
+  
+  {# document.getElementById("search-form").addEventListener("submit", ev=>{
+    ev.preventDefault();
+    window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
+  }) #}
+
+
+  document.querySelectorAll('.bookmark').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      ev.preventDefault();
+
+      defaultSVG = elem.innerHTML
+
+      if (elem.innerHTML == isBookmarkedSVG)
+        elem.innerHTML = isNotBookmarkedSVG
+      else
+        elem.innerHTML = isBookmarkedSVG
+
+      fetch('/api/v1/user/' + {{ user['id'] }} + '/bookmark/link/' + ev.currentTarget.getAttribute('data-link-id'),
+      { method: 'PUT' })
+        .then( res => res.json())
+        .then( data => {
+          console.log(data)
+        })
+        .catch( err => {
+          console.error(err)
+          elem.innerHTML = defaultSVG
+        })
+    })
+  })
+  
+  {% endif %}
+
+  document.getElementById("search-form").addEventListener("submit", ev=>{
+    ev.preventDefault();
+    window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))
+  })
+
+  document.querySelectorAll('.card .content').forEach( elem => {
+    elem.style.cursor = 'pointer';
+    elem.addEventListener('click', ev => {
+      ev.preventDefault();
+      window.open('http://' + ev.currentTarget.getAttribute('data-url'), '_blank');
+      {% if user %}
+      fetch('/api/v1/user/' + {{ user['id'] }} + '/visit/link/' + ev.currentTarget.getAttribute('data-link-id'))
+      {% endif %}
+    })
+  })
+
+{% if announcements|length > 0 %}
+  document.getElementById("announcements").style.display = "flex"
 {% endif %}
+
 </script>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<script>
+document.getElementById('close-annon-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    document.getElementById("announcements").style.display = 'none';
+  });
+let slideIndex = 0;
+
+{% if announcements|length > 0 %}
+  showSlides();
+{% endif %}
+
+function showSlides() {
+  let i;
+  let slideslist = document.getElementsByClassName("slides");
+  for (i = 0; i < slideslist.length; i++) {
+    slideslist[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slideslist.length) {slideIndex = 1}
+  slideslist[slideIndex-1].style.display = "block";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
+
 {% endblock %}

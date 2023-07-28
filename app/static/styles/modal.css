@@ -13,6 +13,8 @@
   align-items: center;
   justify-content: center;
   display: none;
+  /* border-color: red;
+  border-width: 1px; */
 }
 
 form.modal {
@@ -81,10 +83,17 @@ input[type='submit'] {
   background-color: var(--forest-green);
 
   position: fixed;
-  bottom: 4em;
-  right: 3em;
+  bottom: 2em;
+  right: 2em;
 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media only screen and (min-width: 768px) {
+  #open-modal-btn {
+    bottom: 4em;
+    right: 3em;
+  }
 }

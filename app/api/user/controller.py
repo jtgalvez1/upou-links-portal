@@ -21,7 +21,7 @@ def db_execute(sql):
   return data
 
 def list_users(column,value):
-  sql = "SELECT email, given_name, family_name, b.name as user_type FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)
+  sql = "SELECT email, given_name, family_name, b.name as user_type, a.id as id FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)
   rows = db_execute(sql)
 
   users = []
@@ -31,7 +31,8 @@ def list_users(column,value):
         'email'             : row[0],
         'given_name'        : row[1],
         'family_name'       : row[2],
-        'user_type'         : row[3]
+        'user_type'         : row[3],
+        'id'                : row[4]
       }
       users.append(user)
 
@@ -71,9 +72,13 @@ def upsert_user(user):
   if user['email'].endswith('@upou.edu.ph'):
     user_type = 3
   sql = """
-          REPLACE INTO
-          user (email,given_name,family_name,user_type)
-          VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+INSERT INTO user (email,given_name,family_name,user_type)
+VALUES ('{email}','{given_name}','{family_name}','{user_type}')
+ON CONFLICT (email) DO UPDATE SET
+given_name = excluded.given_name,
+family_name = excluded.family_name,
+user_type = excluded.user_type
+WHERE email = '{email}'
         """.format(
           email = user['email'],
           given_name = user['given_name'],
@@ -82,3 +87,67 @@ def upsert_user(user):
         )
   db_execute(sql)
   return list_users('email',user['email'])[0]
+
+def bookmark_link(userid,link_id):
+  sql = f"""
+SELECT COUNT(*) FROM user_bookmarks_link
+WHERE
+userid = '{userid}' AND
+link_id = '{link_id}'
+"""
+  count = db_execute(sql)[0][0]
+
+  action = 'fail'
+  if count == 1:
+    sql = f"""
+DELETE FROM user_bookmarks_link
+WHERE
+userid = '{userid}' AND
+link_id = '{link_id}'
+          """
+    action = 'remove'
+  else:
+    sql = f"""
+INSERT INTO user_bookmarks_link (userid, link_id)
+VALUES ('{userid}', '{link_id}')
+          """
+    action = 'add'
+  db_execute(sql)
+
+  return action
+
+def get_user_bookmarks(userid):
+  sql = f"SELECT link_id FROM user_bookmarks_link WHERE userid = '{userid}'"
+  rows = db_execute(sql)
+
+  bookmarks = []
+  for row in rows:
+    bookmarks.append(row[0])
+
+
+  return bookmarks
+
+def add_user_type(usertypename):
+
+  sql = f"INSERT INTO user_type (name) VALUES ('{usertypename}')"
+
+  result = db_execute(sql)
+  return result
+
+def log_activity(userid, action, link_id):
+  ACTIONS = [
+    'ADD',
+    'EDIT',
+    'REMOVE',
+    'VISIT',
+    'BOOKMARK',
+  ]
+
+  if action not in ACTIONS:
+    # raise ValueError('action must be one of the following: "ADD", "EDIT", "REMOVE", "VISIT", "BOOKMARK"')
+    return
+
+  sql = f"INSERT INTO logs (userid, description, link_id) VALUES ('{userid}','{action}','{link_id}')"
+  db_execute(sql)
+
+  return

@@ -6,4 +6,4 @@ client_secret.json
 flask_session/
 .vscode/
 request.rest
-app/static/images
+app/database/old

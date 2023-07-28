@@ -17,3 +17,70 @@ header {
 #header-logo {
   height: 100%;
 }
+
+.google-auth-btn {
+  position: absolute;
+  z-index: 11;
+  top: 90vh;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+
+#menu-btn,
+.logout-btn {
+  outline: 5px solid orange;
+  all: unset;
+  cursor:pointer;
+  position: absolute;
+  top: 0;
+  height: 5em;
+  padding: 1.5em;
+}
+
+#menu-btn {
+  top: -1.5em;
+  left: 0;
+}
+
+.logout-btn {
+  right: 0;
+}
+
+#menu-btn > svg,
+.logout-btn > svg {
+  width: 2em;
+  height: 2em;
+  margin-bottom: auto;
+}
+
+.logout-btn > span {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  #menu-btn { display: none; }
+
+  .google-auth-btn {
+    left: unset;
+    top: 1em;
+    right: 2em;
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%)
+  }
+
+  .logout-btn {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    right: 2em;
+  }
+
+  .logout-btn > span {
+    margin: .5em 0;
+    display: inline;
+    margin-bottom: auto;
+    font-weight: bold;
+  }
+}

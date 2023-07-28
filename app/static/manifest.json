@@ -1,0 +1,13 @@
+{
+    "name": "1UPOU",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/static/images/logo.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        }
+    ]
+}

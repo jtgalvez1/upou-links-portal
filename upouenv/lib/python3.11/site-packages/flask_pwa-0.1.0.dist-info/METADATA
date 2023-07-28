@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: flask-pwa
+Version: 0.1.0
+Summary: Extends your Flask app into a PWA.
+Home-page: https://github.com/pacotei/flask-pwa
+License: MIT
+Keywords: flask + pwa,flask-pwa,pwa
+Author: bergpb
+Author-email: lindembergdepaulo@@gmail.com
+Requires-Python: >=3.6,<4.0
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Flask
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Dist: flask (>=1.1.2,<2.0.0)
+Project-URL: Repository, https://github.com/pacotei/flask-pwa
+Description-Content-Type: text/markdown
+
+# Flask-PWA
+
+![Python package](https://github.com/pacotei/flask-pwa/workflows/Python%20package/badge.svg)
+
+A extension to give a PWA experience into your Flask web application.
+This extension provide some files to give your app some PWA experience like app installation, cached files and offline page.
+
+### Requires:
+ - Flask
+ - Jinja
+
+### Installation:
+To use Flask-PWA extension in your project you need to install it with pip.
+
+```bash
+pip install flask-pwa
+```
+
+### How it works
+Flask-PWA provide some configuration files into your app: ```manifest.json```, ```sw.js```, ```offline.html``` and ```icons```, to deliver best PWA experience.  
+PWA use this files to configure the minimum environment to works.
+
