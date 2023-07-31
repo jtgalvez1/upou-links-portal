@@ -23,6 +23,7 @@
   {% block style %} {% endblock %}
 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api:client.js"></script>
 </head>
 <body>
   {% if not user %}
@@ -58,5 +59,6 @@
   </script>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <script src="{{ url_for('static', filename='oauth.js') }}"></script>
 </body>
 </html>

@@ -19,9 +19,8 @@
 [x] scaling link image
 [x] admin removal (ictdo director)
 
-[] session storage
 [] move announcement ( web: below categories sidebar; mobile: above search bar)
-
+[] google logo mobile signin button
 
 <!-- !!! FIX: Enter doesn't submit form modal -->
 
