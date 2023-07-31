@@ -7,3 +7,4 @@ flask_session/
 .vscode/
 request.rest
 app/database/old
+app/static/images/*

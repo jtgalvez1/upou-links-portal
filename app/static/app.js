@@ -31,15 +31,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       root.style.setProperty('--bg-color', '#2c2c2c')
       root.style.setProperty('--font-color', '#cdcdcd')
       root.style.setProperty('--card-bg', '#cdcdcd')
-      root.style.setProperty('--link', 'blue')
-      root.style.setProperty('--visited-link', 'purple')
       darkModeToggle.checked = true;
     } else if (theme === 'light') {
       root.style.setProperty('--bg-color', '#cdcdcd')
       root.style.setProperty('--font-color', '#333')
       root.style.setProperty('--card-bg', '#fff')
-      root.style.setProperty('--link', 'skyblue')
-      root.style.setProperty('--visited-link', '#aa7799')
       darkModeToggle.checked = false;
     }
   }

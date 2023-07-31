@@ -1,37 +1,36 @@
 #announcements {
-    width: 100vw;
-    height: 100vh;
-    z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* filter: blur(8px); */
   
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* filter: blur(8px); */
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    display: none;
-    /* outline: 1px solid red; */
-  }
-/* 
-.modal{
-    outline: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+  /* outline: 1px solid red; */
+}
+
+/* #announcements * {
+  outline: 1px solid red;
 } */
 
 #announcement-box.modal {
-    width: min(900px, 95%);
-    min-height: 50vh;
-    max-height: 90vh;
-    overflow-y: scroll;
-    padding: 1em;
-    border-radius: .5em;
-    background-color: #cdcdcd;
-    color: #2c2c2c;
-  
-    display: flex;
-    flex-direction: column;
+  width: min(900px, 95%);
+  min-height: 50vh;
+  max-height: 90vh;
+  padding: 2em;
+  border-radius: .5em;
+  background-color: #cdcdcd;
+  color: #2c2c2c;
+
+  display: flex;
+  flex-direction: column;
 }
 
 #announcements.modal h1 {
@@ -46,21 +45,16 @@
   font-size: 1.5em;
 }
 
-.slideimg {
-  width: 100%;
-}
-  
-/* #announcements.modal .input-field {
-  padding: 0.25em;
-  display: flex;
-  flex-flow: column nowrap;
-  gap: .3em;
-} */
-
 .slideshow {
-  max-width: 100%;
+  width: 100%;
   position: relative;
   margin: auto
+}
+
+.slideimg {
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 .slides {
@@ -68,7 +62,12 @@
 }
 
 .slides img {
-  height: 300px;
+  max-width: 100%;
+  min-height: 300px;
+}
+
+.slides p {
+  min-height: 5em;
 }
 
 .prev, .next{
@@ -93,3 +92,50 @@
     to {opacity: 1}
 }
 
+/* .announcement-card * {
+  outline: 1px solid red;
+} */
+
+.announcement-card {
+  /* outline: 1px solid red; */
+  background-color: var(--card-bg);
+  color: #2c2c2c;
+
+  padding: 1em;
+  padding-top: 3em;
+
+  position: relative;
+}
+
+.announcement-card > * {
+  display: block;
+  width: 100%;
+  margin: .5em;
+}
+
+.announcement-image {
+  max-width: 50%;
+}
+
+.announcement-actions {
+  height: 3em;
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.announcement-actions svg {
+  height: 2em;
+  width: 2em;
+  margin: .5em;
+
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+  .announcement-card {
+    padding-top: 1em;
+  }
+
+}

@@ -9,10 +9,15 @@ header {
   align-items: center;
   justify-content: center;
 
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 10;
 }
+  
+#dark-mode-container-header {
+  display: none;
+}
+
 
 #header-logo {
   height: 100%;
@@ -39,11 +44,13 @@ header {
 }
 
 #menu-btn {
-  top: -1.5em;
+  height: 2em;
+  top: 0;
   left: 0;
 }
 
 .logout-btn {
+  height: 2em;
   right: 0;
 }
 
@@ -60,6 +67,12 @@ header {
 
 @media only screen and (min-width: 768px) {
   #menu-btn { display: none; }
+  
+  #dark-mode-container-header {
+    display: block;
+    position: absolute;
+    left: 10em;
+  }
 
   .google-auth-btn {
     left: unset;

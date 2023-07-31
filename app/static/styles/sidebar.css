@@ -88,8 +88,8 @@
     z-index: 0;
     background-color: rgba(0,0,0,0%);
     color: var(--font-color);
-    position: static;
-    top: 6em;
+    position: sticky;
+    top: 3em;
   }
 
   .sidebar {
@@ -99,6 +99,12 @@
   .sidebar a {
     max-width: 100%;
     color: var(--font-color);
+  }
+  
+  .settings.sidebar,
+  #dark-mode-container-sidebar,
+  .settings.sidebar + hr {
+    display: none;
   }
 
   #close.sidebar,
