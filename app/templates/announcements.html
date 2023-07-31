@@ -109,12 +109,12 @@
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/image/${document.getElementById("image").files[0]}`, { method: 'PUT'})
             window.location.reload();
         } else {
+            let data = new FormData();
+
             data.append("name", document.getElementById("name").value)
             data.append("desc", document.getElementById("desc").value)
             data.append("enddate", document.getElementById("enddate").value)
             data.append('image', document.querySelector('#image').files[0])
-
-            let data = new FormData();
         
             fetch(`/api/v1/announcements/`, {
                 method: 'POST',

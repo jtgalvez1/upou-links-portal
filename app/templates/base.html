@@ -23,15 +23,19 @@
   {% block style %} {% endblock %}
 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://apis.google.com/js/api:client.js"></script>
 </head>
 <body>
-  {% if not user %}
+  {# {% if not user %}
   <div id="g_id_onload"
       data-client_id="431977621887-ev1n9g2gl7rqaelg8u9dodtss5v0u3pp.apps.googleusercontent.com"
       data-login_uri="/callback">
   </div>
-  {% endif %}
+  {% endif %} #}
+  {# <div id="g_id_onload"
+     data-client_id="431977621887-ev1n9g2gl7rqaelg8u9dodtss5v0u3pp.apps.googleusercontent.com"
+     data-auto_select="true"
+     data-login_uri="/callback">
+  </div> #}
 
   {% include 'header.html' %}
   <div id="pwa" class="modal">
@@ -59,6 +63,5 @@
   </script>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
-  <script src="{{ url_for('static', filename='oauth.js') }}"></script>
 </body>
 </html>
