@@ -4,6 +4,23 @@
 {% block main %}
 <div class="links-container">
 
+  <section>
+    <div class="form-header">
+      <h1>Announcements</h1>
+    </div>
+    <div class="slideshow">
+      {% for annon in announcements%}
+        <div class="slides fade">
+          <h2>{{annon["name"]}}</h2>
+          <div class="slideimg">
+            <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+          </div>
+          <p>{{annon["description"]}}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
   <form action="search" id="search-form">
     <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11.1455C5.49956 8.21437 7.56975 5.69108 10.4445 5.11883C13.3193 4.54659 16.198 6.08477 17.32 8.79267C18.4421 11.5006 17.495 14.624 15.058 16.2528C12.621 17.8815 9.37287 17.562 7.3 15.4895C6.14763 14.3376 5.50014 12.775 5.5 11.1455Z" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15.989 15.4905L19.5 19.0015" stroke="#cdcdcd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     <input type="text" id="search-terms" name="q" placeholder="Search"/>
@@ -53,30 +70,7 @@
   {% endfor %}
 </div>
 
-<div class="modal container announce" id="announcements">
-  <div class="modal" id="announcement-box">
-    <div class="form-header">
-      <h1>Announcements</h1>
-      <button id="close-annon-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
-    </div>
 
-    <div class="slideshow">
-      {% for annon in announcements%}
-        <div class="slides fade">
-          <h2>{{annon["name"]}}</h2>
-          <div class="slideimg">
-            <img src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="margin: 0 auto">
-          </div>
-          <p>{{annon["description"]}}</p>
-        </div>
-      {% endfor %}
-
-      {# <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a> #}
-    </div>
-
-  </div>
-</div>
 
 {% if user and user['user_type'] == 'admin' %}
 <div class="modal container" id="add">
@@ -345,10 +339,10 @@
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 
 <script>
-document.getElementById('close-annon-btn').addEventListener('click', ev => {
+{# document.getElementById('close-annon-btn').addEventListener('click', ev => {
     ev.preventDefault();
     document.getElementById("announcements").style.display = 'none';
-  });
+  }); #}
 let slideIndex = 0;
 
 {% if announcements|length > 0 %}
