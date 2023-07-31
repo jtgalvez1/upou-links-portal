@@ -269,15 +269,15 @@ table.links td.actions {
 
 @media only screen and (min-width: 768px) {
   main {
-    padding: 0;
     width: min(1600px, 90%);
     display: grid;
     grid-template-columns: max(300px, 20%) 1fr;
-    gap: 3em;
+    gap: 3em; 
+    padding: 6em 0 0;
   }
 
   #search-form {
-      margin: 0;
+    margin: 0;
   }
 
   .links-container {
