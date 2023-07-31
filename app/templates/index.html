@@ -11,9 +11,9 @@
     <div class="slideshow">
       {% for annon in announcements%}
         <div class="slides fade">
-          <h2>{{annon["name"]}}</h2>
+          <h2 style="font-size:40px;">{{annon["name"]}}</h2>
           <div class="slideimg">
-            <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+            <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="max-height:400px; max-width:100%;">
           </div>
           <p>{{annon["description"]}}</p>
         </div>
@@ -156,7 +156,7 @@
       ev.preventDefault();
       document.querySelector('#add.modal.container').style.display = 'none';
       document.querySelector('#add-link-form').reset();
-      document.getElementById("announcements").style.display = 'none';
+      {# document.getElementById("announcements").style.display = 'none'; #}
       ev.stopPropagation();
     })
   })
@@ -339,10 +339,6 @@
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 
 <script>
-{# document.getElementById('close-annon-btn').addEventListener('click', ev => {
-    ev.preventDefault();
-    document.getElementById("announcements").style.display = 'none';
-  }); #}
 let slideIndex = 0;
 
 {% if announcements|length > 0 %}
