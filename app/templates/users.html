@@ -23,9 +23,9 @@
                 <td>{{user["email"]}}</td>
                 <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
                 <td>
-                    <select name="{{user['email']}}" id="{{user['email']}}">
+                    <select name="{{user['email']}}" id="{{user['email']}}" {% if type == 'admin' and user['email'] != 'ictdodirector@up.edu.ph' %} disabled {% endif %}>
                         {% for type in usertypes %}
-                            <option value="{{loop.index}}" id="{{user['email']~loop.index}}">{{type}}</option>
+                            <option value="{{loop.index}}" id="{{user['email']~loop.index}}"  >{{type}}</option>
                         {%endfor%}
                     </select>
                 </td>

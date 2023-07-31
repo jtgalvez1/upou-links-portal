@@ -16,11 +16,13 @@
 [x] announcement edit
 [x] announcement delete
 [x] font sizing (too big / categories sidebar)
-
+[x] scaling link image
+[x] admin removal (ictdo director)
 [x] scaling link image
 [na] session storage
 [x] move announcement ( web: below categories sidebar; mobile: above search bar)
 [x] admin removal (ictdo director)
+[x] google logo mobile signin button
 
 
 <!-- !!! FIX: Enter doesn't submit form modal -->

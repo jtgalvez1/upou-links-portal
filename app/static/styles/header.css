@@ -13,45 +13,43 @@ header {
   top: 0;
   z-index: 10;
 }
+.header-container {
+  width: min(1600px, 90%);
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header-container > * {
+  width: 300px;
+}
+
+#menu-btn {
+  all: unset;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
   
 #dark-mode-container-header {
   display: none;
 }
 
-
 #header-logo {
   height: 100%;
+  margin: 0 auto;
 }
 
-.google-auth-btn {
-  position: absolute;
-  z-index: 11;
-  top: 90vh;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%)
+.auth-container > * {
+  float: right;
 }
 
-#menu-btn,
-.logout-btn {
-  outline: 5px solid orange;
-  all: unset;
-  cursor:pointer;
-  position: absolute;
-  top: 0;
-  height: 5em;
-  padding: 1.5em;
-}
-
-#menu-btn {
-  height: 2em;
-  top: 0;
-  left: 0;
-}
-
-.logout-btn {
-  height: 2em;
-  right: 0;
+.g_id_signin.web {
+  display: none
 }
 
 #menu-btn > svg,
@@ -62,6 +60,7 @@ header {
 }
 
 .logout-btn > span {
+  font-size: 0;
   display: none;
 }
 
@@ -70,16 +69,14 @@ header {
   
   #dark-mode-container-header {
     display: block;
-    position: absolute;
-    left: 10em;
   }
 
-  .google-auth-btn {
-    left: unset;
-    top: 1em;
-    right: 2em;
-    -webkit-transform: translateX(0%);
-    transform: translateX(0%)
+  .g_id_signin.web {
+    display: block;
+  }
+
+  .g_id_signin.mobile {
+    display: none;
   }
 
   .logout-btn {
@@ -95,5 +92,6 @@ header {
     display: inline;
     margin-bottom: auto;
     font-weight: bold;
+    font-size: 1.2em;
   }
 }

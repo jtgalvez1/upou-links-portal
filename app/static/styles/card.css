@@ -1,0 +1,164 @@
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2em;
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: #2c2c2c;
+
+  border-radius: .5em;
+  border: 1px solid darkgray;
+  box-shadow: 0 0 10px black inset;
+
+  overflow: hidden;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 25% 75%;
+  align-items: start;
+  justify-content: start;
+}
+
+.card.bookmarked {
+  padding-bottom: 0 !important;
+}
+
+.card.bookmarked .content {
+  grid-column: 1/-1;
+}
+
+.card-img {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card img {
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.card img[src$='.png'] {
+  padding: 1em;
+}
+
+.card .content {
+  padding: 1em;
+}
+
+.card .content > h3 {
+  margin: 0;
+}
+
+.card .content a {
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.card .actions {
+  display: none;
+}
+
+.card .actions > * {
+  all: unset;
+  cursor: pointer;
+
+  width: fit-content;
+  padding: .5em 1em;
+  border-radius: .25em;
+
+  background-color: rgba(0,128,0,100%);
+
+  color: #cdcdcd;
+  font-weight: bold;
+
+  box-shadow: 3px 3px 3px gray;
+}
+
+.card .actions > a {
+  display: none;
+}
+
+.card .actions > button:hover {
+  background-color: rgba(0,56,0,100%);
+}
+
+.card .actions > button.delete {
+  background-color: #aa0000;
+}
+
+.card button.bookmark {
+  all: unset;
+  cursor: pointer;
+  background-color: rgba(0,0,0,0);
+  padding: .5em 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.card button.bookmark svg {
+  width: 2em;
+  height: 2em;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .card {
+    padding-bottom: 3em;
+    display: block;
+  }
+
+  .card:hover {
+    scale: 1.1;
+    box-shadow: 0 0 100px #777;
+  }
+
+  .card-img {
+    height: 300px;
+  }
+
+  .card > img {
+    margin: 0;
+    width: 100%;
+    aspect-ratio: 4 / 3 !important;
+  }
+  
+  .card > img[src$='.png'] {
+    padding: 3em;
+  }
+
+  .card .content {
+    height: 100%;
+  }
+
+  .card .actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 1em;
+    margin: 0;
+  
+    display: flex;
+    flex-flow: row nowrap;
+    gap: .5em;
+  }
+
+  .card .actions > a {
+    display: inline;
+    background-color: hsl(342, 74%, 31%); 
+    width: 100%;
+  }
+  
+  .card .actions > a:hover {
+    background-color: hsl(342, 74%, 15%); 
+    width: 100%;
+  }
+}
