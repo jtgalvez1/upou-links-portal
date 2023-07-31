@@ -102,7 +102,7 @@ svg {
 main {
   padding: 1em;
   padding-top: 6em;
-  width: min(1600px, 95%);
+  width: 95%;
   margin: 0 auto;
 }
 
@@ -269,9 +269,11 @@ table.links td.actions {
 
 @media only screen and (min-width: 768px) {
   main {
-      display: grid;
-      grid-template-columns: 25% 75%;
-      gap: 3em;
+    padding: 0;
+    width: min(1600px, 90%);
+    display: grid;
+    grid-template-columns: max(300px, 20%) 1fr;
+    gap: 3em;
   }
 
   #search-form {
