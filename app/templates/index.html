@@ -157,6 +157,10 @@
     })
   })
 
+  document.querySelectorAll('#add-link-form *').forEach( elem => {
+    elem.addEventListener('click', ev => ev.stopPropagation())
+  })
+
   document.querySelectorAll('.modal.container').forEach( elem => {
     elem.addEventListener('click', ev => {
       ev.preventDefault();
