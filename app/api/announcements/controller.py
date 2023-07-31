@@ -23,11 +23,13 @@ def db_execute(sql):
   finally:
     conn.close()
 
+# Function to add announcements
 def add_announcement(announcement):
     sql = f"INSERT into announcements (name, description, image, ends_at) VALUES ('{announcement['name']}', '{announcement['description']}', '{announcement['image']}','{announcement['datetime']}')"
     result = db_execute(sql)
     return result
 
+# Function to get all announcements
 def get_announcements():
     sql = "SELECT name, description, created_at, ends_at, image, is_visible, id from announcements"
     rows = db_execute(sql)
@@ -49,6 +51,7 @@ def get_announcements():
 
     return announcement_list
 
+# Function to get announcements to be displayed
 def get_valid_announcements():
     announcements = get_announcements()
     
@@ -58,29 +61,34 @@ def get_valid_announcements():
         result.append(annon)
     return result
 
+# Function to compare date from database
 def comparedate(db):
     now = datetime.date.today()
     enddate = db.split("-")
     end = datetime.date(int(enddate[0]),int(enddate[1]),int(enddate[2]))
-    result = end>now
+    result = end>=now
     return result
 
+# Function to change visibility
 def change_visibility(name, visibility):
     sql = f"UPDATE announcements set is_visible = {visibility} where name = '{name}'"
     result = db_execute(sql)
     return result
 
+# Function to change date of ending of announcement
 def change_enddate(name, date):
   sql = f"UPDATE announcements set ends_at = '{date}' where name = '{name}'"
   result = db_execute(sql)
   return result
 
+# Function to change any column in table
 def change_announcement_column_value(id,column,value):
   sql = f"UPDATE announcements SET {column} = '{value}' WHERE id = '{id}'"
   db_execute(sql)
 
   return
 
+# Function to delete announcements
 def delete_announcement(id):
   sql = f"DELETE FROM announcements WHERE id = '{id}'"
   db_execute(sql)

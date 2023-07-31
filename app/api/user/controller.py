@@ -20,6 +20,7 @@ def db_execute(sql):
     conn.close()
   return data
 
+# Function to list all users
 def list_users(column,value):
   sql = "SELECT email, given_name, family_name, b.name as user_type, a.id as id FROM user a INNER JOIN user_type b ON a.user_type = b.id  WHERE {} = '{}'".format(column,value)
   rows = db_execute(sql)
@@ -38,6 +39,7 @@ def list_users(column,value):
 
   return users
 
+# Function to list all user types
 def list_user_types():
   sql = 'SELECT id, name FROM user_type'
   rows = db_execute(sql)
@@ -51,6 +53,7 @@ def list_user_types():
 
   return user_types
 
+# Function to get user data
 def get_user_value(email,column):
   sql = 'SELECT {} FROM user WHERE email = "{}"'.format(column,email)
   data = db_execute(sql)
@@ -58,6 +61,7 @@ def get_user_value(email,column):
     return data[0][0]
   return None
 
+# Function to get users of a specific type
 def get_user_type_id(user_type):
   sql = 'SELECT id FROM user_type WHERE name = "{}"'.format(user_type)
   data = db_execute(sql)
@@ -65,6 +69,7 @@ def get_user_type_id(user_type):
     return data[0][0]
   return None
 
+# Function to insert user into database
 def upsert_user(user):
   user_type = 1
   if user['email'].endswith('@up.edu.ph'):
@@ -88,6 +93,7 @@ WHERE email = '{email}'
   db_execute(sql)
   return list_users('email',user['email'])[0]
 
+# Function to bookmark a link
 def bookmark_link(userid,link_id):
   sql = f"""
 SELECT COUNT(*) FROM user_bookmarks_link
@@ -116,6 +122,7 @@ VALUES ('{userid}', '{link_id}')
 
   return action
 
+# Function to get bookmarks
 def get_user_bookmarks(userid):
   sql = f"SELECT link_id FROM user_bookmarks_link WHERE userid = '{userid}'"
   rows = db_execute(sql)
@@ -127,6 +134,7 @@ def get_user_bookmarks(userid):
 
   return bookmarks
 
+# Function to add new usertype
 def add_user_type(usertypename):
 
   sql = f"INSERT INTO user_type (name) VALUES ('{usertypename}')"
@@ -134,6 +142,7 @@ def add_user_type(usertypename):
   result = db_execute(sql)
   return result
 
+#Function to log user movements
 def log_activity(userid, action, link_id):
   ACTIONS = [
     'ADD',

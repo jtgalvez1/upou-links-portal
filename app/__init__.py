@@ -1,14 +1,17 @@
+# Import Statements
 from flask import Flask, render_template, session, redirect, make_response, request, url_for, send_from_directory
 from flask_session import Session
 
 from google.auth.transport.requests import Request
 
+# Initializing application
 app = Flask(__name__)
 app.config.from_pyfile('configs.py')
 Session(app)
 
 print("Server listening on http://localhost:5000")
 
+# Import functions and endpoints from API
 from app.api.link.router import link
 from app.api.user.router import user
 from app.api.admin.router import admin
@@ -24,6 +27,7 @@ from app.api.admin.controller import *
 from app.api.announcements.controller import *
 from .oauth import verify_token
 
+# Checks user before every fetch request
 @app.before_request
 def check_user():
     if request.path.startswith('/static') or request.path.startswith('/favicon') or request.path == '/logout':
@@ -53,6 +57,8 @@ def check_user():
 
 
 # pages routes
+
+# Main route that fetches all necessary data
 @app.route('/', methods=['GET'])
 def index_page():
     categories_links = {}
@@ -93,6 +99,8 @@ def index_page():
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
+
+# Route for searching links
 @app.route('/search', methods=['GET'])
 def search_page():
     term = request.args.get('term', 'asia')
@@ -111,12 +119,12 @@ def search_page():
         if len(category_links) > 0:
             categories_links[category['name']] = result
 
-    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = list_all_categories(), privacy_settings = list_user_types()))
+    res = make_response(render_template('index.html',categories_links = categories_links,user=session.get('user', None), category_list = list_all_categories(), privacy_settings = list_user_types(), announcements = get_valid_announcements()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
-# admin routes
+# User Management Route
 @app.route('/admin', methods=['GET'])
 def user_management_page():
     types = retrieve_user_types()
@@ -135,7 +143,7 @@ def user_management_page():
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
 
-# auth routes
+# Authentication Route
 @app.route('/callback', methods=['POST', 'GET'])
 def callback():
     credential = request.form.get('credential')
@@ -153,8 +161,7 @@ def logout():
     session.clear()
     return redirect('/')
 
-# pwa routes
-
+# PWA routes
 @app.route('/offline.html', methods=['GET'])
 def offline():
     return app.send_static_file('offline.html')
@@ -170,6 +177,7 @@ def sw():
 
 # announcement routes
 
+# Route for announcement management
 @app.route('/announcements', methods=['GET'])
 def ap():
 

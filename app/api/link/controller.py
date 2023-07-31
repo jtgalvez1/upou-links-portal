@@ -22,11 +22,13 @@ def db_execute(sql):
   finally:
     conn.close()
 
+# Function to get count of links
 def get_count(sql):
   sql = 'SELECT COUNT(*) FROM ({})'.format(sql)
   count = db_execute(sql)[0][0]
   return count
 
+# Function to list all links
 def list_links(privacy='guest',category=None,column=None,value=None):
   sql = "SELECT url, title, description, id, image FROM link a"
   if category is not None and category.get('id') is not None:
@@ -99,7 +101,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
   return links
 
 
-
+# Function to insert link
 def upsert_link(link):
   sql = f"""
 INSERT INTO link (url, title, description, image)
@@ -132,6 +134,7 @@ WHERE url = '{link['url']}'
 
   return get_link('url',link['url'])
 
+# Function to check if link exists
 def does_link_exists(url):
   sql = f'SELECT COUNT(*) FROM link WHERE url = {url}'
   count = db_execute(sql)[0][0]
@@ -139,11 +142,13 @@ def does_link_exists(url):
     return True
   return False
 
+# Function to change column in link
 def set_link_value(url,column,value):
   sql = f"UPDATE link SET {column} = '{value}' WHERE url = '{url}'"
   db_execute(sql)
   return
 
+# Function to update the privacy level of a link
 def update_link_privacy(privacy, url):
   sql = 'DELETE FROM privacy_settings WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
@@ -153,6 +158,7 @@ def update_link_privacy(privacy, url):
     db_execute(sql)
   return
 
+# Function to change category of a link
 def update_link_category(categories, url):
   sql = 'DELETE FROM link_cateogry WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
@@ -161,6 +167,7 @@ def update_link_category(categories, url):
     db_execute(sql)
   return
 
+# Function to get a Link
 def get_link(column,value):
   sql = 'SELECT url, title, description FROM link WHERE {} = "{}"'.format(column, value)
   row = db_execute(sql)[0]
@@ -174,7 +181,7 @@ def get_link(column,value):
   return link
 
 
-
+# Function to get id of a category
 def get_category_id(category):
   sql = 'SELECT id FROM category WHERE name = "{}"'.format(category)
   data = db_execute(sql)
@@ -182,11 +189,13 @@ def get_category_id(category):
     return data[0][0]
   return None
   
+# Function to insert category
 def upsert_category(category):
   sql = 'INSERT OR IGNORE INTO category (name) VALUES ("{}")'.format(category)
   db_execute(sql)
   return get_category_id(category)
 
+# Function to list all categories
 def list_categories(privacy='guest'):
   sql = """
         SELECT DISTINCT category.id, category.name
@@ -215,7 +224,7 @@ def list_categories(privacy='guest'):
   return categories
 
 
-
+# Function to get links by category
 def links_by_category(category,privacy='guest'):
   sql = """
 SELECT url, title, description, a.id, image
@@ -273,6 +282,7 @@ a.id
 
   return links
 
+# Function to remove/delete a link
 def remove_link_from_db(link_id):
   sql = f"DELETE FROM link_cateogry WHERE link_id = '{link_id}'"
   db_execute(sql)
@@ -285,6 +295,7 @@ def remove_link_from_db(link_id):
 
   return
 
+# Function to return bookmarked links
 def list_bookmark_links(userid):
   sql = f"""
 SELECT link.id, link.url, link.title, link.description, link.image
@@ -329,6 +340,7 @@ WHERE user.id = '{userid}';
 
   return links
 
+# Function to get recently visited links
 def list_recently_visited_links(userid):
   sql = f"""
 SELECT id, url, title, description, image
@@ -384,6 +396,7 @@ WHERE a.id IN (
 
   return links
 
+# Function to list trending links
 def list_trending_links(privacy):
   sql = f"""
 SELECT id, url, title, description, image
@@ -438,4 +451,16 @@ WHERE a.id IN (
 
   return links
 
+# Function to list all categories
+def list_all_categories():
+  sql = "SELECT id, name FROM category"
+  rows = db_execute(sql)
 
+  categories = []
+  for row in rows:
+     categories.append({
+        'id'      : row[0],
+        'name'    : row[1],
+     })
+
+  return categories

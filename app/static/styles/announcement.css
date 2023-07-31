@@ -33,8 +33,7 @@
 
 .slideshow {
   max-width: 100%;
-  min-height: 500px;
-  max-height: 700px;
+  height: 700px;
   position: relative;
   margin: auto
 }

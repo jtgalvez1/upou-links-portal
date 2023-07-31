@@ -16,6 +16,7 @@ from .controller import *
 #     'links'       : links
 #   })
 
+# Route to submit new links
 @link.route('/', methods=['POST'])
 def submit_link():
   form = request.form.to_dict()
@@ -75,6 +76,7 @@ def submit_link():
 #     'categories'  : categories
 #   })
 
+#Function to delete link
 @link.route('/<link_id>', methods=['DELETE'])
 def delete_link(link_id):
     remove_link_from_db(link_id)
