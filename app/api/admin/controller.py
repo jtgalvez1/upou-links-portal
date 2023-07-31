@@ -22,6 +22,7 @@ def db_execute(sql):
   finally:
     conn.close()
 
+# Function to return all user data
 def list_user_data():
     sql = "SELECT email, given_name, family_name, user_type FROM user"
     rows = db_execute(sql)
@@ -40,26 +41,15 @@ def list_user_data():
 
     return users
 
-
+# Function to change user type
 def change_user_type(email, user_type):
     sql = f"UPDATE user set user_type = '{user_type}' where email = '{email}'"
     result = db_execute(sql)
     return result
 
+# Function to retrieve all user types
 def retrieve_user_types():
     sql = "SELECT * from user_type"
     result = db_execute(sql)
     return result
 
-def list_all_categories():
-  sql = "SELECT id, name FROM category"
-  rows = db_execute(sql)
-
-  categories = []
-  for row in rows:
-     categories.append({
-        'id'      : row[0],
-        'name'    : row[1],
-     })
-
-  return categories

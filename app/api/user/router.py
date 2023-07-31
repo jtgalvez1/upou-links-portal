@@ -5,6 +5,7 @@ user = Blueprint(name='user', import_name=__name__)
 from .controller import *
 from app.oauth import verify_token
 
+# Route to get users
 @user.route('/', methods=['GET'])
 def get_users():
    users = list_users()
@@ -33,6 +34,7 @@ def get_users():
 #     'user'      : user
 #   })
 
+# Authentication routes
 @user.route('/signin', methods=['POST'])
 def sigin():
     credential = request.form.get('credential')
@@ -49,6 +51,7 @@ def sigin():
        'user'       : user
     })
 
+# Function to bookmark a link
 @user.route('/<userid>/bookmark/link/<link_id>', methods=['PUT'])
 def bookmark(userid, link_id):
    action = bookmark_link(userid, link_id)
@@ -62,6 +65,7 @@ def bookmark(userid, link_id):
       'action'      : action
    })
 
+# Function to add a new bookmark
 @user.route('/addType', methods=["POST"])
 def addType():
    form = request.form.to_dict()
@@ -73,21 +77,25 @@ def addType():
       'action'      : action
    })
 
+# Function to log activity
 @user.route('/<userid>/visit/link/<link_id>', methods=['GET'])
 def visit(userid, link_id):
    log_activity(userid, 'VISIT', link_id)
    return jsonify({ 'status' : 200 })
 
+# Function to add link
 @user.route('/<userid>/add/link/<link_id>', methods=['GET'])
 def add(userid, link_id):
    log_activity(userid, 'ADD', link_id)
    return jsonify({ 'status' : 200 })
 
+# Function to edit link
 @user.route('/<userid>/edit/link/<link_id>', methods=['GET'])
 def edit(userid, link_id):
    log_activity(userid, 'EDIT', link_id)
    return jsonify({ 'status' : 200 })
 
+# Function to remove link
 @user.route('/<userid>/remove/link/<link_id>', methods=['GET'])
 def remove(userid, link_id):
    log_activity(userid, 'REMOVE', link_id)

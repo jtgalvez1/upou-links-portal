@@ -4,6 +4,7 @@ admin = Blueprint(name='admin', import_name=__name__)
 
 from .controller import *
 
+# Route to get user data
 @admin.route('/getUserData', methods = ["GET"])
 def get_users():
     users = list_user_data()
@@ -13,6 +14,7 @@ def get_users():
         'users'       : users
     })
 
+# Route to change type of user
 @admin.route('/changeUserType', methods = ["POST"])
 def change_type():
     data = request.form.to_dict()

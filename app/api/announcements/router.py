@@ -5,6 +5,7 @@ announcements = Blueprint(name='announcements', import_name=__name__)
 
 from .controller import *
 
+# Route for getting announcements
 @announcements.route('/', methods=["POST"])
 def add_announce():
     data = request.form.to_dict()
@@ -29,6 +30,7 @@ def add_announce():
     'message'     : "Succesfully added announcement!",
     })
 
+# Route to change visibility
 @announcements.route('/changeVisibility', methods = ["POST"])
 def change_vis():
     data = request.form.to_dict()
@@ -41,6 +43,7 @@ def change_vis():
         'message'     : 'Succesfully changed visibililty',
     })
 
+# Route to change end date
 @announcements.route('/changeEndDate', methods = ["POST"])
 def change_end():
     data = request.form.to_dict()
@@ -53,6 +56,7 @@ def change_end():
         'message'     : 'Succesfully changed enddate',
     })
 
+# Route to change any column in table
 @announcements.route('/<announcement_id>/<column>/<value>', methods = ['PUT'])
 def change_announcement_column(announcement_id, column, value):
     print(announcement_id)
@@ -82,6 +86,7 @@ def change_announcement_column(announcement_id, column, value):
         'message'      : 'Successfully changed ' + columns[column]
     })
 
+# Route to delete announcement
 @announcements.route('/<announcement_id>', methods=['DELETE'])
 def delete_announcement_endpoint(announcement_id):
     print(announcement_id)
