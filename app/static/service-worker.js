@@ -9,6 +9,7 @@ const filesToCache = [
     '/static/styles/template.css',
     '/static/styles/announcement.css',
     '/static/styles/toggle.css',
+    '/static/styles/card.css',
     '/static/images/UPOU-Website-Header.png',
     '/static/offline.html',
     '/static/manifest.json',
@@ -16,7 +17,6 @@ const filesToCache = [
     '/static/styles/optima/OPTIMA_B.woff',
     '/static/styles/avenir/avenirltstd-book-webfont.woff',
     '/static/images/University-of-the-Future-Official-Logo.png'
-
 ];
 
 self.addEventListener('install', function(e) {

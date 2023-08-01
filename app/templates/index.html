@@ -4,7 +4,7 @@
 {% block main %}
 <div class="links-container">
 
-  <section>
+  <section id="announcements">
     <div class="form-header">
       <h1>Announcements</h1>
     </div>
@@ -335,7 +335,7 @@
   })
 
 {% if announcements|length > 0 %}
-  document.getElementById("announcements").style.display = "flex"
+  document.getElementById("announcements").style.display = "block"
 {% endif %}
 
 </script>

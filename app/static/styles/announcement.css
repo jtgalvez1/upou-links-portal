@@ -1,6 +1,6 @@
-/* #announcements {
-
-} */
+#announcements {
+  display: none;
+}
 
 /* #announcements * {
   outline: 1px solid red;
