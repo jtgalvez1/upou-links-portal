@@ -221,7 +221,7 @@ table.links td.actions {
     display: grid;
     grid-template-columns: max(300px, 20%) 1fr;
     gap: 3em; 
-    padding: 6em 0 0;
+    padding: 6em 0 3em;
   }
 
   #search-form {
