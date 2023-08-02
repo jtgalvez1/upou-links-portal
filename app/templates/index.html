@@ -262,8 +262,10 @@
 
   document.querySelectorAll('.delete').forEach( elem => {
     elem.addEventListener('click', ev => {
-      console.log(ev.currentTarget)
-      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`))
+      ev.preventDefault();
+      let confirmation = ;
+      console.log(confirmation)
+      if (confirm(`Delete ${ev.currentTarget.getAttribute('data-url')} ?`)) {
         fetch('/api/v1/user/' + {{ user['id'] }} + '/remove/link/' + ev.currentTarget.getAttribute('data-link-id'))
         fetch('/api/v1/link/' + ev.currentTarget.getAttribute('data-link-id'),
         { method: 'DELETE' })
@@ -272,6 +274,7 @@
             window.location.reload()
           })
           .catch( err => console.error(err))
+      }
     })
   })
 
