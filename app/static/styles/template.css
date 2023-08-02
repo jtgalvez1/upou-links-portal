@@ -153,10 +153,12 @@ main section {
 }
 
 
-table.links {
+table {
+  width: fit-content;
+  max-width: 100%;
+  table-layout: fixed !important;
   background-color: var(--font-color);
   color: var(--bg-color);
-  table-layout: auto !important;
 
   border-radius: .5em;
   border-collapse: collapse;
@@ -166,47 +168,29 @@ table.links {
   white-space: nowrap;
 }
 
-table.links td,
-table.links th {
+table td,
+table th {
+  min-width: fit-content;
   height: 3em;
-  padding: .5em;
-  border: 1px solid var(--bg-color);
-  /* width: auto !important; */
-}
-
-table.links a.title {
-  all: unset;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-table.links td.actions {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: .5em;
-}
-
-
-
-
-.users-tbl td {
   padding: .5em 1em;
-  width: 33%;
+  border: 1px solid var(--bg-color);
 }
 
-.users-tbl td select {
+table td * {
+  min-width: fit-content;
+}
+
+table td select {
   cursor: pointer;
-  width: 100%;
   border: none;
   background-color: rgba(0,0,0,0%);
   color: var(--bg-color);
   font-size: 1em;
 }
 
-.users-tbl td select option {
+table td select option {
   color: #000;
+  width: fit-content;
 }
 
 
@@ -233,10 +217,12 @@ table.links td.actions {
   }
   
   
-  table.links {
+  table {
     display: table;
-    background-color: var(--font-color);
-    color: var(--bg-color);
-    width: 80%;
+    width: 100%;
+  }
+
+  table td select {
+    width: 100%:
   }
 }
