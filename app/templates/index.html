@@ -137,15 +137,15 @@
 
 <script>
 
-  document.querySelectorAll('.modal').forEach( elem => {
-    elem.addEventListener('click', ev => {
-      ev.preventDefault();
-      ev.stopPropagation();
-    })
+  document.querySelector('#add-link-form').addEventListener('click', ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
   })
 
-  document.querySelectorAll('#add-link-form *').forEach( elem => {
-    elem.addEventListener('click', ev => ev.stopPropagation())
+  document.querySelectorAll('#add-link-form .input-field > *').forEach( elem => {
+    elem.addEventListener('click', ev => {
+      ev.stopPropagation();
+    })
   })
 
   document.querySelectorAll('.modal.container').forEach( elem => {
@@ -153,7 +153,6 @@
       ev.preventDefault();
       document.querySelector('#add.modal.container').style.display = 'none';
       document.querySelector('#add-link-form').reset();
-      {# document.getElementById("announcements").style.display = 'none'; #}
       ev.stopPropagation();
     })
   })
