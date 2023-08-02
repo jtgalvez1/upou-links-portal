@@ -87,6 +87,10 @@
   background-color: rgba(0,56,0,100%);
 }
 
+.card .actions > button.copy {
+  background: var(--bg-color);
+}
+
 .card .actions > button.delete {
   background-color: #aa0000;
 }
