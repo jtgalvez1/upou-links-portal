@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS user (
   FOREIGN KEY (user_type) REFERENCES user_type(id)
 );
 
-DROP TABLE IF EXISTS category;
+-- DROP TABLE IF EXISTS category;
 CREATE TABLE IF NOT EXISTS category (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name        TEXT NOT NULL UNIQUE,
   created_at  datetime DEFAULT current_timestamp
 );
 
-DROP TABLE IF EXISTS link;
+-- DROP TABLE IF EXISTS link;
 CREATE TABLE IF NOT EXISTS link (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   url         TEXT NOT NULL UNIQUE,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS link (
   FOREIGN KEY (added_by) REFERENCES user(id)
 );
 
-DROP TABLE IF EXISTS privacy_settings;
+-- DROP TABLE IF EXISTS privacy_settings;
 CREATE TABLE IF NOT EXISTS privacy_settings (
   user_type_id    INTEGER,
   link_id         INTEGER,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS link_cateogry (
   UNIQUE (link_id, category_id)
 );
 
-DROP TABLE IF EXISTS user_bookmarks_link;
+-- DROP TABLE IF EXISTS user_bookmarks_link;
 CREATE TABLE IF NOT EXISTS user_bookmarks_link (
   userid        TEXT NOT NULL,
   link_id       INTEGER NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS user_bookmarks_link (
   UNIQUE (userid, link_id)
 );
 
-DROP TABLE IF EXISTS logs;
+-- DROP TABLE IF EXISTS logs;
 CREATE TABLE IF NOT EXISTS logs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   userid        TEXT NOT NULL,
@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS announcements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name            TEXT,
   description     TEXT,
+  link            TEXT,
   created_at      date DEFAULT (datetime('now')),
   ends_at         date DEFAULT (datetime('now', '+3 days')),
   image           TEXT,

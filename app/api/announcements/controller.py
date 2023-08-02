@@ -25,13 +25,13 @@ def db_execute(sql):
 
 # Function to add announcements
 def add_announcement(announcement):
-    sql = f"INSERT into announcements (name, description, image, ends_at) VALUES ('{announcement['name']}', '{announcement['description']}', '{announcement['image']}','{announcement['datetime']}')"
+    sql = f"INSERT into announcements (name, description, image, ends_at, link) VALUES ('{announcement['name']}', '{announcement['description']}', '{announcement['image']}','{announcement['datetime']}','{announcement['link']}')"
     result = db_execute(sql)
     return result
 
 # Function to get all announcements
 def get_announcements():
-    sql = "SELECT name, description, created_at, ends_at, image, is_visible, id from announcements"
+    sql = "SELECT name, description, created_at, ends_at, image, is_visible, id, link from announcements"
     rows = db_execute(sql)
 
     announcement_list = []
@@ -45,7 +45,8 @@ def get_announcements():
                 'end_date'      : row[3],
                 'image'         : row[4],
                 'visibility'    : row[5],
-                'id'            : row[6]
+                'id'            : row[6],
+                'link'          : row[7],
             }
             announcement_list.append(ann)
 

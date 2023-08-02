@@ -21,6 +21,7 @@ def add_announce():
         'name' : data['name'],
         'description' : data['desc'],
         'datetime' : data['enddate'],
+        'link'        : data['link'],
         'image' : file_name
     }
 

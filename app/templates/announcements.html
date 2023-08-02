@@ -12,6 +12,7 @@
             <h2 class="announcement-title">{{ a['name'] }}</h2>
             <span class="announcement-date">Date Posted: {{ a['create_date'] }}</span>
             <img src="{{ url_for('static', filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" class="announcement-image">
+            <a class="announcement-detail" href="http://{{ a['link'] }}" target="_blank">{{ a['link'] }}</a>
             <p class="announcement-detail">{{ a['description'] }}</p>
             <div class="announcement-actions">
                 <input type="checkbox" name="visibility" id="visibility-{{ a['id'] }}" data-id="{{ a['id'] }}"  {% if a['visibility'] == 1 %}checked{% endif %} style="display:none">
@@ -32,25 +33,30 @@
 
     <div class="modal container" id="add">
             <form action="/api/v1/user/addType" method="POST" class="modal" id="add-type-form">
-                <input type="text" id="id" name="id" hidden>
+                <input type="text" id="id" name="id" hidden required>
                 <div class="form-header">
-                <h1>Add Announcement</h1>
-                <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
+                    <h1>Add Announcement</h1>
+                    <button id="close-modal-btn"><svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#2c2c2c"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg></button>
                 </div>
 
                 <div class="input-field">   
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter Name" required>
-                </div>
-
-                <div class="input-field">
-                <label for="desc">Description</label>
-                <input type="textfield" id="desc" name="desc" placeholder="Enter Description" required>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter Name" required>
                 </div>
 
                 <div class="input-field">
                     <label for="enddate">Date</label>
                     <input type="date" id="enddate" name="enddate" required>
+                </div>
+
+                <div class="input-field">
+                    <label for="desc">Description</label>
+                    <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="input-field">   
+                    <label for="link">Link</label>
+                    <input type="text" id="link" name="link" placeholder="Enter Link" >
                 </div>
 
                 <div class="input-field">
@@ -74,10 +80,8 @@
     let isNotVisibleSVG = announcement_id => `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z" fill="#777777"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 13.6394 2.42496 14.1915 3.27489 15.2957C4.97196 17.5004 7.81811 20 12 20C16.1819 20 19.028 17.5004 20.7251 15.2957C21.575 14.1915 22 13.6394 22 12C22 10.3606 21.575 9.80853 20.7251 8.70433C19.028 6.49956 16.1819 4 12 4C7.81811 4 4.97196 6.49956 3.27489 8.70433C2.42496 9.80853 2 10.3606 2 12ZM12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25Z" fill="#777777"></path> </g></svg>`
     let dateInput = document.querySelector('#enddate')
     let currAnnouncement = null;
-    console.log(dateInput)
     dateInput.setAttribute('min', (new Date()).toJSON().slice(0,10));
     dateInput.setAttribute('value', (new Date()).toJSON().slice(0,10));
-    console.log(Date.now());
 
     document.querySelector('#open-modal-btn').addEventListener('click', ev => {
         ev.preventDefault();
@@ -95,16 +99,16 @@
 
     document.querySelector('#add-type-form').addEventListener('submit', ev => {
         ev.preventDefault(); 
-        console.log(document.getElementById('image').files)
 
         if (currAnnouncement) {
-            console.log(currAnnouncement)
             if (currAnnouncement.name != document.getElementById("name").value)
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/name/${document.getElementById("name").value}`, { method: 'PUT'})
             if (currAnnouncement.description != document.getElementById("desc").value)
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/desc/${document.getElementById("desc").value}`, { method: 'PUT'})
             if (currAnnouncement.end_date != document.getElementById("enddate").value)
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/enddate/${document.getElementById("enddate").value}`, { method: 'PUT'})
+            if (currAnnouncement.link != document.getElementById("link").value)
+                fetch(`/api/v1/announcements/${currAnnouncement.id}/link/${document.getElementById("link").value}`, { method: 'PUT'})
             if (document.getElementById("image").files.length == 1)
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/image/${document.getElementById("image").files[0]}`, { method: 'PUT'})
             window.location.reload();
@@ -114,6 +118,7 @@
             data.append("name", document.getElementById("name").value)
             data.append("desc", document.getElementById("desc").value)
             data.append("enddate", document.getElementById("enddate").value)
+            data.append("link", document.getElementById("link").value)
             data.append('image', document.querySelector('#image').files[0])
         
             fetch(`/api/v1/announcements/`, {
@@ -153,6 +158,7 @@
         document.querySelector('#name').value = announcement.name;
         document.querySelector('#desc').value = announcement.description;
         document.querySelector('#enddate').value = announcement.end_date;
+        document.querySelector('#link').value = announcement.link;
         document.querySelector('#add.modal.container').style.display = 'flex';
     }   
 

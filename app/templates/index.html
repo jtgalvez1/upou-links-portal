@@ -11,9 +11,9 @@
         <div class="slides fade">
           <h2>{{annon["name"]}}</h2>
           <span>Posted on: {{ annon['create_date'] }}</span>
-          <div class="slideimg">
+          <a class="slideimg" href="http://{{ annon['link']}}" target="_blank">
             <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
-          </div>
+          </a>
           <p>{{annon["description"]}}</p>
         </div>
       {% endfor %}

@@ -19,6 +19,10 @@
   box-shadow: 0 0 5px black;
 }
 
+.modal-header {
+
+}
+
 form.modal {
   width: min(900px, 95%);
   max-height: 90vh;
@@ -51,12 +55,13 @@ form.modal .input-field {
   gap: .3em;
 }
 
-.input-field * {
+form.modal .input-field * {
   font-size: 1.2em;
 }
 
-.input-field > input,
-.input-field > select {
+form.modal .input-field > input,
+form.modal .input-field > textarea,
+form.modal .input-field > select {
   padding: 0.5em;
   border-radius: .25em;
 }
