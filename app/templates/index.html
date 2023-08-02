@@ -34,7 +34,7 @@
           <div class="card {% if category == 'Bookmarks' %}bookmarked{% endif %}">
             {% if category != 'Bookmarks' %}
               <div class="card-img">
-                <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                <img src="{{ url_for('static',filename='images/' + link['image'] if link['image'] != 'None' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="Image cannot be loaded">
               </div>
             {% endif %}
             <div class="content" data-url="{{ link['url'] }}" data-link-id="{{ link['id'] }}">
@@ -335,7 +335,7 @@
   })
 
 {% if announcements|length > 0 %}
-  document.getElementById("announcements").style.display = "block"
+  if(window.navigator.onLine){document.getElementById("announcements").style.display = "block"}
 {% endif %}
 
 </script>
