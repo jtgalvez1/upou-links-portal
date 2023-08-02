@@ -1,4 +1,3 @@
-
 #sidebar {
   width: 100vw;
   height: 100vh;
@@ -89,7 +88,7 @@
     background-color: rgba(0,0,0,0%);
     color: var(--font-color);
     position: sticky;
-    top: 3em;
+    top: 5em;
   }
 
   .sidebar {
@@ -100,15 +99,16 @@
     max-width: 100%;
     color: var(--font-color);
   }
-  
-  .settings.sidebar,
-  #dark-mode-container-sidebar,
-  .settings.sidebar + hr {
-    display: none;
+
+  #profile.sidebar h3,
+  #category-links.sidebar h3 {
+    margin: 0 0 .5em;
   }
 
+  #settings.sidebar,
+  #settings.sidebar + hr,
   #close.sidebar,
   #close.sidebar + hr {
-      display: none;
+    display: none;
   }
 }
