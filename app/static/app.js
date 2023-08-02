@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-  let fontSize = localStorage.getItem('fontSize') || 'medium';
-  document.querySelector(':root').style.fontSize = fontSize;
-
-
-  
   let root = document.querySelector(':root');
+
+  let fontSize = localStorage.getItem('fontSize') || 'medium';
+  root.style.fontSize = fontSize;
+
   let userTheme = localStorage.getItem('userTheme') 
                 ? localStorage.getItem('userTheme') 
                 : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) 
