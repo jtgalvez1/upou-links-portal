@@ -5,15 +5,14 @@
 <div class="links-container">
 
   <section id="announcements">
-    <div class="form-header">
-      <h1>Announcements</h1>
-    </div>
+    <h1>Announcements</h1>
     <div class="slideshow">
       {% for annon in announcements%}
         <div class="slides fade">
-          <h2 style="font-size:40px;">{{annon["name"]}}</h2>
+          <h2>{{annon["name"]}}</h2>
+          <span>Posted on: {{ annon['create_date'] }}</span>
           <div class="slideimg">
-            <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="" style="max-height:400px; max-width:100%;">
+            <img class="slideimgimg" src="{{ url_for('static',filename='images/' + annon['image'] if annon['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
           </div>
           <p>{{annon["description"]}}</p>
         </div>
