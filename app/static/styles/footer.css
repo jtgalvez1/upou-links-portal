@@ -6,7 +6,7 @@ footer {
   background-color: var(--forest-green);
   color: #cdcdcd;
 
-  position: relative;
+  position: absolute;
   bottom: 0;
 }
 
