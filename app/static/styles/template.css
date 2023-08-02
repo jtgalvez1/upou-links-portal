@@ -134,7 +134,7 @@ main section {
 
 #search-form {
   display: grid;
-  grid-template-columns: 3em 1fr;
+  grid-template-columns: 3em 1fr 3em;
 
   /* width: min(800px, 95%); */
   width: 100%;
@@ -149,9 +149,12 @@ main section {
 
 #search-terms {
   all: unset;
-  cursor: pointer;
+  cursor: text;
 }
 
+#search-reset {
+  cursor: pointer;
+}
 
 table.links {
   background-color: var(--font-color);
