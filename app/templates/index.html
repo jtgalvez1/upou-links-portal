@@ -124,7 +124,7 @@
       <label for="privacy">Privacy Settings</label>
       {% for privacy in privacy_settings %}
         <div>
-          <input type="checkbox" name="privacy" id="privacy-{{ privacy['id'] }}" value="{{ privacy['id']}}">        
+          <input type="checkbox" name="privacy" id="privacy-{{ privacy['id'] }}" value="{{ privacy['id']}}" {% if privacy['name'] == 'admin' %}checked{% endif %}>        
           <label for="privacy-{{ privacy['id'] }}">{{ privacy['name'] }}</label>
         </div>
       {% endfor %}
