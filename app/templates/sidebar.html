@@ -23,6 +23,9 @@
             {% if categories_links['Recently Visited'] %}
                 <a href="#section-Recently_Visited" class="sidebar-link">Recently Visited</a>
             {% endif %}
+            {% if user %}
+                <a href="/logout" class="sidebar-link">Logout</a>
+            {% endif %}
     </div>
     <hr>
     {% endif %}
@@ -44,7 +47,6 @@
                 <a href="/admin" class="sidebar-link">User Management</a>
                 <a href="/announcements" class="sidebar-link">Announcements Page</a>
             {% endif %}
-            <a href="/logout" class="sidebar-link">Logout</a>
         </div>
     {% endif %}
 </div>
