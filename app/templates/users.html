@@ -16,6 +16,7 @@
                 <th>Email</th>
                 <th>Name</th>
                 <th>User Type</th>
+                <th>Action/s</th>
             </thead>
             <tbody>
             {% for user in categories_links[type]%}
@@ -23,11 +24,14 @@
                 <td>{{user["email"]}}</td>
                 <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
                 <td>
-                    <select name="{{user['email']}}" id="{{user['email']}}" {% if type == 'admin' and user['email'] != 'ictdodirector@up.edu.ph' %} disabled {% endif %}>
+                    <select name="{{user['email']}}" id="{{user['email']}}" {% if type == 'admin' and user['email'] == 'ictdodirector@up.edu.ph' %} disabled {% endif %}>
                         {% for type in usertypes %}
                             <option value="{{loop.index}}" id="{{user['email']~loop.index}}"  >{{type}}</option>
                         {%endfor%}
                     </select>
+                </td>
+                <td>
+                    <button class='delete' data-email="{{ user['email'] }}" {% if type == 'admin' %} disabled {% endif %}>Delete</button>
                 </td>
                 <script>
                     document.getElementById("{{user["email"]~user["user_type"]}}").setAttributeNode(document.createAttribute("selected"));
@@ -103,6 +107,22 @@
             .then( res => res.json())
             .then( data => window.location.reload())
             .catch( err => console.error(err))
+        })
+
+        document.querySelectorAll('.delete').forEach( elem => {
+            elem.addEventListener('click', ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            if (confirm(`Delete ${ev.currentTarget.getAttribute('data-email')} ?`)) {
+                fetch('/api/v1/user/' + ev.currentTarget.getAttribute('data-email'),
+                { method: 'DELETE' })
+                .then( res => res.json())
+                .then( data => {
+                    window.location.reload()
+                })
+                .catch( err => console.error(err))
+            }
+            })
         })
     </script>
 

@@ -160,3 +160,8 @@ def log_activity(userid, action, link_id):
   db_execute(sql)
 
   return
+
+def delete_user(userid):
+  sql = f"DELETE FROM user where email = '{userid}'"
+  result = db_execute(sql)
+  return result

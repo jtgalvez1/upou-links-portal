@@ -100,3 +100,11 @@ def edit(userid, link_id):
 def remove(userid, link_id):
    log_activity(userid, 'REMOVE', link_id)
    return jsonify({ 'status' : 200 })
+
+@user.route('/<email>', methods=['DELETE'])
+def deluser(email):
+   delete_user(email)
+   return jsonify({
+        'status'      : 200,
+        'message'     : 'Successfully deleted user.'
+    })
