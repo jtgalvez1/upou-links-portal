@@ -230,3 +230,16 @@ table td select option {
     width: 100%;
   }
 }
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+body > * {
+  flex-grow: 1;
+}
+
+footer {
+  flex-grow: 0;
+}
