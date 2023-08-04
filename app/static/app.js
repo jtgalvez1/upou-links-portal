@@ -4,21 +4,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let fontSize = localStorage.getItem('fontSize') || 'medium';
   root.style.fontSize = fontSize;
-
+  
+  let darkModeToggle = document.querySelector('#dark-mode')
   let userTheme = localStorage.getItem('userTheme') 
                 ? localStorage.getItem('userTheme') 
                 : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) 
                 ? 'dark' 
                 : 'light';
-  let darkModeToggle = document.querySelector('#dark-mode')
-
-  changeTheme(userTheme)
-
+  changeTheme(userTheme);
+                
   darkModeToggle.addEventListener('change', ev => {
     let theme = ev.currentTarget.checked ? 'dark' : 'light';
-    changeTheme(theme)
-    localStorage.setItem('userTheme', theme)
-  })
+    changeTheme(theme);
+    localStorage.setItem('userTheme', theme);
+  });
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
     changeTheme(localStorage.getItem('userTheme') == null && event.matches ? "dark" : "light");
@@ -27,14 +26,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function changeTheme(theme) {
     if (theme === 'dark') {
-      root.style.setProperty('--bg-color', '#2c2c2c')
-      root.style.setProperty('--font-color', '#cdcdcd')
-      root.style.setProperty('--card-bg', '#cdcdcd')
+      root.style.setProperty('--bg-color', '#2c2c2c');
+      root.style.setProperty('--font-color', '#cdcdcd');
+      root.style.setProperty('--card-bg', '#cdcdcd');
+      document.querySelectorAll('.card .actions .copy svg path').forEach( elem => {
+        elem.setAttribute('fill', '#fff');
+      })
       darkModeToggle.checked = true;
     } else if (theme === 'light') {
-      root.style.setProperty('--bg-color', '#cdcdcd')
-      root.style.setProperty('--font-color', '#333')
-      root.style.setProperty('--card-bg', '#fff')
+      root.style.setProperty('--bg-color', '#cdcdcd');
+      root.style.setProperty('--font-color', '#333');
+      root.style.setProperty('--card-bg', '#fff');
+      document.querySelectorAll('.card .actions .copy svg path').forEach( elem => {
+        elem.setAttribute('fill', '#333');
+      })
       darkModeToggle.checked = false;
     }
   }
