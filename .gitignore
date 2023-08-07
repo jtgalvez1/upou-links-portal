@@ -1,8 +1,8 @@
 app/__pycache__
 __pycache__
-app/database/main.db
+# app/database/main.db
 app/database/links.csv
-client_secret.json
+# client_secret.json
 flask_session/
 .vscode/
 request.rest
