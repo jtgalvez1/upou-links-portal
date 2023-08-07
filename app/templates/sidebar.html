@@ -45,9 +45,9 @@
     
         <hr>
         <div class="sidebar">
-            <a href="/" class="sidebar-link {% if request.path != '/users' and request.path != '/announcements' %}active{% endif %}">Home</a>
+            <a href="/" class="sidebar-link {% if request.path != '/admin/users' and request.path != '/announcements' %}active{% endif %}">Home</a>
             {% if user['user_type'] == 'admin' %}
-                <a href="/users" class="sidebar-link {% if request.path == '/users'%}active{% endif %}" >User Management</a>
+                <a href="/admin/users" class="sidebar-link {% if request.path == '/admin/users'%}active{% endif %}" >User Management</a>
             {% endif %}
             <a href="/announcements" class="sidebar-link {% if request.path == '/announcements' %}active{% endif %}">
                 Announcements

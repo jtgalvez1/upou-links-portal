@@ -41,7 +41,7 @@ def list_users(column,value):
 
 # Function to list all user types
 def list_user_types():
-  sql = 'SELECT id, name FROM user_type'
+  sql = 'SELECT id, name FROM user_type ORDER BY name'
   rows = db_execute(sql)
 
   user_types = []

@@ -49,7 +49,29 @@ def change_user_type(email, user_type):
 
 # Function to retrieve all user types
 def retrieve_user_types():
-    sql = "SELECT * from user_type"
+    sql = "SELECT * from user_type ORDER BY name ASC"
     result = db_execute(sql)
     return result
 
+
+
+def remove_link_category(categoryName):
+  sql = f"DELETE FROM link_category WHERE category_id IN (SELECT id FROM category WHERE name = '{categoryName}')"
+  db_execute(sql)
+
+  sql = f"DELETE FROM category WHERE name = '{categoryName}'"
+  db_execute(sql)
+
+  return
+
+def remove_user_type(userType):
+  # sql = f"DELETE FROM link_category WHERE category_id IN (SELECT id FROM category WHERE name = '{userType}')"
+  # db_execute(sql)
+
+  sql = f"UPDATE user SET user_type = (SELECT id FROM user_type WHERE name = 'guest') WHERE user_type = (SELECT id FROM user_type WHERE name = '{userType}')"
+  db_execute(sql)
+
+  sql = f"DELETE FROM user_type WHERE name = '{userType}'"
+  db_execute(sql)
+
+  return

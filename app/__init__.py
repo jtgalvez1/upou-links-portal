@@ -140,8 +140,7 @@ def search_page():
     return res
 
 # User Management Route
-@app.route('/users', methods=['GET'])
-@app.route('/admin', methods=['GET'])
+@app.route('/admin/users', methods=['GET'])
 def user_management_page():
     types = retrieve_user_types()
 

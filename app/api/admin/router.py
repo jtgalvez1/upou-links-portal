@@ -26,3 +26,35 @@ def change_type():
         'status'      : 200,
         'message'     : 'Succesfully changed usertype',
     })
+
+
+
+@admin.route('/category/<categoryName>', methods=['DELETE'])
+def delete_category(categoryName):
+    if categoryName in ['Featured']:
+        return jsonify({
+            'status'    : 403,
+            'message'   : 'Cannot remove Featured category.'
+        })
+
+    remove_link_category(categoryName)
+
+    return jsonify({
+        'status'      : 200,
+        'message'     : 'Successfully deleted category.'
+    })
+
+@admin.route('/userType/<userType>', methods=['DELETE'])
+def delete_user_type(userType):
+    if userType in ['admin', 'guest', 'Blacklist']:
+        return jsonify({
+            'status'    : 403,
+            'message'   : 'Cannot remove admin users.'
+        })
+
+    remove_user_type(userType)
+
+    return jsonify({
+        'status'    : 200,
+        'message'   : 'Succesfully deleted category.'
+    })

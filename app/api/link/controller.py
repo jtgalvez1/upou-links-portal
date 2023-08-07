@@ -464,12 +464,3 @@ def list_all_categories():
      })
 
   return categories
-
-def remove_link_category(categoryName):
-  sql = f"DELETE FROM link_category WHERE category_id IN (SELECT id FROM category WHERE name = '{categoryName}')"
-  db_execute(sql)
-
-  sql = f"DELETE FROM category WHERE name = '{categoryName}'"
-  db_execute(sql)
-
-  return

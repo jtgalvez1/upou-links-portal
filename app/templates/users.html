@@ -10,7 +10,12 @@
     <div class="links-container">
     {% for type in usertypes %}
     <section id="section-{{type.title() | replace(' ', '_') }}">
-        <h1>{{type.title()}}</h1>
+        <h1 class="section-title">
+            <span>{{type.title()}}</span>
+            {% if type not in ['admin', 'Blacklist', 'guest'] %}
+                <button class="delete-userType-btn" data-user-type="{{ type }}">Delete User Type</button>
+            {% endif %}
+        </h1>
         <table class="links users-tbl">
             <thead>
                 <th>Email</th>
@@ -122,6 +127,22 @@
                 })
                 .catch( err => console.error(err))
             }
+            })
+        })
+
+        document.querySelectorAll('.delete-userType-btn').forEach( btn => {
+            btn.addEventListener('click', ev => {
+                ev.preventDefault();
+                let deleteConfimation = confirm(`Are you sure want to delete user type, ${ev.currentTarget.getAttribute('data-user-type')}?`)
+
+                if (deleteConfimation) {
+                    fetch(`/api/v1/admin/userType/${ev.currentTarget.getAttribute('data-user-type')}`, {
+                        method: 'DELETE'
+                    })
+                        .then( res => res.json())
+                        .then( data => window.location.reload())
+                        .catch( err => console.error(err))
+                }
             })
         })
     </script>

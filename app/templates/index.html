@@ -155,7 +155,7 @@
       let deleteConfimation = confirm(`Are you sure want to delete category, ${ev.currentTarget.getAttribute('data-category')}?`)
 
       if (deleteConfimation) {
-        fetch(`/api/v1/link/category/${ev.currentTarget.getAttribute('data-category')}`, {
+        fetch(`/api/v1/admin/category/${ev.currentTarget.getAttribute('data-category')}`, {
           method: 'DELETE'
         })
           .then( res => res.json())
