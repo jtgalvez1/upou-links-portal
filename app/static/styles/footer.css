@@ -23,6 +23,20 @@ footer .container > p {
   margin: 0 auto;
 }
 
+
+.font-sizes {
+  margin: .5em 0;
+}
+
+.font-sizes h3 {
+  margin: 0;
+}
+
+.font-size {
+  all: unset;
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 768px) {
   footer .grid-container{
     margin: 0 auto;
