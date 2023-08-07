@@ -51,24 +51,24 @@
             {% endif %}
             <a href="/announcements" class="sidebar-link {% if request.path == '/announcements' %}active{% endif %}">
                 Announcements
-                {% if request.path != '/announcements'%}
-                    <div class="slideshow">
-                        {% for a in announcements %}
-                            <div class="slide">
-                                <h2>{{ a['name'] }}</h2>
-                                <span>{{ a['create_date'] }}</span>
-                                <div class="slide-img">
-                                    <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
-                                </div>
-                                <button>See More</button>
-                            </div>
-                        {% endfor %}
-                        <div class="empty-slide"></div>
-                        <button class="btn" id="left">&lt;</button>
-                        <button class="btn" id="right">&gt;</button>
-                    </div>
-                {% endif %}
             </a>
+            {% if request.path != '/announcements'%}
+                <div class="slideshow">
+                    {% for a in announcements %}
+                        <div class="slide">
+                            <h2>{{ a['name'] }}</h2>
+                            <span>{{ a['create_date'] }}</span>
+                            <div class="slide-img">
+                                <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                            </div>
+                            <button>See More</button>
+                        </div>
+                    {% endfor %}
+                    <div class="empty-slide"></div>
+                    <button class="btn" id="left">&lt;</button>
+                    <button class="btn" id="right">&gt;</button>
+                </div>
+            {% endif %}
         </div>
 </div>
 
@@ -120,8 +120,10 @@
             slideToDisplay = slides.length + (currSlide - 1)
 
         slides[(slideToDisplay) % slides.length].style.display = 'none';
-        slides[(slideToDisplay) % slides.length].style.right = '110%';
+        slides[(slideToDisplay) % slides.length].style.left = '-110%';
+        slides[(slideToDisplay) % slides.length].style.zIndex = '0';
         slides[(currSlide) % slides.length].style.left = '110%';
+        slides[(currSlide) % slides.length].style.zIndex = '10';
         slides[(slideToDisplay) % slides.length].style.display = 'block';
         setTimeout(() => {
             slides[(slideToDisplay) % slides.length].style.left = '0%';
@@ -137,15 +139,17 @@
         document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
-            clearInterval(slideInterval)
+            clearInterval(slideInterval);
             prevSlide();
+            setTimeout(setInterval(runSlideshow(), 5000), 10000);
         });
 
         document.querySelector('.slideshow #right.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
-            clearInterval(slideInterval)
+            clearInterval(slideInterval);
             nextSlide();
+            setTimeout(setInterval(runSlideshow(), 5000), 10000);
         });
     }
 </script>

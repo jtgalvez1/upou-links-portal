@@ -20,7 +20,7 @@
     <section id="section-{{ category.title() | replace(' ', '_') }}">
       <h1 class="section-title">
         <span>{{ category }}</span>
-        {% if user['user_type'] == 'admin' and category not in ['Bookmarks', 'Featured','Recently Visited', 'Trending']%}
+        {% if user['user_type'] == 'admin' and category not in ['Bookmarks', 'Featured','Recently Visited', 'Trending', 'Others']%}
           <button class="category-delete-btn" data-category="{{ category }}">Delete Category</button>
         {% endif %}
       </h1>
