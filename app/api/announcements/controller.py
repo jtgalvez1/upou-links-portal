@@ -41,7 +41,7 @@ def get_announcements():
             ann = {
                 'name'          : row[0],
                 'description'   : row[1],
-                'create_date'   : row[2],
+                'create_date'   : datetime.datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S').strftime('%b %d, %Y'),
                 'end_date'      : row[3],
                 'image'         : row[4],
                 'visibility'    : row[5],

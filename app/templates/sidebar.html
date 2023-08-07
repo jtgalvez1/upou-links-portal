@@ -23,9 +23,6 @@
             {% if categories_links['Recently Visited'] %}
                 <a href="#section-Recently_Visited" class="sidebar-link">Recently Visited</a>
             {% endif %}
-            {% if user %}
-                <a href="/logout" class="sidebar-link">Logout</a>
-            {% endif %}
     </div>
     <hr>
     {% endif %}
@@ -46,10 +43,50 @@
     {% if user %}
         <hr>
         <div class="sidebar">
+            <a href="/" class="sidebar-link {% if request.path != '/users' and request.path != '/announcements' %}active{% endif %}">Home</a>
             {% if user['user_type'] == 'admin' %}
-                <a href="/users" class="sidebar-link">User Management</a>
-                <a href="/announcements" class="sidebar-link">Announcements Page</a>
+                <a href="/users" class="sidebar-link {% if request.path == '/users'%}active{% endif %}" >User Management</a>
             {% endif %}
+            <a href="/announcements" class="sidebar-link {% if request.path == '/announcements' %}active{% endif %}">
+                Announcements
+                {% if request.path != '/announcements'%}
+                    <div class="slideshow">
+                    {% for a in announcements %}
+                        <div class="slide">
+                            <h2>{{ a['name'] }}</h2>
+                            <span>{{ a['create_date'] }}</span>
+                            <div class="slide-img">
+                                <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                            </div>
+                            <button>See More</button>
+                        </div>
+                    {% endfor %}
+                    <div class="empty-slide"></div>
+                    </div>
+                {% endif %}
+            </a>
         </div>
     {% endif %}
 </div>
+
+<script>
+    function runSlideshow() {
+        let slides = document.querySelectorAll('.sidebar .slideshow .slide');
+        let currSlide = 0;
+
+        if (slides.length > 1 ) { 
+            setInterval(() => {
+                slides[currSlide % slides.length].style.zIndex = '0';
+                slides[currSlide % slides.length].style.left = '-100%';
+                slides[(currSlide + 1) % slides.length].style.zIndex = '10';
+                slides[(currSlide + 1) % slides.length].style.left = '0';
+                setTimeout(() => {
+                    slides[currSlide % slides.length].style.left = '100%'
+                    currSlide++;
+                }, 1500)
+            }, 5000)
+        }
+    }
+
+    runSlideshow();
+</script>

@@ -37,8 +37,8 @@ def check_user():
     if request.path.startswith('/admin') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
         return redirect('/')
 
-    if request.path.startswith('/announcements') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
-        return redirect('/')
+    # if request.path.startswith('/announcements') and session.get('user', { 'user_type' : 'guest' })['user_type'] != 'admin':
+    #     return redirect('/')
 
     if session and session.get('user'):
         users = list_users('email', session['user']['email'])
@@ -65,26 +65,39 @@ def index_page():
     bookmark_links = []
     recents_links = []
     trending_links = list_trending_links(session.get('user', {'user_type':'guest'})['user_type'])
+    featured_category_id = get_category_id('Featured')
+    featured_links = []
+    if featured_category_id is not None:
+        featured_links = links_by_category({ 'id' : featured_category_id, 'name' : 'Featured' }, session.get('user', {'user_type' : 'guest'})['user_type'])
     if session and session.get('user'):
         bookmark_links = list_bookmark_links(session['user']['id'])
         recents_links = list_recently_visited_links(session['user']['id'])
+
+    print(featured_links)
     
     if len(bookmark_links) > 0:
         categories_links['Bookmarks'] = bookmark_links
     
+    if len(featured_links) > 0:
+        categories_links['Featured'] = featured_links
+
     if len(recents_links) > 0:
         categories_links['Recently Visited'] = recents_links
 
     if len(trending_links) > 0:
         categories_links['Trending'] = trending_links
 
+    categories_links
+
 
     categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     for category in categories:
-        category_links = links_by_category(category, session.get('user', {'user_type': 'guest'})['user_type'])
+        if category['name'] != 'Featured':
+            category_links = links_by_category(category, session.get('user', {'user_type': 'guest'})['user_type'])
 
-        if len(category_links) > 0:
-            categories_links[category['name']] = category_links
+            if len(category_links) > 0:
+                categories_links[category['name']] = category_links
+            
 
     res = make_response(
             render_template(
