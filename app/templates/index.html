@@ -18,7 +18,12 @@
     {% if links|length > 0 %}
     <script>document.getElementById("no-results").style.display='none';</script>
     <section id="section-{{ category.title() | replace(' ', '_') }}">
-      <h1>{{ category }}</h1>
+      <h1 class="section-title">
+        <span>{{ category }}</span>
+        {% if user['user_type'] == 'admin' and category not in ['Bookmarks', 'Featured','Recently Visited', 'Trending']%}
+          <button class="category-delete-btn" data-category="{{ category }}">Delete Category</button>
+        {% endif %}
+      </h1>
       <div class="card-container">
         {% for link in links %}
 
@@ -143,6 +148,22 @@
     })
   })
   {% if user and user['user_type'] == 'admin' %}
+
+  document.querySelectorAll('.category-delete-btn').forEach( btn => {
+    btn.addEventListener('click', ev => {
+      ev.preventDefault();
+      let deleteConfimation = confirm(`Are you sure want to delete category, ${ev.currentTarget.getAttribute('data-category')}?`)
+
+      if (deleteConfimation) {
+        fetch(`/api/v1/link/category/${ev.currentTarget.getAttribute('data-category')}`, {
+          method: 'DELETE'
+        })
+          .then( res => res.json())
+          .then( data => window.location.reload())
+          .catch( err => console.error(err))
+      }
+    })
+  })
 
 
   document.querySelector('#add-link-form').addEventListener('click', ev => {

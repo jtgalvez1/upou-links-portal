@@ -85,3 +85,13 @@ def delete_link(link_id):
         'status'      : 200,
         'message'     : 'Successfully deleted link.'
     })
+
+@link.route('/category/<categoryName>', methods=['DELETE'])
+def delete_category(categoryName):
+   print(categoryName)
+   remove_link_category(categoryName)
+
+   return jsonify({
+      'status'      : 200,
+      'message'     : 'Successfully deleted category.'
+   })

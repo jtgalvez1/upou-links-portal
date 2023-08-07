@@ -157,6 +157,32 @@ main section {
   max-width: fit-content;
 }
 
+.section-title {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.section-title > span {
+  flex-grow: 1;
+  width: auto;
+}
+
+
+
+.section-title > button {
+  all: unset;
+  cursor: pointer;
+  height: fit-content;
+  background-color: red;
+  padding: .5em 1em;
+  border-radius: .5em;
+  color: white;
+  font-family: 'Avenir', sans-serif;
+  font-weight: bold;
+  flex-grow: 0;
+  font-size: .6em;
+}
+
 table {
   width: fit-content;
   max-width: 100%;
@@ -218,6 +244,19 @@ table td select option {
 
   .links-container {
     grid-column: 2;
+  }
+
+  .section-title > button {
+    all: unset;
+    cursor: pointer;
+    background-color: red;
+    padding: .5em 1em;
+    border-radius: .5em;
+    color: white;
+    font-family: 'Avenir', sans-serif;
+    font-weight: bold;
+    flex-grow: 0;
+    font-size: .6em;
   }
   
   
