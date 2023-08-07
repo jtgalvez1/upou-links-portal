@@ -44,6 +44,8 @@ def check_user():
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
             user = users[0]
+            if user['user_type'] == 'Blacklist':
+                return redirect('/logout')
             user['bookmarks'] = get_user_bookmarks(user['id'])
             session['user'] = { **user, 'name': user.get('given_name') + ' ' + user.get('family_name')}
         else:
