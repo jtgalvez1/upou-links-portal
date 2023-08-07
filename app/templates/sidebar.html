@@ -20,6 +20,9 @@
             {% if categories_links['Bookmarks'] %}
                 <a href="#section-Bookmarks" class="sidebar-link">Bookmarks</a>
             {% endif %}
+            {% if categories_links['Featured'] %}
+                <a href="#section-Featured" class="sidebar-link">Featured</a>
+            {% endif %}
             {% if categories_links['Recently Visited'] %}
                 <a href="#section-Recently_Visited" class="sidebar-link">Recently Visited</a>
             {% endif %}
@@ -32,7 +35,7 @@
         <h3>Categories</h3>
         {% for category in categories_links.keys() %}
 
-            {% if category != 'Bookmarks' and category != 'Recently Visited' %}
+            {% if category != 'Bookmarks' and category != 'Recently Visited' and category != 'Featured' %}
                 <a href="#section-{{ category.title() | replace(' ', '_') }}" class="sidebar-link">{{ category.title() }}</a>
             {% endif %}
 
