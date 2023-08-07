@@ -282,3 +282,23 @@ body > * {
 footer {
   flex-grow: 0;
 }
+
+#scroll-to-top {
+  width: fit-content;
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 10px; /* Place the button at the bottom of the page */
+  justify-self: center;
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 5px; /* Some padding */
+  background-color: hsl(133.9,74.5%,21.6%);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  font-size: 30px;
+}
