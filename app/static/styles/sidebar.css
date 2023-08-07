@@ -130,7 +130,7 @@
   max-width: 100%;
 }
 
-.sidebar .slideshow .slide button {
+.sidebar .slideshow .slide button:not(.btn) {
   width: fit-content;
   padding: .25em .5em;
   margin-top: .25em;
@@ -141,6 +141,25 @@
   cursor: pointer;
 }
 
+.sidebar .slideshow > button.btn {
+  border: none;
+  width: 2em;
+  height: 3em;
+  background-color: rgba(0,0,0,30%);
+  color: #fff;
+  cursor: pointer;
+  z-index: 100;
+  position: absolute;
+  top: 125px;
+}
+
+.sidebar .slideshow > button.btn#left {
+  left: 0;
+}
+
+.sidebar .slideshow > button.btn#right {
+  right: 0;
+}
 
 @media only screen and (min-width: 768px) {
 

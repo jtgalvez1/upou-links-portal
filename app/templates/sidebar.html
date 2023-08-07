@@ -53,17 +53,19 @@
                 Announcements
                 {% if request.path != '/announcements'%}
                     <div class="slideshow">
-                    {% for a in announcements %}
-                        <div class="slide">
-                            <h2>{{ a['name'] }}</h2>
-                            <span>{{ a['create_date'] }}</span>
-                            <div class="slide-img">
-                                <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                        {% for a in announcements %}
+                            <div class="slide">
+                                <h2>{{ a['name'] }}</h2>
+                                <span>{{ a['create_date'] }}</span>
+                                <div class="slide-img">
+                                    <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                                </div>
+                                <button>See More</button>
                             </div>
-                            <button>See More</button>
-                        </div>
-                    {% endfor %}
-                    <div class="empty-slide"></div>
+                        {% endfor %}
+                        <div class="empty-slide"></div>
+                        <button class="btn" id="left">&lt;</button>
+                        <button class="btn" id="right">&gt;</button>
                     </div>
                 {% endif %}
             </a>
@@ -71,29 +73,79 @@
 </div>
 
 <script>
-    function runSlideshow() {
-        let slides = document.querySelectorAll('.sidebar .slideshow .slide');
-        let currSlide = 0;
+    let slides = document.querySelectorAll('.sidebar .slideshow .slide');
+    let currSlide = 0;
+    let isSlideshowPaused = false;
 
-        if (slides.length > 1 ) { 
-            setInterval(() => {
-                slides[(currSlide + 1) % slides.length].style.display = 'block';
+    function runSlideshow() {
+        if (!isSlideshowPaused) {
+            slides[(currSlide + 1) % slides.length].style.display = 'block';
+            slides[currSlide % slides.length].style.zIndex = '0';
+            slides[currSlide % slides.length].style.left = '-110%';
+            slides[(currSlide + 1) % slides.length].style.zIndex = '10';
+            slides[(currSlide + 1) % slides.length].style.left = '0';
+            setTimeout(() => {
+                slides[currSlide % slides.length].style.display = 'none';
                 setTimeout(() => {
-                    slides[currSlide % slides.length].style.zIndex = '0';
-                    slides[currSlide % slides.length].style.left = '-110%';
-                    slides[(currSlide + 1) % slides.length].style.zIndex = '10';
-                    slides[(currSlide + 1) % slides.length].style.left = '0';
-                    setTimeout(() => {
-                        slides[currSlide % slides.length].style.display = 'none';
-                        setTimeout(() => {
-                            slides[currSlide % slides.length].style.left = '110%';
-                            currSlide++;
-                        }, 500)
-                    }, 1000)
+                    slides[currSlide % slides.length].style.left = '110%';
+                    currSlide++;
                 }, 500)
-            }, 5000)
+            }, 1000)
         }
     }
 
-    runSlideshow();
+    function nextSlide() {
+        isSlideshowPaused = true;
+        slides[(currSlide + 1) % slides.length].style.display = 'block';
+        setTimeout(() => {
+            slides[currSlide % slides.length].style.zIndex = '0';
+            slides[currSlide % slides.length].style.left = '-110%';
+            slides[(currSlide + 1) % slides.length].style.zIndex = '10';
+            slides[(currSlide + 1) % slides.length].style.left = '0';
+            setTimeout(() => {
+                slides[currSlide % slides.length].style.display = 'none';
+                setTimeout(() => {
+                    slides[currSlide % slides.length].style.left = '110%';
+                    currSlide++;
+                }, 100)
+            }, 800)
+        }, 100)
+    }
+
+    function prevSlide() {
+        isSlideshowPaused = true;
+
+        slideToDisplay = currSlide - 1
+        if (currSlide-1 < 0)
+            slideToDisplay = slides.length + (currSlide - 1)
+
+        slides[(slideToDisplay) % slides.length].style.display = 'none';
+        slides[(slideToDisplay) % slides.length].style.right = '110%';
+        slides[(currSlide) % slides.length].style.left = '110%';
+        slides[(slideToDisplay) % slides.length].style.display = 'block';
+        setTimeout(() => {
+            slides[(slideToDisplay) % slides.length].style.left = '0%';
+            setTimeout(() => {
+                currSlide = slides.length + (currSlide - 1)
+            }, 500)
+        }, 500)
+    }
+
+    if (slides.length > 1 ) { 
+        let slideInterval = setInterval(runSlideshow, 5000);
+        
+        document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            clearInterval(slideInterval)
+            prevSlide();
+        });
+
+        document.querySelector('.slideshow #right.btn').addEventListener('click', ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            clearInterval(slideInterval)
+            nextSlide();
+        });
+    }
 </script>
