@@ -77,7 +77,7 @@
   color: #2c2c2c;
 
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .sidebar .slideshow .empty-slide {
@@ -88,6 +88,7 @@
 .sidebar .slideshow .slide {
   width: 100%;
   height: fit-content;
+  border-radius: 5px;
   background-color: #fff;
 
   display: grid;
@@ -95,11 +96,9 @@
   padding: .5em;
 
   position: absolute;
-  left: 100%;
+  left: 110%;
 
   transition: left 1s;
-
-  border: 1px solid black;
 }
 
 .sidebar .slideshow .slide:first-child {

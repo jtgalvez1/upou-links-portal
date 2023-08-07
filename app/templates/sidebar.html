@@ -78,11 +78,13 @@
         if (slides.length > 1 ) { 
             setInterval(() => {
                 slides[currSlide % slides.length].style.zIndex = '0';
-                slides[currSlide % slides.length].style.left = '-100%';
+                slides[currSlide % slides.length].style.left = '-110%';
+                slides[(currSlide + 1) % slides.length].style.display = 'block';
                 slides[(currSlide + 1) % slides.length].style.zIndex = '10';
                 slides[(currSlide + 1) % slides.length].style.left = '0';
                 setTimeout(() => {
-                    slides[currSlide % slides.length].style.left = '100%'
+                    slides[currSlide % slides.length].style.display = 'none'
+                    slides[currSlide % slides.length].style.left = '110%'
                     currSlide++;
                 }, 1500)
             }, 5000)
