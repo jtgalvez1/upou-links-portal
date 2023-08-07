@@ -21,6 +21,7 @@
 
 .announcement-image {
   max-width: 50%;
+  margin: auto;
 }
 
 .announcement-actions {
