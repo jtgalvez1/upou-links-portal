@@ -287,8 +287,9 @@ footer {
   width: fit-content;
   display: none; /* Hidden by default */
   position: fixed; /* Fixed/sticky position */
-  bottom: 10px; /* Place the button at the bottom of the page */
-  justify-self: center;
+  bottom: 0px; /* Place the button at the bottom of the page */
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 99; /* Make sure it does not overlap */
   border: none; /* Remove borders */
   outline: none; /* Remove outline */
