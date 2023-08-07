@@ -14,6 +14,8 @@ const filesToCache = [
     '/static/offline.html',
     '/static/manifest.json',
     '/static/images/logo.png',
+    '/static/images/favicon.ico',
+    '/static/images/favicon.png',
     '/static/styles/optima/OPTIMA_B.woff',
     '/static/styles/avenir/avenirltstd-book-webfont.woff',
     '/static/images/University-of-the-Future-Official-Logo.png'
