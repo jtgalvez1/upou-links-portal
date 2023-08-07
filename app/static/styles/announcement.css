@@ -24,6 +24,11 @@
   margin: auto;
 }
 
+.announcement-image > img {
+  max-width: 100%;
+  margin: auto;
+}
+
 .announcement-actions {
   height: 3em;
   width: fit-content;
