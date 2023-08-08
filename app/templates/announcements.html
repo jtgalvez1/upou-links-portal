@@ -116,8 +116,15 @@
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/enddate/${document.getElementById("enddate").value}`, { method: 'PUT'})
             if (currAnnouncement.link != document.getElementById("link").value)
                 fetch(`/api/v1/announcements/${currAnnouncement.id}/link/${document.getElementById("link").value}`, { method: 'PUT'})
-            if (document.getElementById("image").files.length == 1)
-                fetch(`/api/v1/announcements/${currAnnouncement.id}/image/${document.getElementById("image").files[0]}`, { method: 'PUT'})
+            if (document.getElementById("image").files.length == 1) {
+                let formData = new FormData();
+                formData.append('image', document.querySelector('#image').files[0])
+
+                fetch(`/api/v1/announcements/${currAnnouncement.id}/image/${document.getElementById("image").files[0]}`, { 
+                    method: 'PUT',
+                    body: formData
+                })
+            }
             window.location.reload();
         } else {
             let data = new FormData();
@@ -131,10 +138,10 @@
             fetch(`/api/v1/announcements/`, {
                 method: 'POST',
                 body: data
-                })
-            .then( res => res.json())
-            .then( data => window.location.reload())
-            .catch( err => console.error(err))
+            })
+                .then( res => res.json())
+                .then( data => window.location.reload())
+                .catch( err => console.error(err))
         }
     })
 

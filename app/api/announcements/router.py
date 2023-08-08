@@ -11,6 +11,8 @@ def add_announce():
     data = request.form.to_dict()
     image = request.files.to_dict().get('image', '')
 
+    print(data)
+
     file_name = ''
     if image != '':
         file_name = (f"{str(int(time()))}_{image.filename}")
@@ -60,9 +62,7 @@ def change_end():
 # Route to change any column in table
 @announcements.route('/<announcement_id>/<column>/<value>', methods = ['PUT'])
 def change_announcement_column(announcement_id, column, value):
-    print(announcement_id)
-    print(column)
-    print(value)
+    image = request.files.to_dict().get('image', '')
 
     columns = {
         'id'        : "id",
@@ -75,9 +75,9 @@ def change_announcement_column(announcement_id, column, value):
 
     file_name = ''
     if column == 'image':
-        file_name = (f"{str(int(time()))}_{value.filename}")
+        file_name = (f"{str(int(time()))}_{image.filename}")
         image_path = app.config['IMAGES_PATH'] + file_name
-        value.save(image_path)
+        image.save(image_path)
         value = file_name
 
     change_announcement_column_value(announcement_id,columns[column],value)
