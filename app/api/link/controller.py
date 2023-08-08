@@ -152,7 +152,7 @@ def set_link_value(url,column,value):
 def update_link_privacy(privacy, url):
   sql = 'DELETE FROM privacy_settings WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
-  sql = 'INSERT INTO privacy_settings (user_type_id, link_id) VALUES( (4, (SELECT id FROM link WHERE url = "{}")))'.format(url)
+  sql = 'INSERT INTO privacy_settings (user_type_id, link_id) VALUES( ((SELECT id FROM user_type WHERE name = "admin"), (SELECT id FROM link WHERE url = "{}")))'.format(url)
   for user_type in privacy.split(','):
     sql = "INSERT INTO privacy_settings (user_type_id, link_id) VALUES ('{}', (SELECT id FROM link WHERE url = '{}'))".format(user_type, url)
     db_execute(sql)

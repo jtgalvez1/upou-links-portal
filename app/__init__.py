@@ -9,6 +9,10 @@ app = Flask(__name__)
 app.config.from_pyfile('configs.py')
 Session(app)
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 print("Server listening on http://localhost:5000")
 
 # Import functions and endpoints from API
