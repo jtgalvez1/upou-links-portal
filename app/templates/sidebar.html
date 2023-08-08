@@ -55,14 +55,16 @@
             {% if request.path != '/announcements'%}
                 <div class="slideshow">
                     {% for a in announcements %}
-                        <div class="slide" data-announcement-id="{{ a['id'] }}">
-                            <h2>{{ a['name'] }}</h2>
-                            <span>{{ a['create_date'] }}</span>
-                            <div class="slide-img">
-                                <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                        <a href="/announcements#announcement-{{ a['id'] }}">
+                            <div class="slide" data-announcement-id="{{ a['id'] }}">
+                                <h2>{{ a['name'] }}</h2>
+                                <span>{{ a['create_date'] }}</span>
+                                <div class="slide-img">
+                                    <img src="{{ url_for('static',filename='images/' + a['image'] if a['image'] != '' else 'images/University-of-the-Future-Official-Logo.png') }}" alt="">
+                                </div>
+                                <button>See More</button>
                             </div>
-                            <button>See More</button>
-                        </div>
+                        </a>
                     {% endfor %}
                     <div class="empty-slide"></div>
                     <button class="btn" id="left">&lt;</button>

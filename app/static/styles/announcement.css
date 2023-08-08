@@ -3,7 +3,6 @@
 }
 
 .announcement-card {
-  /* outline: 1px solid red; */
   background-color: var(--card-bg);
   color: #2c2c2c;
 
@@ -11,6 +10,8 @@
   padding-top: 3em;
 
   position: relative;
+
+  scroll-margin-top: 6em;
 }
 
 .announcement-card > * {
