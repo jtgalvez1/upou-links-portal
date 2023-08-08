@@ -55,7 +55,7 @@
             {% if request.path != '/announcements'%}
                 <div class="slideshow">
                     {% for a in announcements %}
-                        <div class="slide">
+                        <div class="slide" data-announcement-id="{{ a['id'] }}">
                             <h2>{{ a['name'] }}</h2>
                             <span>{{ a['create_date'] }}</span>
                             <div class="slide-img">
@@ -93,45 +93,7 @@
             }, 1000)
         }
     }
-
-    function nextSlide() {
-        isSlideshowPaused = true;
-        slides[(currSlide + 1) % slides.length].style.display = 'block';
-        setTimeout(() => {
-            slides[currSlide % slides.length].style.zIndex = '0';
-            slides[currSlide % slides.length].style.left = '-110%';
-            slides[(currSlide + 1) % slides.length].style.zIndex = '10';
-            slides[(currSlide + 1) % slides.length].style.left = '0';
-            setTimeout(() => {
-                slides[currSlide % slides.length].style.display = 'none';
-                setTimeout(() => {
-                    slides[currSlide % slides.length].style.left = '110%';
-                    currSlide++;
-                }, 100)
-            }, 800)
-        }, 100)
-    }
-
-    function prevSlide() {
-        isSlideshowPaused = true;
-
-        slideToDisplay = currSlide - 1
-        if (currSlide-1 < 0)
-            slideToDisplay = slides.length + (currSlide - 1)
-
-        slides[(slideToDisplay) % slides.length].style.display = 'none';
-        slides[(slideToDisplay) % slides.length].style.left = '-110%';
-        slides[(slideToDisplay) % slides.length].style.zIndex = '0';
-        slides[(currSlide) % slides.length].style.left = '110%';
-        slides[(currSlide) % slides.length].style.zIndex = '10';
-        slides[(slideToDisplay) % slides.length].style.display = 'block';
-        setTimeout(() => {
-            slides[(slideToDisplay) % slides.length].style.left = '0%';
-            setTimeout(() => {
-                currSlide = slides.length + (currSlide - 1)
-            }, 500)
-        }, 500)
-    }
+    
 
     if (slides.length > 1 ) { 
         let slideInterval = setInterval(runSlideshow, 5000);
@@ -139,17 +101,48 @@
         document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
-            clearInterval(slideInterval);
-            prevSlide();
-            setTimeout(setInterval(runSlideshow(), 5000), 10000);
+                
+            if (!isSlideshowPaused) {
+                isSlideshowPaused = true;
+
+                slideToDisplay = currSlide - 1
+                if (currSlide-1 < 0)
+                    slideToDisplay = slides.length + (currSlide - 1)
+                
+                slides[(slideToDisplay) % slides.length].style.left = '-110%';
+                slides[(slideToDisplay) % slides.length].style.zIndex = '0';
+                slides[(currSlide) % slides.length].style.left = '110%';
+                slides[(currSlide) % slides.length].style.zIndex = '10';
+                slides[(slideToDisplay) % slides.length].style.display = 'block';
+                setTimeout(() => {
+                    slides[(slideToDisplay) % slides.length].style.left = '0%';
+                    setTimeout(() => {
+                        currSlide = slides.length + (currSlide - 1)
+                    }, 500)
+                }, 500)
+                setTimeout(() => { isSlideshowPaused = false }, 500);
+            }
         });
 
         document.querySelector('.slideshow #right.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
-            clearInterval(slideInterval);
-            nextSlide();
-            setTimeout(setInterval(runSlideshow(), 5000), 10000);
+
+            if (!isSlideshowPaused) {
+                isSlideshowPaused = true;
+                slides[(currSlide + 1) % slides.length].style.display = 'block';
+                setTimeout(() => {
+                    slides[currSlide % slides.length].style.zIndex = '0';
+                    slides[currSlide % slides.length].style.left = '-110%';
+                    slides[(currSlide + 1) % slides.length].style.zIndex = '10';
+                    slides[(currSlide + 1) % slides.length].style.left = '0';
+                    setTimeout(() => {
+                        slides[currSlide % slides.length].style.left = '110%';
+                        currSlide++;
+                    }, 900)
+                }, 100)
+                setTimeout(() => { isSlideshowPaused = false }, 500);
+            }
         });
     }
 </script>

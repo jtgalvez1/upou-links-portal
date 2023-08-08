@@ -238,6 +238,7 @@ table td select option {
 @media only screen and (min-width: 768px) {
   main {
     width: min(1600px, 90%);
+    padding-top: 8vh;
     display: grid;
     grid-template-columns: max(300px, 20%) 1fr;
     gap: 3em; 

@@ -74,8 +74,6 @@ def index_page():
     if session and session.get('user'):
         bookmark_links = list_bookmark_links(session['user']['id'])
         recents_links = list_recently_visited_links(session['user']['id'])
-
-    print(featured_links)
     
     if len(bookmark_links) > 0:
         categories_links['Bookmarks'] = bookmark_links
@@ -89,9 +87,6 @@ def index_page():
     if len(trending_links) > 0:
         categories_links['Trending'] = trending_links
 
-    categories_links
-
-
     categories = list_categories(session.get('user', {'user_type': 'guest'})['user_type'])
     for category in categories:
         if category['name'] != 'Featured':
@@ -99,7 +94,6 @@ def index_page():
 
             if len(category_links) > 0:
                 categories_links[category['name']] = category_links
-            
 
     res = make_response(
             render_template(

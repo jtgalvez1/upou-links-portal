@@ -133,11 +133,10 @@
 .sidebar .slideshow .slide button:not(.btn) {
   width: fit-content;
   padding: .25em .5em;
-  margin-top: .25em;
+  margin: .25em auto 0;
   background-color: var(--forest-green);
   color: #fff;
   font-weight: bold;
-  margin: 0 auto;
   cursor: pointer;
 }
 
@@ -165,15 +164,17 @@
 
   #sidebar {
     width: 100%;
-    height: fit-content;
+    height: 92vh;
     grid-column: 1;
     left: 0;
     z-index: 0;
     background-color: rgba(0,0,0,0%);
     color: var(--font-color);
-    /* position: sticky; */
-    position: static;
-    top: 5em;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: sticky;
+    /* position: static; */
+    top: 8vh;
   }
 
   .sidebar {

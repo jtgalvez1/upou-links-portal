@@ -2,7 +2,7 @@ header {
   background-color: var(--up-maroon);
   color: var(--font-color);
   width: 100vw;
-  height: 5em;
+  height: 8vh;
   padding: 0.5em;
 
   display: flex;
