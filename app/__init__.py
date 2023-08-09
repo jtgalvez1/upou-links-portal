@@ -151,7 +151,7 @@ def user_management_page():
             if user["user_type"] == utype[0]:
                 usertypes[utype[1]].append(user)
 
-    res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes)))
+    res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes), rawtypes=types))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res

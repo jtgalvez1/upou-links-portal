@@ -30,13 +30,13 @@
                 <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
                 <td>
                     <select name="{{user['email']}}" id="{{user['email']}}" {% if type == 'admin' and user['email'] == 'ictdodirector@up.edu.ph' %} disabled {% endif %}>
-                        {% for type in usertypes %}
-                            <option value="{{loop.index}}" id="{{user['email']~loop.index}}"  >{{type}}</option>
+                        {% for type in rawtypes %}
+                            <option value="{{type[0]}}" id="{{user['email']~type[0]}}"  >{{type[1]}}</option>
                         {%endfor%}
                     </select>
                 </td>
                 <td>
-                    <button class='delete' data-email="{{ user['email'] }}" {% if type == 'admin' %} disabled {% endif %}>Delete</button>
+                    <button class='delete' data-email="{{ user['email'] }}" {% if type in ('admin', 'student', 'guest', 'employee') %} disabled {% endif %}>Delete</button>
                 </td>
                 <script>
                     document.getElementById("{{user["email"]~user["user_type"]}}").setAttributeNode(document.createAttribute("selected"));
