@@ -12,7 +12,7 @@
     <section id="section-{{type.title() | replace(' ', '_') }}">
         <h1 class="section-title">
             <span>{{type.title()}}</span>
-            {% if type not in ['admin', 'Blacklist', 'guest'] %}
+            {% if type not in ['admin', 'Blacklist', 'guest', 'student', 'employee'] %}
                 <button class="delete-userType-btn" data-user-type="{{ type }}">Delete User Type</button>
             {% endif %}
         </h1>
@@ -36,7 +36,7 @@
                     </select>
                 </td>
                 <td>
-                    <button class='delete' data-email="{{ user['email'] }}" {% if type in ('admin', 'student', 'guest', 'employee') %} disabled {% endif %}>Delete</button>
+                    <button class='delete' data-email="{{ user['email'] }}" {% if type == 'admin' %} disabled {% endif %}>Delete</button>
                 </td>
                 <script>
                     document.getElementById("{{user["email"]~user["user_type"]}}").setAttributeNode(document.createAttribute("selected"));
