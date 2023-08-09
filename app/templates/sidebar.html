@@ -102,7 +102,14 @@
     
     if (slides.length > 1 ) { 
         let slideInterval = setInterval(runSlideshow, 5000);
-        
+
+        Array.from(document.querySelectorAll('.slideshow'))[0].addEventListener('mouseover', () => {
+            isSlideshowPaused = true;
+        })
+        Array.from(document.querySelectorAll('.slideshow'))[0].addEventListener('mouseout', () => {
+            isSlideshowPaused = false;
+        })
+
         document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
