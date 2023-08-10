@@ -71,11 +71,11 @@ def get_user_type_id(user_type):
 
 # Function to insert user into database
 def upsert_user(user):
-  user_type = 1
+  user_type = get_user_type_id('guest')
   if user['email'].endswith('@up.edu.ph'):
-    user_type = 2
+    user_type = get_user_type_id('student')
   if user['email'].endswith('@upou.edu.ph'):
-    user_type = 3
+    user_type = get_user_type_id('employee')
   sql = """
 INSERT INTO user (email,given_name,family_name,user_type)
 VALUES ('{email}','{given_name}','{family_name}','{user_type}')
