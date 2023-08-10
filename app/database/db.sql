@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS privacy_settings (
   UNIQUE (user_type_id, link_id)
 );
 
--- DROP TABLE IF EXISTS link_cateogry;
-CREATE TABLE IF NOT EXISTS link_cateogry (
+-- DROP TABLE IF EXISTS link_category;
+CREATE TABLE IF NOT EXISTS link_category (
   link_id         INTEGER,
   category_id     INTEGER,
   created_at      datetime DEFAULT current_timestamp,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS logs (
   FOREIGN KEY (link_id) REFERENCES link(id)
 );
 
-DROP TABLE IF EXISTS announcements;
+-- DROP TABLE IF EXISTS announcements;
 CREATE TABLE IF NOT EXISTS announcements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name            TEXT,
@@ -91,3 +91,4 @@ CREATE TABLE IF NOT EXISTS announcements (
   image           TEXT,
   is_visible      BOOLEAN  DEFAULT TRUE
 );
+
