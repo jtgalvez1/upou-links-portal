@@ -65,8 +65,8 @@
                         </div>
                     {% endfor %}
                     <div class="empty-slide"></div>
-                    <button class="btn" id="left">&lt;</button>
-                    <button class="btn" id="right">&gt;</button>
+                    {# <button class="btn" id="left">&lt;</button>
+                    <button class="btn" id="right">&gt;</button> #}
                 </div>
             {% endif %}
         </div>
@@ -110,9 +110,11 @@
             isSlideshowPaused = false;
         })
 
-        document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
+        {# document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
+
+            isSlideshowPaused = false;
                 
             if (!isSlideshowPaused) {
                 isSlideshowPaused = true;
@@ -140,6 +142,8 @@
             ev.preventDefault();
             ev.stopPropagation();
 
+            isSlideshowPaused = false;
+
             if (!isSlideshowPaused) {
                 isSlideshowPaused = true;
                 slides[(currSlide + 1) % slides.length].style.display = 'block';
@@ -155,6 +159,6 @@
                 }, 100)
                 setTimeout(() => { isSlideshowPaused = false }, 500);
             }
-        });
+        }); #}
     }
 </script>
