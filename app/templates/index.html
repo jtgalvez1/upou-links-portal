@@ -340,6 +340,10 @@
   
   {% endif %}
 
+  {% if isBlacklisted %}
+    alert('You are blacklisted!')
+  {% endif %}
+
   document.getElementById("search-form").addEventListener("submit", ev=>{
     ev.preventDefault();
     window.location.replace("/search?term=".concat(document.getElementById("search-terms").value))

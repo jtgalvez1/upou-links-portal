@@ -48,6 +48,7 @@ def check_user():
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
             user = users[0]
+            session['isBlacklisted'] = False
             if user['user_type'] == 'Blacklist':
                 return redirect('/logout')
             user['bookmarks'] = get_user_bookmarks(user['id'])
@@ -106,7 +107,8 @@ def index_page():
                 user=session.get('user', None), 
                 category_list = list_all_categories(), 
                 privacy_settings = list_user_types(),
-                announcements = get_valid_announcements()
+                announcements = get_valid_announcements(),
+                isBlacklisted = session.get('isBlacklisted', False)
         ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
@@ -171,7 +173,11 @@ def callback():
 
 @app.route('/logout', methods=['GET'])
 def logout():
+    isBlacklisted = False
+    if session.get('user', None) is not None and session['user']['user_type'] == 'Blacklist':
+        isBlacklisted = True
     session.clear()
+    session['isBlacklisted'] = isBlacklisted
     return redirect('/')
 
 # PWA routes

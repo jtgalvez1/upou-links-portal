@@ -280,8 +280,6 @@ a.id
           'name'    : row[1]
         })
 
-  print(links)
-
   return links
 
 # Function to remove/delete a link
