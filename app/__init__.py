@@ -9,6 +9,10 @@ app = Flask(__name__)
 app.config.from_pyfile('configs.py')
 Session(app)
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 print("Server listening on http://localhost:5000")
 
 # Import functions and endpoints from API
@@ -44,6 +48,7 @@ def check_user():
         users = list_users('email', session['user']['email'])
         if len(users) == 1:
             user = users[0]
+            session['isBlacklisted'] = False
             if user['user_type'] == 'Blacklist':
                 return redirect('/logout')
             user['bookmarks'] = get_user_bookmarks(user['id'])
@@ -102,7 +107,8 @@ def index_page():
                 user=session.get('user', None), 
                 category_list = list_all_categories(), 
                 privacy_settings = list_user_types(),
-                announcements = get_valid_announcements()
+                announcements = get_valid_announcements(),
+                isBlacklisted = session.get('isBlacklisted', False)
         ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
@@ -147,7 +153,7 @@ def user_management_page():
             if user["user_type"] == utype[0]:
                 usertypes[utype[1]].append(user)
 
-    res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes)))
+    res = make_response(render_template('users.html', categories_links=usertypes, user=session.get('user', None), usertypes = usertypes, lentypes=len(usertypes), rawtypes=types,announcements = get_valid_announcements()))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
     return res
@@ -167,7 +173,11 @@ def callback():
 
 @app.route('/logout', methods=['GET'])
 def logout():
+    isBlacklisted = False
+    if session.get('user', None) is not None and session['user']['user_type'] == 'Blacklist':
+        isBlacklisted = True
     session.clear()
+    session['isBlacklisted'] = isBlacklisted
     return redirect('/')
 
 # PWA routes

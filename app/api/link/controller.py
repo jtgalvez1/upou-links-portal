@@ -33,7 +33,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
   sql = "SELECT url, title, description, id, image FROM link a"
   if category is not None and category.get('id') is not None:
     sql = sql + """
-                JOIN link_cateogry d
+                JOIN link_category d
                 ON a.id = d.link_id
                 """
   if privacy != 'admin':
@@ -61,7 +61,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
                   """.format(category['id'])
     elif category.get('name') == 'Others':
       sql = sql + """
-                  a.id NOT IN (SELECT e.link_id FROM link_cateogry e)
+                  a.id NOT IN (SELECT e.link_id FROM link_category e)
                   """
   rows = db_execute(sql)
 
@@ -88,7 +88,7 @@ def list_links(privacy='guest',category=None,column=None,value=None):
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -152,7 +152,7 @@ def set_link_value(url,column,value):
 def update_link_privacy(privacy, url):
   sql = 'DELETE FROM privacy_settings WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
-  sql = 'INSERT INTO privacy_settings (user_type_id, link_id) VALUES( (4, (SELECT id FROM link WHERE url = "{}")))'.format(url)
+  sql = 'INSERT INTO privacy_settings (user_type_id, link_id) VALUES( ((SELECT id FROM user_type WHERE name = "admin"), (SELECT id FROM link WHERE url = "{}")))'.format(url)
   for user_type in privacy.split(','):
     sql = "INSERT INTO privacy_settings (user_type_id, link_id) VALUES ('{}', (SELECT id FROM link WHERE url = '{}'))".format(user_type, url)
     db_execute(sql)
@@ -160,10 +160,10 @@ def update_link_privacy(privacy, url):
 
 # Function to change category of a link
 def update_link_category(categories, url):
-  sql = 'DELETE FROM link_cateogry WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
+  sql = 'DELETE FROM link_category WHERE link_id IN (SELECT id FROM link WHERE url = "{}")'.format(url)
   db_execute(sql)
   for category in categories:
-    sql = 'INSERT INTO link_cateogry (link_id, category_id) VALUES((SELECT id FROM link WHERE url = "{}"), "{}")'.format(url, category)
+    sql = 'INSERT INTO link_category (link_id, category_id) VALUES((SELECT id FROM link WHERE url = "{}"), "{}")'.format(url, category)
     db_execute(sql)
   return
 
@@ -200,8 +200,8 @@ def list_categories(privacy='guest'):
   sql = """
         SELECT DISTINCT category.id, category.name
         FROM category
-        INNER JOIN link_cateogry ON category.id = link_cateogry.category_id
-        INNER JOIN link ON link_cateogry.link_id = link.id
+        INNER JOIN link_category ON category.id = link_category.category_id
+        INNER JOIN link ON link_category.link_id = link.id
         INNER JOIN privacy_settings ON link.id = privacy_settings.link_id
         INNER JOIN user_type ON privacy_settings.user_type_id = user_type.id
         WHERE user_type.name = '{}'
@@ -239,7 +239,7 @@ AND
 a.id
 {} IN (
   SELECT link_id
-  FROM link_cateogry d
+  FROM link_category d
         """.format(privacy, 'NOT' if category['name'] == 'Others' else '')
   if category['name'] != 'Others':
     sql = sql + " WHERE d.category_id == '{}'".format(category['id'])
@@ -270,7 +270,7 @@ a.id
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -284,7 +284,7 @@ a.id
 
 # Function to remove/delete a link
 def remove_link_from_db(link_id):
-  sql = f"DELETE FROM link_cateogry WHERE link_id = '{link_id}'"
+  sql = f"DELETE FROM link_category WHERE link_id = '{link_id}'"
   db_execute(sql)
 
   sql = f"DELETE FROM privacy_settings WHERE link_id = '{link_id}'"
@@ -328,7 +328,7 @@ WHERE user.id = '{userid}';
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -384,7 +384,7 @@ WHERE a.id IN (
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []
@@ -439,7 +439,7 @@ WHERE a.id IN (
           'name'    : row[1]
         })
 
-      sql = 'SELECT a.id, a.name FROM category a JOIN link_cateogry b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
+      sql = 'SELECT a.id, a.name FROM category a JOIN link_category b ON a.id = b.category_id WHERE b.link_id = "{}"'.format(link['id'])
       rows = db_execute(sql)
 
       link['category'] = []

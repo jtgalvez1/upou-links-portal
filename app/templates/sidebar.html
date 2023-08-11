@@ -65,8 +65,8 @@
                         </div>
                     {% endfor %}
                     <div class="empty-slide"></div>
-                    <button class="btn" id="left">&lt;</button>
-                    <button class="btn" id="right">&gt;</button>
+                    {# <button class="btn" id="left">&lt;</button>
+                    <button class="btn" id="right">&gt;</button> #}
                 </div>
             {% endif %}
         </div>
@@ -102,10 +102,19 @@
     
     if (slides.length > 1 ) { 
         let slideInterval = setInterval(runSlideshow, 5000);
-        
-        document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
+
+        Array.from(document.querySelectorAll('.slideshow'))[0].addEventListener('mouseover', () => {
+            isSlideshowPaused = true;
+        })
+        Array.from(document.querySelectorAll('.slideshow'))[0].addEventListener('mouseout', () => {
+            isSlideshowPaused = false;
+        })
+
+        {# document.querySelector('.slideshow #left.btn').addEventListener('click', ev => {
             ev.preventDefault();
             ev.stopPropagation();
+
+            isSlideshowPaused = false;
                 
             if (!isSlideshowPaused) {
                 isSlideshowPaused = true;
@@ -133,6 +142,8 @@
             ev.preventDefault();
             ev.stopPropagation();
 
+            isSlideshowPaused = false;
+
             if (!isSlideshowPaused) {
                 isSlideshowPaused = true;
                 slides[(currSlide + 1) % slides.length].style.display = 'block';
@@ -148,6 +159,6 @@
                 }, 100)
                 setTimeout(() => { isSlideshowPaused = false }, 500);
             }
-        });
+        }); #}
     }
 </script>

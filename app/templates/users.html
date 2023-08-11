@@ -12,7 +12,7 @@
     <section id="section-{{type.title() | replace(' ', '_') }}">
         <h1 class="section-title">
             <span>{{type.title()}}</span>
-            {% if type not in ['admin', 'Blacklist', 'guest'] %}
+            {% if type not in ['admin', 'Blacklist', 'guest', 'student', 'employee'] %}
                 <button class="delete-userType-btn" data-user-type="{{ type }}">Delete User Type</button>
             {% endif %}
         </h1>
@@ -30,8 +30,8 @@
                 <td>{{user["given_name"] +" "+ user["family_name"]}}</td>
                 <td>
                     <select name="{{user['email']}}" id="{{user['email']}}" {% if type == 'admin' and user['email'] == 'ictdodirector@up.edu.ph' %} disabled {% endif %}>
-                        {% for type in usertypes %}
-                            <option value="{{loop.index}}" id="{{user['email']~loop.index}}"  >{{type}}</option>
+                        {% for type in rawtypes %}
+                            <option value="{{type[0]}}" id="{{user['email']~type[0]}}"  >{{type[1]}}</option>
                         {%endfor%}
                     </select>
                 </td>
