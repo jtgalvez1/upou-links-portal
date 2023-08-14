@@ -161,3 +161,7 @@
     width: 100%;
   }
 }
+
+#card-actions {
+  overflow: auto;
+}

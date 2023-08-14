@@ -108,7 +108,8 @@ def index_page():
                 category_list = list_all_categories(), 
                 privacy_settings = list_user_types(),
                 announcements = get_valid_announcements(),
-                isBlacklisted = session.get('isBlacklisted', False)
+                isBlacklisted = session.get('isBlacklisted', False),
+                tutorial = get_tutorial()
         ))
     res.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
     res.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')

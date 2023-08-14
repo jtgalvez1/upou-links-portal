@@ -94,3 +94,17 @@ def delete_announcement(id):
   sql = f"DELETE FROM announcements WHERE id = '{id}'"
   db_execute(sql)
   return
+
+def get_tutorial():
+
+  data = []
+  fp = open("app/api/announcements/tutorial.txt", "r")
+  for i in range(int(fp.readline())):
+    slide = {}
+    slide["title"] = fp.readline()
+    slide["description"] = fp.readline()
+    slide["picture"] = fp.readline()
+    data.append(slide)
+  fp.close()
+
+  return data
