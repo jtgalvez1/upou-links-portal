@@ -44,6 +44,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  let showTutorial = await localStorage.getItem('showTut') || false;
+
+  if(!showTutorial){
+    document.getElementById("tutorial-container").style.display = "flex";
+    localStorage.setItem("showTut", true);
+  }
 
 
   let showPWA = await localStorage.getItem('showPWA') || true;
