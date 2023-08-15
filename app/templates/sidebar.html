@@ -46,12 +46,15 @@
         <hr>
         <div class="sidebar">
             <a href="/" class="sidebar-link {% if request.path != '/admin/users' and request.path != '/announcements' %}active{% endif %}">Home</a>
+            
+            {% if request.path == "/"%} <a onclick="openTut()">Tutorial</a> {%endif%}
             {% if user['user_type'] == 'admin' %}
                 <a href="/admin/users" class="sidebar-link {% if request.path == '/admin/users'%}active{% endif %}" >User Management</a>
             {% endif %}
             <a href="/announcements" class="sidebar-link {% if request.path == '/announcements' %}active{% endif %}">
                 Announcements
             </a>
+            
             {% if request.path != '/announcements'%}
                 <div class="slideshow">
                     {% for a in announcements %}
@@ -73,6 +76,12 @@
 </div>
 
 <script>
+
+    function openTut(){
+        const tut = document.querySelector('#tutorial-container');
+        if(tut){tut.style.display = 'flex';}
+    }
+
     let slides = document.querySelectorAll('.sidebar .slideshow .slide');
     let currSlide = 0;
     let isSlideshowPaused = false;
