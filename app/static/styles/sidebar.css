@@ -166,6 +166,10 @@
   right: 0;
 }
 
+#simple-toggle.sidebar {
+  display: none;
+}
+
 @media only screen and (min-width: 768px) {
 
   #sidebar {
@@ -205,6 +209,10 @@
   }
 
   .sidebar .slideshow {
+    display: block;
+  }
+
+  #simple-toggle.sidebar {
     display: block;
   }
 }

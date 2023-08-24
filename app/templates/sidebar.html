@@ -13,6 +13,8 @@
             </label>
         </div>
     </div>
+
+    
     <hr>
     {% if user %}
     <div class="sidebar" id="profile">
@@ -27,8 +29,21 @@
                 <a href="#section-Recently_Visited" class="sidebar-link">Recently Visited</a>
             {% endif %}
     </div>
-    <hr>
+
+    
     {% endif %}
+    <hr>
+    <div class="sidebar" style="padding-top: 0px;" id="simple-toggle">
+        <h2>Minimize Cards</h2>
+        <div id="simple-mode-container-sidebar">
+            <input type="checkbox" class="dark-checkbox" id="simple-mode">
+            <label for="simple-mode" class="dark-checkbox-label">
+                <span class="ball"></span>
+            </label>
+        </div>
+    </div>
+    <hr>
+    
 
     {% if categories_links.keys()|length > 0 %}
     <div class="sidebar" id="category-links">

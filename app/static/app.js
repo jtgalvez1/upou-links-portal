@@ -44,6 +44,51 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  let simpleModeToggle = document.querySelector('#simple-mode');
+  let simpleMode = false;
+  const cardImg = document.getElementsByClassName("card-img");
+  const cardDesc = document.getElementsByClassName("card-desc");
+  const cardActions = document.getElementsByClassName("actions");
+  const cardsbookmarked = document.getElementsByClassName("perm");
+  let cards = document.getElementsByClassName("card");
+  
+  simpleModeToggle.addEventListener("change", ev=>{
+    ev.preventDefault;
+    simpleMode = !simpleMode;
+    changeMode(simpleMode);
+  })
+
+  function changeMode(mode){
+    if(mode){
+      for (let i=0; i<cardImg.length; i++){
+        cardImg[i].style.display="none";
+      }
+      for (let i=0; i<cardDesc.length; i++){
+        cardDesc[i].style.display="none";
+      }
+      for (let i=0; i<cardActions.length; i++){
+        cardActions[i].style.display="none";
+      }
+      for (let i=cardsbookmarked.length; i<cards.length; i++){
+        cards[i].className = "card bookmarked"
+      }
+    }
+    else{
+      for (let i=0; i<cardImg.length; i++){
+        cardImg[i].style.display="flex";
+      }
+      for (let i=0; i<cardDesc.length; i++){
+        cardDesc[i].style.display="flex";
+      }
+      for (let i=0; i<cardActions.length; i++){
+        cardActions[i].style.display="flex";
+      }
+      for (let i=cardsbookmarked.length; i<cards.length; i++){
+        cards[i].className = "card"
+      }
+    }
+  }
+
   let showTutorial = await localStorage.getItem('showTut') || false;
 
   if(!showTutorial){
