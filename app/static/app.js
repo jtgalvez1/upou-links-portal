@@ -45,17 +45,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   let simpleModeToggle = document.querySelector('#simple-mode');
-  let simpleMode = false;
+  let simpleMode = localStorage.getItem('simpleMode')
+                 ? localStorage.getItem('simpleMode') == 'true'
+                 : false;
   const cardImg = document.getElementsByClassName("card-img");
   const cardDesc = document.getElementsByClassName("card-desc");
   const cardActions = document.getElementsByClassName("actions");
   const cardsbookmarked = document.getElementsByClassName("perm");
   let cards = document.getElementsByClassName("card");
+  changeMode(simpleMode)
   
   simpleModeToggle.addEventListener("change", ev=>{
     ev.preventDefault;
     simpleMode = !simpleMode;
     changeMode(simpleMode);
+    localStorage.setItem('simpleMode', simpleMode);
   })
 
   function changeMode(mode){
@@ -72,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       for (let i=cardsbookmarked.length; i<cards.length; i++){
         cards[i].className = "card bookmarked"
       }
+      simpleModeToggle.checked = true;
     }
     else{
       for (let i=0; i<cardImg.length; i++){
@@ -86,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       for (let i=cardsbookmarked.length; i<cards.length; i++){
         cards[i].className = "card"
       }
+      simpleModeToggle.checked = false;
     }
   }
 
