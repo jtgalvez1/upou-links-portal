@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h1>
+  This service is intended for use by UP Mail and UPOU account holders.
+</h1>
+{% endblock %}
+
+{% block script %}
+<script>
+  function init() {
+    gapi.load('auth2', function() {
+      auth2 = gapi.auth2.init({
+        
+      })
+    })
+  }
+</script>
+{% endblock %}

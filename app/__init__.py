@@ -100,6 +100,9 @@ def index_page():
             if len(category_links) > 0:
                 categories_links[category['name']] = category_links
 
+    if (session.get('user', None) is None or session['user']['email'] == 'null'):
+        return render_template('public.html', categories_links=categories_links)
+
     res = make_response(
             render_template(
                 'index.html',
@@ -163,6 +166,8 @@ def user_management_page():
 def callback():
     credential = request.form.get('credential')
     user_google_data = verify_token(credential)
+    if not (user_google_data['email'].endswith('@up.edu.ph') or user_google_data['email'].endswith('@upou.edu.ph')):
+        return redirect('/logout')
     if user_google_data:
         if len(list_users('email', user_google_data['email'])) == 1:
             user_google_data = { **user_google_data, 'user_type' : get_user_value(user_google_data['email'], 'user_type')}

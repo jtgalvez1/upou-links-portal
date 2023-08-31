@@ -52,6 +52,7 @@ main {
   padding-top: 6em;
   width: 95%;
   margin: 0 auto;
+  margin-top: 6vh;
 }
 
 main section {
@@ -243,6 +244,10 @@ table td select option {
     grid-template-columns: max(300px, 20%) 1fr;
     gap: 3em; 
     padding: 6em 0 3em;
+  }
+
+  main > *:only-child {
+    grid-column: 1 / -1;
   }
 
   #search-form {

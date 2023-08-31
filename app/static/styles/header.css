@@ -2,7 +2,7 @@ header {
   background-color: var(--up-maroon);
   color: var(--font-color);
   width: 100vw;
-  height: 12vh;
+  height: 10vh;
   padding: 0.5em;
 
   display: flex;
@@ -13,6 +13,7 @@ header {
   top: 0;
   z-index: 10;
 }
+
 .header-container {
   width: min(1600px, 90%);
   height: 100%;
@@ -40,6 +41,7 @@ header {
 }
 
 #header-logo {
+  width: fit-content;
   height: 100%;
   margin: 0 auto;
 }

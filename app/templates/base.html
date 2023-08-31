@@ -42,7 +42,9 @@
   </div>
 
   <main>
-    {% include 'sidebar.html' %}
+    {% if user %}
+      {% include 'sidebar.html' %}
+    {% endif %}
     {% block main %} {% endblock %}
   </main>
   {% include 'footer.html' %}
